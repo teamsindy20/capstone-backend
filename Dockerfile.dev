@@ -1,0 +1,11 @@
+FROM node:lts-alpine
+
+ENV NODE_ENV=development
+
+WORKDIR /server
+
+EXPOSE 4000
+
+ENTRYPOINT [ "yarn" ]
+
+CMD [ "dev" ]
