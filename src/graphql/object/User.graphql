@@ -7,7 +7,4 @@ type User {
   token: String!
   name: String!
   age: Int!
-
-  playlist: [Playlist!]
-  likedMusic: [Music!]
 }

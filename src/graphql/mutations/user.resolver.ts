@@ -1,5 +1,5 @@
 import { MutationResolvers } from 'src/graphql/generated/graphql'
-import { connection } from '../../database/mysql'
+import { pool } from '../../database/postgres'
 
 const sql =
   'insert into music (content, ...) values ($2, ...) where 1 exist (select key from music where key = $1)'
