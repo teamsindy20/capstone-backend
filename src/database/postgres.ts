@@ -4,12 +4,21 @@ import { Pool, Client } from 'pg'
 dotenv.config()
 
 export const pool = new Pool({
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
+  // connectionString: `postgres://${process.env.PGUSER}:${process.env.PGPASSWORD}@postgres:5432/${process.env.PGUSER}`,
+  host: 'postgres',
+  user: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
+  database: process.env.POSTGRES_USER,
 })
 
 export async function initializeDatabase() {
-  return 0
+  try {
+    // 여기서 테이블 생성하기
+    const result = await pool.query('SELECT NOW() as now')
+    console.log(result.rows)
+  } catch (error) {
+    console.error(error)
+  }
 }
 
 export async function disconnectPool() {
