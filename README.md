@@ -6,6 +6,7 @@
 
 - macOS 11.2
 - Git 2.31
+- Yarn 1.22
 - Docker 20.10
 - Docker Compose 1.28
 - Visual Studio Code 1.54
@@ -50,8 +51,15 @@
 
 ### Heroku 배포
 
-```shell
+- heroku 7.51
 
+```shell
+> heroku login
+> heroku container:login
+
+> yarn build
+> heroku container:push web --app sindy-backend
+> heroku container:release web --app sindy-backend
 ```
 
 ### 브라우저 실행
