@@ -16,82 +16,10 @@ export type Scalars = {
   DateTime: any
 }
 
-/** 댓글 생성 시 필요한 입력값 */
-export type CommentCreationInput = {
-  content: Scalars['String']
-  userName: Scalars['String']
-}
-
-/** 댓글 수정 시 필요한 입력값 */
-export type CommentModificationInput = {
-  id: Scalars['ID']
-  content: Scalars['String']
-}
-
-export type Mutation = {
-  __typename?: 'Mutation'
-  createComment: Scalars['Boolean']
-  /**
-   * Shazam API로부터 받은 음악 상세 데이터를 전송하면 기존에 데이터가 있으면 수정하고 없으면 새로 만든다.
-   * 그리고 해당 음악 정보를 반환한다.
-   */
-  createOrModifyMusic: Music
-  deleteComment: Scalars['Boolean']
-  /** 이메일과 1번 해싱한 비밀번호를 전송하면 인증 토큰을 반환한다. */
-  login?: Maybe<Scalars['String']>
-  /** HTTP Header나 쿠키에 인증 토큰 정보를 넣어서 요청하면 로그아웃 성공 여부를 반환한다. */
-  logout: Scalars['Boolean']
-  modifyComment: Scalars['Boolean']
-}
-
-export type MutationCreateCommentArgs = {
-  input: CommentCreationInput
-}
-
-export type MutationCreateOrModifyMusicArgs = {
-  input: MusicCreationModificationInput
-}
-
-export type MutationDeleteCommentArgs = {
-  id: Scalars['ID']
-}
-
-export type MutationLoginArgs = {
-  email: Scalars['String']
-  passwordHash: Scalars['String']
-}
-
-export type MutationModifyCommentArgs = {
-  input: CommentModificationInput
-}
-
-/** 음악 정보 생성-수정 시 필요한 입력값 */
-export type MusicCreationModificationInput = {
-  shazamId: Scalars['ID']
-  title?: Maybe<Scalars['String']>
-  artists?: Maybe<Array<Scalars['String']>>
-  genres?: Maybe<Array<Scalars['String']>>
-  lyrics?: Maybe<Array<Scalars['String']>>
-  comments?: Maybe<Array<Scalars['String']>>
-  youtubeLink?: Maybe<Scalars['String']>
-  youtubeImage?: Maybe<Scalars['String']>
-  artistImage?: Maybe<Scalars['String']>
-  albumImage?: Maybe<Scalars['String']>
-  similarMusics?: Maybe<Array<Scalars['ID']>>
-  artistOtherMusics?: Maybe<Array<Scalars['ID']>>
-  includedPlaylists?: Maybe<Array<Scalars['ID']>>
-}
-
 export type Artist = {
   __typename?: 'Artist'
   id: Scalars['ID']
   name: Scalars['String']
-}
-
-export enum CrawlingSource {
-  Youtube = 'YOUTUBE',
-  Melon = 'MELON',
-  Icezam = 'ICEZAM',
 }
 
 export type Comment = {
@@ -104,6 +32,12 @@ export type Comment = {
   userName: Scalars['String']
   source: CrawlingSource
   likeCount?: Maybe<Scalars['Int']>
+}
+
+export enum CrawlingSource {
+  Youtube = 'YOUTUBE',
+  Melon = 'MELON',
+  Icezam = 'ICEZAM',
 }
 
 export type Music = {
@@ -132,12 +66,34 @@ export type Music = {
   similarMusics?: Maybe<Array<Music>>
 }
 
+export type Mutation = {
+  __typename?: 'Mutation'
+  /** 이메일과 1번 해싱한 비밀번호를 전송하면 인증 토큰을 반환한다. */
+  login?: Maybe<Scalars['String']>
+  /** HTTP Header나 쿠키에 인증 토큰 정보를 넣어서 요청하면 로그아웃 성공 여부를 반환한다. */
+  logout: Scalars['Boolean']
+  createUserTable: Scalars['Boolean']
+}
+
+export type MutationLoginArgs = {
+  email: Scalars['String']
+  passwordHash: Scalars['String']
+}
+
 export type Playlist = {
   __typename?: 'Playlist'
   id: Scalars['ID']
   creationDate: Scalars['DateTime']
   name: Scalars['String']
   musics?: Maybe<Array<Music>>
+}
+
+export type Query = {
+  __typename?: 'Query'
+  /** 사용자 목록을 반환한다. (관리자 전용) */
+  users?: Maybe<Array<User>>
+  /** 내 정보를 반환한다. 해당 권한이 없으면 오류가 발생한다. */
+  me?: Maybe<User>
 }
 
 export type User = {
@@ -148,37 +104,6 @@ export type User = {
   token: Scalars['String']
   name: Scalars['String']
   age: Scalars['Int']
-  playlist?: Maybe<Array<Playlist>>
-  likedMusic?: Maybe<Array<Music>>
-}
-
-export type Query = {
-  __typename?: 'Query'
-  comment?: Maybe<Comment>
-  comments?: Maybe<Array<Comment>>
-  /** 내 정보를 반환한다. 해당 권한이 없으면 오류가 발생한다. */
-  me?: Maybe<User>
-  /** 특정 음악 정보를 반환한다. */
-  music?: Maybe<Music>
-  /** 노래 제목 및 가수 이름으로 음악 검색 */
-  musicByTitleArtist?: Maybe<Music>
-  /** 모든 음악 목록을 반환한다. # 페이지네이션 필요 */
-  musics?: Maybe<Array<Music>>
-  /** 사용자 목록을 반환한다. (관리자 전용) */
-  users?: Maybe<Array<User>>
-}
-
-export type QueryCommentArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryMusicArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryMusicByTitleArtistArgs = {
-  title: Scalars['String']
-  artist?: Maybe<Array<Scalars['String']>>
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -274,78 +199,35 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  CommentCreationInput: CommentCreationInput
-  String: ResolverTypeWrapper<Scalars['String']>
-  CommentModificationInput: CommentModificationInput
-  ID: ResolverTypeWrapper<Scalars['ID']>
-  Mutation: ResolverTypeWrapper<{}>
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>
-  MusicCreationModificationInput: MusicCreationModificationInput
   Artist: ResolverTypeWrapper<Artist>
-  CrawlingSource: CrawlingSource
+  ID: ResolverTypeWrapper<Scalars['ID']>
+  String: ResolverTypeWrapper<Scalars['String']>
   Comment: ResolverTypeWrapper<Comment>
   Int: ResolverTypeWrapper<Scalars['Int']>
-  Music: ResolverTypeWrapper<Music>
-  Playlist: ResolverTypeWrapper<Playlist>
+  CrawlingSource: CrawlingSource
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>
-  User: ResolverTypeWrapper<User>
+  Music: ResolverTypeWrapper<Music>
+  Mutation: ResolverTypeWrapper<{}>
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>
+  Playlist: ResolverTypeWrapper<Playlist>
   Query: ResolverTypeWrapper<{}>
+  User: ResolverTypeWrapper<User>
 }
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  CommentCreationInput: CommentCreationInput
-  String: Scalars['String']
-  CommentModificationInput: CommentModificationInput
-  ID: Scalars['ID']
-  Mutation: {}
-  Boolean: Scalars['Boolean']
-  MusicCreationModificationInput: MusicCreationModificationInput
   Artist: Artist
+  ID: Scalars['ID']
+  String: Scalars['String']
   Comment: Comment
   Int: Scalars['Int']
-  Music: Music
-  Playlist: Playlist
   DateTime: Scalars['DateTime']
-  User: User
+  Music: Music
+  Mutation: {}
+  Boolean: Scalars['Boolean']
+  Playlist: Playlist
   Query: {}
-}
-
-export type MutationResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
-> = {
-  createComment?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCreateCommentArgs, 'input'>
-  >
-  createOrModifyMusic?: Resolver<
-    ResolversTypes['Music'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationCreateOrModifyMusicArgs, 'input'>
-  >
-  deleteComment?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationDeleteCommentArgs, 'id'>
-  >
-  login?: Resolver<
-    Maybe<ResolversTypes['String']>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationLoginArgs, 'email' | 'passwordHash'>
-  >
-  logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
-  modifyComment?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationModifyCommentArgs, 'input'>
-  >
+  User: User
 }
 
 export type ArtistResolvers<
@@ -370,6 +252,11 @@ export type CommentResolvers<
   source?: Resolver<ResolversTypes['CrawlingSource'], ParentType, ContextType>
   likeCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
+export interface DateTimeScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime'
 }
 
 export type MusicResolvers<
@@ -397,6 +284,20 @@ export type MusicResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
+export type MutationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
+> = {
+  login?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationLoginArgs, 'email' | 'passwordHash'>
+  >
+  logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+  createUserTable?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+}
+
 export type PlaylistResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Playlist'] = ResolversParentTypes['Playlist']
@@ -408,9 +309,12 @@ export type PlaylistResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
-export interface DateTimeScalarConfig
-  extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
-  name: 'DateTime'
+export type QueryResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
+> = {
+  users?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>
+  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
 }
 
 export type UserResolvers<
@@ -423,48 +327,18 @@ export type UserResolvers<
   token?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   age?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  playlist?: Resolver<Maybe<Array<ResolversTypes['Playlist']>>, ParentType, ContextType>
-  likedMusic?: Resolver<Maybe<Array<ResolversTypes['Music']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
-export type QueryResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
-> = {
-  comment?: Resolver<
-    Maybe<ResolversTypes['Comment']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryCommentArgs, 'id'>
-  >
-  comments?: Resolver<Maybe<Array<ResolversTypes['Comment']>>, ParentType, ContextType>
-  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
-  music?: Resolver<
-    Maybe<ResolversTypes['Music']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryMusicArgs, 'id'>
-  >
-  musicByTitleArtist?: Resolver<
-    Maybe<ResolversTypes['Music']>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryMusicByTitleArtistArgs, 'title'>
-  >
-  musics?: Resolver<Maybe<Array<ResolversTypes['Music']>>, ParentType, ContextType>
-  users?: Resolver<Maybe<Array<ResolversTypes['User']>>, ParentType, ContextType>
-}
-
 export type Resolvers<ContextType = any> = {
-  Mutation?: MutationResolvers<ContextType>
   Artist?: ArtistResolvers<ContextType>
   Comment?: CommentResolvers<ContextType>
-  Music?: MusicResolvers<ContextType>
-  Playlist?: PlaylistResolvers<ContextType>
   DateTime?: GraphQLScalarType
-  User?: UserResolvers<ContextType>
+  Music?: MusicResolvers<ContextType>
+  Mutation?: MutationResolvers<ContextType>
+  Playlist?: PlaylistResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
+  User?: UserResolvers<ContextType>
 }
 
 /**
