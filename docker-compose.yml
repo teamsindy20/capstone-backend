@@ -4,9 +4,6 @@ services:
   postgres:
     image: postgres:alpine
     container_name: postgres
-    environment:
-      POSTGRES_USER: ${PGUSER}
-      POSTGRES_PASSWORD: ${PGPASSWORD}
     ports:
       - 5432
     restart: always
@@ -40,7 +37,5 @@ services:
   graphql_server:
     build: .
     container_name: graphql-server
-    command:
-      - start
     ports:
       - 4000:4000
