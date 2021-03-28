@@ -1,11 +1,16 @@
+import { ApolloError } from 'apollo-server-express'
 import { MutationResolvers } from 'src/graphql/generated/graphql'
 import { pool } from '../../database/postgres'
 
-const sql =
-  'insert into music (content, ...) values ($2, ...) where 1 exist (select key from music where key = $1)'
+const sql = `
+insert into music (content, ...) 
+values ($2, ...) 
+where 1 exist (select key 
+               from music 
+               where key = $1);`
 
 const sql1 = `
-create table if not exists user (
+create table if not exists "user" (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   name varchar(100)
@@ -14,24 +19,11 @@ create table if not exists user (
 
 export const Mutation: MutationResolvers = {
   login: (_, { email, passwordHash }) => {
-    return new Promise((resolve, reject) => {
-      // connection.query(sql, (err: Error, row: any, cols: any) => {
-      //   if (err) {
-      //     reject(err)
-      //   }
-      // })
-    })
+    return '123456'
   },
 
   logout: (_) => {
-    return new Promise((resolve, reject) => {
-      resolve(true)
-      // connection.query(sql, (err: Error, row: any, cols: any) => {
-      //   if (err) {
-      //     reject(err)
-      //   }
-      // })
-    })
+    return true
   },
 
   createUserTable: async (_) => {
@@ -40,8 +32,8 @@ export const Mutation: MutationResolvers = {
       console.log(result)
     } catch (error) {
       console.error(error)
-      console.log(error.message)
-      // throw new Error(error.message)
+      // console.log(error.message)
+      throw new ApolloError(error.message)
     }
     return true
   },
