@@ -22,7 +22,8 @@ export async function initializeDatabase() {
       break
     } catch (error) {
       await sleep(1000)
-      console.log('Waiting for the PostgreSQL server to be alive...')
+      console.warn(error)
+      // console.log('Waiting for the PostgreSQL server to be alive...')
     }
   }
 
