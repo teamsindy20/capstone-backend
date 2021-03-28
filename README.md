@@ -45,7 +45,6 @@
 ### 프로덕션 모드
 
 ```shell
-> yarn build
 > docker-compose up --detach --build --force-recreate
 ```
 

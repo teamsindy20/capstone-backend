@@ -20,9 +20,6 @@ RUN rm -f yarn.lock
 RUN rm -rf src
 RUN rm -f tsconfig.json
 
-# 환경 변수 복사
-COPY .env ./
-
 EXPOSE 4000
 
 ENTRYPOINT [ "yarn" ]
