@@ -4,11 +4,14 @@ services:
   postgres:
     image: postgres:alpine
     container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - 5432
     restart: always
     volumes:
-      - ./docker/postgresql/data:/var/lib/postgresql/data
+      - ./sindy-volume/postgresql/data:/var/lib/postgresql/data
 
   elastic_search:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.12.0
@@ -26,7 +29,7 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - ./docker/elasticsearch/data:/usr/share/elasticsearch/data
+      - ./sindy-volume/elasticsearch/data:/usr/share/elasticsearch/data
 
   redis:
     image: 'redis:alpine'
@@ -39,3 +42,7 @@ services:
     container_name: graphql-server
     ports:
       - 4000:4000
+
+volumes:
+  sindy-volume:
+    name: sindy-volume
