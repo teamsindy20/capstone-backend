@@ -6,7 +6,7 @@ const values = [1]
 
 export const Query: QueryResolvers = {
   users: async () => {
-    const result: any = await pool.query(sql, values)
-    return result
+    // const result: any = await pool.query(sql, values)
+    return []
   },
 }

@@ -1,6 +1,6 @@
 import { ApolloError } from 'apollo-server-express'
 import { MutationResolvers } from 'src/graphql/generated/graphql'
-import { pool } from '../../database/postgres'
+// import { pool } from '../../database/postgres'
 
 const sql = `
 insert into music (content, ...) 
@@ -28,8 +28,8 @@ export const Mutation: MutationResolvers = {
 
   createUserTable: async (_) => {
     try {
-      const result = await pool.query(sql1)
-      console.log(result)
+      // const result = await pool.query(sql1)
+      // console.log(result)
     } catch (error) {
       console.error(error)
       // console.log(error.message)
