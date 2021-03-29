@@ -19,7 +19,7 @@ create table if not exists "user" (
 
 export const Mutation: MutationResolvers = {
   login: (_, { email, passwordHash }) => {
-    return '123456'
+    return `${email} ${passwordHash}`
   },
 
   logout: (_) => {
