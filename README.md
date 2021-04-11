@@ -32,27 +32,36 @@
 
 루트 폴더에 `.env` 파일을 생성하고 거기에 프로젝트에 필요한 환경 변수를 설정합니다.
 
-### 개발 모드
+### 개발 모드 (Local)
+
+```shell
+> yarn dev
+```
+
+### 개발 모드 (Docker)
 
 ```shell
 > docker-compose --file docker-compose.dev.yml up --detach --build --force-recreate
 ```
 
-로컬 컴퓨터에서 작업한 결과가 자동으로 Docker에 있는 GraphQL 서버에 반영됩다.
+로컬 컴퓨터에서 작업한 결과가 자동으로 Docker에 있는 GraphQL 서버에 반영됩니다.
 
 `Dockerfile.dev` 나 `docker-compose.dev.yml` 파일을 수정했을 경우엔 위 명령어를 다시 실행해야 합니다.
 
-### 프로덕션 모드
+### 프로덕션 모드 (Local)
+
+```shell
+> yarn build
+> yarn start
+```
+
+### 프로덕션 모드 (Docker)
 
 ```shell
 > docker-compose up --detach --build --force-recreate
 ```
 
 배포 서버 환경이랑 동일한 Docker 환경을 생성합니다.
-
-### GCP Cloud Run 배포
-
-GCP Cloud Run이 GitHub 저장소 변경 사항을 자동으로 감지하기 때문에 GitHub로 commit을 push할 때마다 Cloud Run에 자동으로 반영됩니다.
 
 ### 브라우저 실행
 
@@ -62,4 +71,12 @@ http://localhost:4000
 
 브라우저에서 아래 주소로 접속하면 개발 중인 사이트를 볼 수 있습니다.
 
+## GCP Cloud Run 배포
+
+GCP Cloud Run이 GitHub 저장소 변경 사항을 자동으로 감지하기 때문에 GitHub로 commit을 push할 때마다 Cloud Run에 자동으로 반영됩니다.
+
 ## 프로젝트 구조
+
+## 의문점
+
+- 스케일링에 의해 백엔드 컨테이너 수가 늘어날 수록 pg에서 제공하는 client pooling의 의미가 퇴색될까?
