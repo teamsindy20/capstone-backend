@@ -1,4 +1,5 @@
 import { ApolloServerExpressConfig } from 'apollo-server-express'
+import { verifyJWT } from '../utils/jwt'
 
 const users = [
   {
@@ -13,14 +14,20 @@ const users = [
   },
 ]
 
-const context: ApolloServerExpressConfig['context'] = ({ req }) => {
+const context: ApolloServerExpressConfig['context'] = async ({ req }) => {
   const token = req.headers.authorization || ''
 
-  // 로그인되어 있지 않거나 로그인 토큰이 없을 때
-  if (token.length !== 64) return { user: null }
+  try {
+    const result = await verifyJWT<{ userId: string }>(token)
 
-  const user = users.find((user) => user.token === token)
-  return { user }
+    console.log(typeof result.userId, result.userId)
+
+    const user = users.find((user) => user.id === result.userId)
+    return { user }
+  } catch (error) {
+    // 로그인 토큰이 없거나 유효하지 않거나 유효기간이 만료됐을 때
+    return { user: null }
+  }
 }
 
 export default context

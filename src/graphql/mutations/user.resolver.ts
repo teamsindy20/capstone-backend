@@ -1,5 +1,6 @@
 import { ApolloError } from 'apollo-server-express'
 import { MutationResolvers } from 'src/graphql/generated/graphql'
+import { generateJWT } from '../../utils/jwt'
 import { pool } from '../../database/postgres'
 
 const sql = `
@@ -19,24 +20,14 @@ create table if not exists "user" (
 
 export const Mutation: MutationResolvers = {
   login: async (_, { email, passwordHash }) => {
-    const result = await pool.query('SELECT NOW() as now')
-
-    return `${email} ${passwordHash} ${result.rows[0].now}`
+    // const user = await findUserFromDatabaseWith({ email, passwordHash })
+    // const userId = user.id
+    console.log(email, passwordHash)
+    const token = generateJWT({ userId: 0 })
+    return token
   },
 
   logout: (_) => {
-    return true
-  },
-
-  createUserTable: async (_) => {
-    try {
-      // const result = await pool.query(sql1)
-      // console.log(result)
-    } catch (error) {
-      console.error(error)
-      // console.log(error.message)
-      throw new ApolloError(error.message)
-    }
     return true
   },
 }
