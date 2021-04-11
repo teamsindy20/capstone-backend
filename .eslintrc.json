@@ -35,6 +35,7 @@
     "import/no-unresolved": "off", // temporary
 
     "node/no-missing-import": "off", // temporary
+    "node/no-process-exit": "warn",
     "node/no-unsupported-features/es-syntax": "off",
 
     "@typescript-eslint/explicit-module-boundary-types": "off",
