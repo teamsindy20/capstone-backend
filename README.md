@@ -50,20 +50,9 @@
 
 배포 서버 환경이랑 동일한 Docker 환경을 생성합니다.
 
-### Heroku 배포
+### GCP Cloud Run 배포
 
-- heroku 7.51
-
-```shell
-# 최초 한번만 실행
-> heroku login
-> heroku container:login
-
-# 배포할 때마다 실행
-> yarn build
-> heroku container:push web --app sindy-backend
-> heroku container:release web --app sindy-backend
-```
+GCP Cloud Run이 GitHub 저장소 변경 사항을 자동으로 감지하기 때문에 GitHub로 commit을 push할 때마다 Cloud Run에 자동으로 반영됩니다.
 
 ### 브라우저 실행
 
@@ -72,3 +61,5 @@ http://localhost:4000
 ```
 
 브라우저에서 아래 주소로 접속하면 개발 중인 사이트를 볼 수 있습니다.
+
+## 프로젝트 구조
