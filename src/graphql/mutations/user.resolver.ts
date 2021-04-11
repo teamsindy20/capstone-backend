@@ -1,6 +1,6 @@
 import { ApolloError } from 'apollo-server-express'
 import { MutationResolvers } from 'src/graphql/generated/graphql'
-// import { pool } from '../../database/postgres'
+import { pool } from '../../database/postgres'
 
 const sql = `
 insert into music (content, ...) 
@@ -18,8 +18,10 @@ create table if not exists "user" (
 `
 
 export const Mutation: MutationResolvers = {
-  login: (_, { email, passwordHash }) => {
-    return `${email} ${passwordHash}`
+  login: async (_, { email, passwordHash }) => {
+    const result = await pool.query('SELECT NOW() as now')
+
+    return `${email} ${passwordHash} ${result.rows[0].now}`
   },
 
   logout: (_) => {
