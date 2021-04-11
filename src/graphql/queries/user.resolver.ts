@@ -19,4 +19,8 @@ export const Query: QueryResolvers = {
       },
     ]
   },
+
+  me: async () => {
+    return null
+  },
 }

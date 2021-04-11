@@ -11,7 +11,7 @@ export const pool = new Pool({
   database: process.env.POSTGRES_DB,
 })
 
-export async function initializeDatabase() {
+export async function connectDatabase() {
   while (true) {
     try {
       await pool.query('SELECT NOW() as now')
@@ -20,13 +20,6 @@ export async function initializeDatabase() {
     } catch (error) {
       await sleep(1000)
       console.warn(error)
-      // console.log('Waiting for the PostgreSQL server to be alive...')
     }
   }
-
-  // 여기서 테이블 생성하기
-}
-
-export async function disconnectPool() {
-  await pool.end()
 }
