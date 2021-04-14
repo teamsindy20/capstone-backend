@@ -18,7 +18,7 @@ function getSecretKey() {
   return secretKey
 }
 
-export function generateJWT<T extends Record<string, unknown>>(payload: T, expiresIn = '7d') {
+export function generateJWT<T extends Record<string, unknown>>(payload: T, expiresIn = '3d') {
   return new Promise<string>((resolve, reject) => {
     sign(payload, getSecretKey(), { expiresIn }, (err, token) => {
       if (err) {

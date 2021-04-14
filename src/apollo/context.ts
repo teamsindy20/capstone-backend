@@ -18,15 +18,11 @@ const context: ApolloServerExpressConfig['context'] = async ({ req }) => {
   const token = req.headers.authorization || ''
 
   try {
-    const result = await verifyJWT<{ userId: string }>(token)
-
-    console.log(typeof result.userId, result.userId)
-
-    const user = users.find((user) => user.id === result.userId)
-    return { user }
+    const result = await verifyJWT<{ userId: number }>(token)
+    const user = users.find((user) => user.id === `${result.userId}`)
+    return { user } // 로그인 토큰이 유효할 때
   } catch (error) {
-    // 로그인 토큰이 없거나 유효하지 않거나 유효기간이 만료됐을 때
-    return { user: null }
+    return { user: null } // 로그인 토큰이 없거나 유효하지 않거나 유효기간이 만료됐을 때
   }
 }
 
