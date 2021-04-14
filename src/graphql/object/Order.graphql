@@ -9,10 +9,10 @@ type Order {
   id: ID!
   creationDate: DateTime!
   modificationDate: DateTime!
-  imageUrl: string[]
-  orderDate: string
-  orderTotal: number
+  imageUrl: [String!]
+  orderDate: DateTime!
+  orderTotal: Int!
   orderStatus: OrderStatus
-  regularOrderDate: string
-  regularOrderCount: number
+  regularOrderDate: DateTime!
+  regularOrderCount: Int!
 }
