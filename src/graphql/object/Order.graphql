@@ -1,0 +1,18 @@
+enum OrderStatus {
+  ORDER_WAITING
+  COOKING_IN_PROGRESS
+  DELIVERY_IN_PROGRESS
+  DELIVERY_COMPLETION
+}
+
+type Order {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+  imageUrl: string[]
+  orderDate: string
+  orderTotal: number
+  orderStatus: OrderStatus
+  regularOrderDate: string
+  regularOrderCount: number
+}
