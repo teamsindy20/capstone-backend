@@ -4,11 +4,11 @@ create table "user" (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-  point int default 0,
-
-  email varchar(64) not null,
-  password_hash_hash varchar(64) not null,
-  
+  point int not null default 0,
+  --
+  email varchar(64) not null unique,
+  password_hash_hash varchar(128) not null,
+  --
   image_url text,
   name varchar(64),
   phone_number varchar(16),
@@ -36,9 +36,10 @@ create table menu (
   is_discounted boolean not null default false,
   can_be_picked boolean not null default false,
   can_be_reserved boolean not null default false,
-
+  --
   name varchar(64) not null,
-  price int not null
+  price int not null,
+  category varchar(16) not null
 );
 
 drop table if exists store;
@@ -54,15 +55,15 @@ create table store (
   reorder_count int not null default 0,
   new_customer_count int not null default 0,
   regular_customer_count int not null default 0,
-  click_count int not null default 0,
   favorite_count int not null default 0,
+  click_count int not null default 0,
   post_count int not null default 0,
-
+  --
   name varchar(64) not null,
   address varchar(64) not null,
   delivery_fee int not null,
   minimum_delivery_amount int not null,
-  
+  --
   review_event_content text,
   regular_customer_event_content text,
   delivery_time_min int,
@@ -76,10 +77,10 @@ create table "order" (
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
   order_status varchar(16) not null default '접수 대기',
-
+  --
   order_total int not null,
   store_id int not null,
-  
+  --
   review_id int
 );
 
@@ -90,9 +91,9 @@ create table review (
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
   helping_others_count int not null default 0,
-  
+  --
   rating varchar(16) not null,
-
+  --
   good_point_content text,
   desired_point_content text
 );
@@ -105,7 +106,7 @@ create table post (
   modification_date timestamptz not null default now(),
   like_count int not null default 0,
   comment_count int not null default 0,
-  
+  --
   content text not null
 );
 
@@ -115,8 +116,8 @@ create table hashtag (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
-  hashtag varchar(32) not null
+  --
+  name varchar(32) not null unique
 );
 
 drop table if exists image_url;
@@ -125,8 +126,8 @@ create table image_url (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
-  url text not null
+  --
+  url text not null unique
 );
 
 drop table if exists menu_category;
@@ -135,8 +136,8 @@ create table menu_category (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
-  name varchar(32) not null
+  --
+  name varchar(32) not null unique
 );
 
 drop table if exists user_x_favorite_menu;
@@ -145,7 +146,7 @@ create table user_x_favorite_menu (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
+  --
   user_id int not null,
   menu_id int not null
 );
@@ -156,7 +157,7 @@ create table user_x_favorite_store (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
+  --
   user_id int not null,
   store_id int not null
 );
@@ -167,12 +168,12 @@ create table user_x_regular_store (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
+  --
   user_id int not null,
   store_id int not null,
   date_limit_for_regular timestamptz not null,
   order_count_for_regular int not null,
-
+  --
   regular_maintenance_date timestamptz
 );
 
@@ -182,7 +183,7 @@ create table user_x_order (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
+  --
   user_id int not null,
   order_id int not null unique
 );
@@ -193,7 +194,7 @@ create table user_x_review (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
+  --
   user_id int not null,
   review_id int not null unique
 );
@@ -204,7 +205,7 @@ create table user_x_hashtag (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
+  --
   user_id int not null,
   hashtag_id int not null
 );
@@ -215,7 +216,7 @@ create table store_x_menu (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
+  --
   store_id int not null,
   menu_id int not null unique
 );
@@ -226,9 +227,53 @@ create table store_x_post (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
+  --
   store_id int not null,
   post_id int not null unique
+);
+
+drop table if exists store_x_hashtag;
+
+create table store_x_hashtag (
+  id int primary key generated always as identity,
+  creation_date timestamptz not null default now(),
+  modification_date timestamptz not null default now(),
+  --
+  store_id int not null,
+  hashtag_id int not null
+);
+
+drop table if exists store_x_image_url;
+
+create table store_x_image_url (
+  id int primary key generated always as identity,
+  creation_date timestamptz not null default now(),
+  modification_date timestamptz not null default now(),
+  --
+  store_id int not null,
+  image_url_id int not null unique
+);
+
+drop table if exists menu_x_hashtag;
+
+create table menu_x_hashtag (
+  id int primary key generated always as identity,
+  creation_date timestamptz not null default now(),
+  modification_date timestamptz not null default now(),
+  --
+  menu_id int not null,
+  hashtag_id int not null
+);
+
+drop table if exists menu_x_image_url;
+
+create table menu_x_image_url (
+  id int primary key generated always as identity,
+  creation_date timestamptz not null default now(),
+  modification_date timestamptz not null default now(),
+  --
+  menu_id int not null,
+  image_url_id int not null unique
 );
 
 drop table if exists order_x_menu;
@@ -237,7 +282,7 @@ create table order_x_menu (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
+  --
   order_id int not null,
   menu_id int not null
 );
@@ -248,9 +293,20 @@ create table review_x_menu (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
+  --
   review_id int not null,
   menu_id int not null
+);
+
+drop table if exists review_x_image_url;
+
+create table review_x_image_url (
+  id int primary key generated always as identity,
+  creation_date timestamptz not null default now(),
+  modification_date timestamptz not null default now(),
+  --
+  review_id int not null,
+  image_url_id int not null unique
 );
 
 drop table if exists menu_category_x_menu;
@@ -259,7 +315,19 @@ create table menu_category_x_menu (
   id int primary key generated always as identity,
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
-
+  --
   menu_category_id int not null,
   menu_id int not null unique
 );
+
+drop table if exists post_x_image_url;
+
+create table post_x_image_url (
+  id int primary key generated always as identity,
+  creation_date timestamptz not null default now(),
+  modification_date timestamptz not null default now(),
+  --
+  post_id int not null,
+  image_url_id int not null unique
+);
+
