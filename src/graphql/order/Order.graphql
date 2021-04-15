@@ -15,4 +15,8 @@ type Order {
   # from other table
   store: Store!
   review: Review
+  menu: [Menu!]
+
+  # regularOrderDate: DateTime!
+  # regularOrderCount: Int!
 }
