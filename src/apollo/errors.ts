@@ -1,4 +1,4 @@
-import { ApolloError } from 'apollo-server-express'
+import { ApolloError } from 'apollo-server'
 
 export class DatabaseError extends ApolloError {
   constructor(message: string) {
