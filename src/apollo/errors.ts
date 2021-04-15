@@ -1,17 +1,19 @@
 import { ApolloError } from 'apollo-server-express'
 
-export class MyError extends ApolloError {
+export class DatabaseError extends ApolloError {
   constructor(message: string) {
-    super(message, 'MY_ERROR_CODE')
-
-    Object.defineProperty(this, 'name', { value: 'MyError' })
+    super(message, 'DATABASE_ERROR')
   }
 }
 
-export class MyError2 extends ApolloError {
+export class JWTGenerationError extends ApolloError {
   constructor(message: string) {
-    super(message, 'MY_ERROR_CODE_2')
+    super(message, 'JWT_GENERATION_ERROR')
+  }
+}
 
-    Object.defineProperty(this, 'name2', { value: 'MyError2' })
+export class BcryptError extends ApolloError {
+  constructor(message: string) {
+    super(message, 'BCRYPT_ERROR')
   }
 }

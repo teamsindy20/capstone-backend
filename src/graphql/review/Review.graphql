@@ -1,0 +1,15 @@
+enum Rating {
+  DELICIOUS
+  GOOD
+  BAD
+}
+
+type Review {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+  helpingOthersCount: Int!
+  rating: Rating!
+  goodPointContent: String
+  desiredPointContent: String
+}

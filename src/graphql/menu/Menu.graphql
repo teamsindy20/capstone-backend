@@ -1,0 +1,36 @@
+type Menu {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+  name: String!
+  price: Int!
+  category: String!
+  deliciousReviewCount: Int!
+  deliciousReviewRatio: Int!
+  fineReviewCount: Int!
+  fineReviewRatio: Int!
+  positiveReviewRatio: Int!
+  badReviewCount: Int!
+  badReviewRatio: Int!
+  newOrderCount: Int!
+  newOrderRatio: Int!
+  reorderCount: Int!
+  reorderRatio: Int!
+  newCustomerCount: Int!
+  newCustomerRatio: Int!
+  regularCustomerCount: Int!
+  regularCustomerRatio: Int!
+  favoriteCount: Int!
+  clickCount: Int!
+  storePostCount: Int!
+  isDiscounted: Boolean!
+  canBePicked: Boolean!
+  canBeReserved: Boolean!
+
+  # nullable
+
+  # from other table
+  imageUrl: [String!]
+  hashtags: [String!]
+  bookmark: Boolean!
+}

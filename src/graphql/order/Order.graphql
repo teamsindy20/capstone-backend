@@ -1,0 +1,18 @@
+enum OrderStatus {
+  ORDER_WAITING
+  COOKING_IN_PROGRESS
+  DELIVERY_IN_PROGRESS
+  DELIVERY_COMPLETION
+}
+
+type Order {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+  orderStatus: OrderStatus!
+  orderTotal: Int!
+
+  # from other table
+  store: Store!
+  review: Review
+}

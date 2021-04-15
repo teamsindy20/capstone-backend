@@ -1,0 +1,27 @@
+type Store {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+  name: String!
+  address: String!
+  deliveryFee: Int!
+  minimumDeliveryAmount: Int!
+  deliciousReviewCount: Int!
+  fineReviewCount: Int!
+  badReviewCount: Int!
+  newOrderCount: Int!
+  reorderCount: Int!
+  newCustomerCount: Int!
+  regularCustomerCount: Int!
+  favoriteCount: Int!
+  clickCount: Int!
+  postCount: Int!
+
+  # nullable
+  reviewEventContent: String
+  regularCustomerEventContent: String
+  deliveryTimeMin: Int
+  deliveryTimeMax: Int
+
+  # from other table
+}
