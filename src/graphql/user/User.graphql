@@ -1,0 +1,22 @@
+type User {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+  email: String!
+  point: Int!
+
+  # nullable
+  imageUrl: String
+  name: String
+  phoneNumber: String
+  gender: String
+  birthDate: DateTime
+  address: String
+
+  # from other table
+  favoriteMenu: [Menu!]
+  favoriteStores: [Store!]
+  regularStores: [Store!]
+  orders: [Order!]
+  preference: [String!]
+}
