@@ -1,8 +1,24 @@
-import { ApolloServerExpressConfig } from 'apollo-server-express'
+import { ExpressContext } from 'apollo-server-express'
 import { pool } from '../database/postgres'
 import { verifyJWT } from '../utils/jwt'
 
-const context: ApolloServerExpressConfig['context'] = async ({ req }) => {
+function formatUserFromDatabaseToGraphQL(user: any) {
+  return {
+    id: user.id,
+    creationDate: user.creation_date,
+    modificationDate: user.modification_date,
+    point: user.point,
+    email: user.email,
+    imageUrl: user.image_url,
+    name: user.name,
+    phoneNumber: user.phone_number,
+    gender: user.gender,
+    birthDate: user.birth_date,
+    address: user.address,
+  }
+}
+
+async function context({ req }: ExpressContext) {
   const token = req.headers.authorization || ''
 
   const result = await verifyJWT(token).catch(() => {
@@ -13,7 +29,7 @@ const context: ApolloServerExpressConfig['context'] = async ({ req }) => {
 
   const { rows } = await pool.query('select * from "user" where id = $1', [result.userId])
 
-  return { user: rows[0] } // 로그인 토큰이 유효할 때
+  return { uesr: formatUserFromDatabaseToGraphQL(rows[0]) } // 로그인 토큰이 유효할 때
 }
 
 export default context
