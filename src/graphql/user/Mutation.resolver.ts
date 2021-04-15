@@ -1,4 +1,4 @@
-import { AuthenticationError, ForbiddenError } from 'apollo-server-express'
+import { AuthenticationError, ForbiddenError } from 'apollo-server'
 import { compare, genSalt, hash } from 'bcryptjs'
 import { MutationResolvers } from 'src/graphql/generated/graphql'
 import { generateJWT } from '../../utils/jwt'
@@ -45,7 +45,7 @@ export const Mutation: MutationResolvers = {
   },
 
   logout: (_, __, { user }) => {
-    if (user) throw new AuthenticationError("User doesn't log in. Please log in first.")
+    if (!user) throw new AuthenticationError("User doesn't log in. Please log in first.")
 
     return true
   },
