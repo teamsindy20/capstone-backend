@@ -89,30 +89,27 @@ export type MutationLoginArgs = {
 
 export type Order = {
   __typename?: 'Order'
-  creationDate: Scalars['DateTime']
   id: Scalars['ID']
-  imageUrl?: Maybe<Array<Scalars['String']>>
+  creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
-  orderDate: Scalars['DateTime']
   orderStatus: OrderStatus
   orderTotal: Scalars['Int']
-  regularOrderCount: Scalars['Int']
-  regularOrderDate: Scalars['DateTime']
-  review?: Maybe<Review>
   store: Store
+  review?: Maybe<Review>
+  menu?: Maybe<Array<Menu>>
 }
 
 export enum OrderStatus {
-  CookingInProgress = 'COOKING_IN_PROGRESS',
-  DeliveryCompletion = 'DELIVERY_COMPLETION',
-  DeliveryInProgress = 'DELIVERY_IN_PROGRESS',
   OrderWaiting = 'ORDER_WAITING',
+  CookingInProgress = 'COOKING_IN_PROGRESS',
+  DeliveryInProgress = 'DELIVERY_IN_PROGRESS',
+  DeliveryCompletion = 'DELIVERY_COMPLETION',
 }
 
 export type Query = {
   __typename?: 'Query'
   /** 인증 토큰과 같이 요청하면 사용자 정보를 반환한다. */
-  me?: Maybe<User>
+  me: User
 }
 
 export enum Rating {
@@ -399,17 +396,14 @@ export type OrderResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Order'] = ResolversParentTypes['Order']
 > = {
-  creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
-  imageUrl?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
+  creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
-  orderDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   orderStatus?: Resolver<ResolversTypes['OrderStatus'], ParentType, ContextType>
   orderTotal?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  regularOrderCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  regularOrderDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
-  review?: Resolver<Maybe<ResolversTypes['Review']>, ParentType, ContextType>
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
+  review?: Resolver<Maybe<ResolversTypes['Review']>, ParentType, ContextType>
+  menu?: Resolver<Maybe<Array<ResolversTypes['Menu']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -417,7 +411,7 @@ export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
-  me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
+  me?: Resolver<ResolversTypes['User'], ParentType, ContextType>
 }
 
 export type ReviewResolvers<
