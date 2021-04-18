@@ -2,11 +2,11 @@ type User {
   id: ID!
   creationDate: DateTime!
   modificationDate: DateTime!
-  email: String!
+  email: EmailAddress!
   point: Int!
 
   # nullable
-  imageUrl: String
+  imageUrl: URL
   name: String
   phoneNumber: String
   gender: String

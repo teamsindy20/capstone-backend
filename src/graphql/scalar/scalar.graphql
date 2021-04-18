@@ -1,1 +1,4 @@
 scalar DateTime
+scalar EmailAddress
+scalar JWT
+scalar URL
