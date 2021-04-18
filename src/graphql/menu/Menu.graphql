@@ -30,7 +30,10 @@ type Menu {
   # nullable
 
   # from other table
-  imageUrl: [String!]
+  """
+  로그인 상태일 때 요청하면 사용자가 해당 메뉴를 찜한 여부를 반환한다.
+  """
+  favorite: Boolean!
   hashtags: [String!]
-  bookmark: Boolean!
+  imageUrls: [URL!]
 }
