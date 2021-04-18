@@ -5,11 +5,12 @@ create table "user" (
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
   point int not null default 0,
+  is_unregistered boolean not null default false,
   --
   email varchar(64) not null unique,
   password_hash_hash varchar(128) not null,
   --
-  image_url text,
+  image_url text array,
   name varchar(64),
   phone_number varchar(16),
   gender varchar(16),
@@ -39,7 +40,9 @@ create table menu (
   --
   name varchar(64) not null,
   price int not null,
-  category varchar(16) not null
+  category varchar(16) not null,
+  --
+  image_url text array,
 );
 
 drop table if exists store;
@@ -64,6 +67,7 @@ create table store (
   delivery_fee int not null,
   minimum_delivery_amount int not null,
   --
+  image_url text array,
   review_event_content text,
   regular_customer_event_content text,
   delivery_time_min int,
@@ -94,6 +98,7 @@ create table review (
   --
   rating varchar(16) not null,
   --
+  image_url text array,
   good_point_content text,
   desired_point_content text
 );
@@ -107,6 +112,7 @@ create table post (
   like_count int not null default 0,
   comment_count int not null default 0,
   --
+  image_url text array,
   content text not null
 );
 
@@ -120,16 +126,6 @@ create table hashtag (
   name varchar(32) not null unique
 );
 
-drop table if exists image_url;
-
-create table image_url (
-  id int primary key generated always as identity,
-  creation_date timestamptz not null default now(),
-  modification_date timestamptz not null default now(),
-  --
-  url text not null unique
-);
-
 drop table if exists menu_category;
 
 create table menu_category (
@@ -137,7 +133,8 @@ create table menu_category (
   creation_date timestamptz not null default now(),
   modification_date timestamptz not null default now(),
   --
-  name varchar(32) not null unique
+  name varchar(32) not null unique,
+  menu_id int not null array
 );
 
 drop table if exists user_x_favorite_menu;
@@ -243,17 +240,6 @@ create table store_x_hashtag (
   hashtag_id int not null
 );
 
-drop table if exists store_x_image_url;
-
-create table store_x_image_url (
-  id int primary key generated always as identity,
-  creation_date timestamptz not null default now(),
-  modification_date timestamptz not null default now(),
-  --
-  store_id int not null,
-  image_url_id int not null unique
-);
-
 drop table if exists menu_x_hashtag;
 
 create table menu_x_hashtag (
@@ -263,17 +249,6 @@ create table menu_x_hashtag (
   --
   menu_id int not null,
   hashtag_id int not null
-);
-
-drop table if exists menu_x_image_url;
-
-create table menu_x_image_url (
-  id int primary key generated always as identity,
-  creation_date timestamptz not null default now(),
-  modification_date timestamptz not null default now(),
-  --
-  menu_id int not null,
-  image_url_id int not null unique
 );
 
 drop table if exists order_x_menu;
@@ -296,38 +271,5 @@ create table review_x_menu (
   --
   review_id int not null,
   menu_id int not null
-);
-
-drop table if exists review_x_image_url;
-
-create table review_x_image_url (
-  id int primary key generated always as identity,
-  creation_date timestamptz not null default now(),
-  modification_date timestamptz not null default now(),
-  --
-  review_id int not null,
-  image_url_id int not null unique
-);
-
-drop table if exists menu_category_x_menu;
-
-create table menu_category_x_menu (
-  id int primary key generated always as identity,
-  creation_date timestamptz not null default now(),
-  modification_date timestamptz not null default now(),
-  --
-  menu_category_id int not null,
-  menu_id int not null unique
-);
-
-drop table if exists post_x_image_url;
-
-create table post_x_image_url (
-  id int primary key generated always as identity,
-  creation_date timestamptz not null default now(),
-  modification_date timestamptz not null default now(),
-  --
-  post_id int not null,
-  image_url_id int not null unique
 );
 

@@ -21,25 +21,14 @@ insert into menu_x_image_url (menu_id, image_url_id)
     image_url_table.id
   from
     menu_table,
-    image_url_table
-),
-mapping_menu_and_hashtag as (
-insert into menu_x_hashtag (menu_id, hashtag_id)
+    image_url_table)
+  insert into menu_x_hashtag (menu_id, hashtag_id)
   select
     menu_table.id,
     hashtag_table.id
   from
     menu_table,
-    hashtag_table
-)
-select
-  menu.id as menu_id,
-  image_url.id as image_url_id,
-  hashtag.id as hashtag_id
-from
-  menu_table,
-  image_url_table,
-  hashtag_table;
+    hashtag_table;
 
 -- select
 --   *
