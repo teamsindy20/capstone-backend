@@ -14,24 +14,9 @@ export type Scalars = {
   Int: number
   Float: number
   DateTime: any
-}
-
-export type Comment = {
-  __typename?: 'Comment'
-  id: Scalars['ID']
-  creationDate: Scalars['DateTime']
-  modificationDate: Scalars['DateTime']
-  writingDate: Scalars['String']
-  content: Scalars['String']
-  userName: Scalars['String']
-  source: CrawlingSource
-  likeCount?: Maybe<Scalars['Int']>
-}
-
-export enum CrawlingSource {
-  Youtube = 'YOUTUBE',
-  Melon = 'MELON',
-  Icezam = 'ICEZAM',
+  EmailAddress: any
+  JWT: any
+  URL: any
 }
 
 export type Menu = {
@@ -63,17 +48,20 @@ export type Menu = {
   isDiscounted: Scalars['Boolean']
   canBePicked: Scalars['Boolean']
   canBeReserved: Scalars['Boolean']
-  imageUrl?: Maybe<Array<Scalars['String']>>
+  /** 로그인 상태일 때 요청하면 사용자가 해당 메뉴를 찜한 여부를 반환한다. */
+  favorite: Scalars['Boolean']
   hashtags?: Maybe<Array<Scalars['String']>>
-  bookmark: Scalars['Boolean']
+  imageUrls?: Maybe<Array<Scalars['URL']>>
 }
 
 export type Mutation = {
   __typename?: 'Mutation'
   /** 회원가입에 필요한 정보를 주면 성공했을 때 인증 토큰을 반환한다. */
-  register: Scalars['String']
+  register: Scalars['JWT']
+  /** 회원탈퇴 */
+  unregister: Scalars['Boolean']
   /** 이메일과 1번 해싱한 비밀번호를 전송하면 인증 토큰을 반환한다. */
-  login: Scalars['String']
+  login: Scalars['JWT']
   /** 인증 토큰과 같이 요청하면 로그아웃 성공 여부를 반환한다. */
   logout: Scalars['Boolean']
 }
@@ -83,7 +71,7 @@ export type MutationRegisterArgs = {
 }
 
 export type MutationLoginArgs = {
-  email: Scalars['String']
+  email: Scalars['EmailAddress']
   passwordHash: Scalars['String']
 }
 
@@ -110,6 +98,7 @@ export type Query = {
   __typename?: 'Query'
   /** 인증 토큰과 같이 요청하면 사용자 정보를 반환한다. */
   me: User
+  menus: Array<Menu>
 }
 
 export enum Rating {
@@ -119,7 +108,7 @@ export enum Rating {
 }
 
 export type RegisterInput = {
-  email: Scalars['String']
+  email: Scalars['EmailAddress']
   passwordHash: Scalars['String']
   imageUrl?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
@@ -171,9 +160,9 @@ export type User = {
   id: Scalars['ID']
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
-  email: Scalars['String']
+  email: Scalars['EmailAddress']
   point: Scalars['Int']
-  imageUrl?: Maybe<Scalars['String']>
+  imageUrl?: Maybe<Scalars['URL']>
   name?: Maybe<Scalars['String']>
   phoneNumber?: Maybe<Scalars['String']>
   gender?: Maybe<Scalars['String']>
@@ -279,13 +268,13 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Comment: ResolverTypeWrapper<Comment>
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']>
+  EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>
+  JWT: ResolverTypeWrapper<Scalars['JWT']>
+  Menu: ResolverTypeWrapper<Menu>
   ID: ResolverTypeWrapper<Scalars['ID']>
   String: ResolverTypeWrapper<Scalars['String']>
   Int: ResolverTypeWrapper<Scalars['Int']>
-  CrawlingSource: CrawlingSource
-  DateTime: ResolverTypeWrapper<Scalars['DateTime']>
-  Menu: ResolverTypeWrapper<Menu>
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
   Mutation: ResolverTypeWrapper<{}>
   Order: ResolverTypeWrapper<Order>
@@ -295,17 +284,19 @@ export type ResolversTypes = {
   RegisterInput: RegisterInput
   Review: ResolverTypeWrapper<Review>
   Store: ResolverTypeWrapper<Store>
+  URL: ResolverTypeWrapper<Scalars['URL']>
   User: ResolverTypeWrapper<User>
 }
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Comment: Comment
+  DateTime: Scalars['DateTime']
+  EmailAddress: Scalars['EmailAddress']
+  JWT: Scalars['JWT']
+  Menu: Menu
   ID: Scalars['ID']
   String: Scalars['String']
   Int: Scalars['Int']
-  DateTime: Scalars['DateTime']
-  Menu: Menu
   Boolean: Scalars['Boolean']
   Mutation: {}
   Order: Order
@@ -313,27 +304,22 @@ export type ResolversParentTypes = {
   RegisterInput: RegisterInput
   Review: Review
   Store: Store
+  URL: Scalars['URL']
   User: User
-}
-
-export type CommentResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['Comment'] = ResolversParentTypes['Comment']
-> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
-  creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
-  modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
-  writingDate?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  content?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  userName?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  source?: Resolver<ResolversTypes['CrawlingSource'], ParentType, ContextType>
-  likeCount?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export interface DateTimeScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime'
+}
+
+export interface EmailAddressScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['EmailAddress'], any> {
+  name: 'EmailAddress'
+}
+
+export interface JwtScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JWT'], any> {
+  name: 'JWT'
 }
 
 export type MenuResolvers<
@@ -367,9 +353,9 @@ export type MenuResolvers<
   isDiscounted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   canBePicked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   canBeReserved?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
-  imageUrl?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
+  favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   hashtags?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
-  bookmark?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+  imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -378,13 +364,14 @@ export type MutationResolvers<
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = {
   register?: Resolver<
-    ResolversTypes['String'],
+    ResolversTypes['JWT'],
     ParentType,
     ContextType,
     RequireFields<MutationRegisterArgs, 'input'>
   >
+  unregister?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   login?: Resolver<
-    ResolversTypes['String'],
+    ResolversTypes['JWT'],
     ParentType,
     ContextType,
     RequireFields<MutationLoginArgs, 'email' | 'passwordHash'>
@@ -412,6 +399,7 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
   me?: Resolver<ResolversTypes['User'], ParentType, ContextType>
+  menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
 }
 
 export type ReviewResolvers<
@@ -456,6 +444,10 @@ export type StoreResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
+export interface UrlScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['URL'], any> {
+  name: 'URL'
+}
+
 export type UserResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
@@ -463,9 +455,9 @@ export type UserResolvers<
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
-  email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  email?: Resolver<ResolversTypes['EmailAddress'], ParentType, ContextType>
   point?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  imageUrl?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  imageUrl?: Resolver<Maybe<ResolversTypes['URL']>, ParentType, ContextType>
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   phoneNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   gender?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
@@ -480,14 +472,16 @@ export type UserResolvers<
 }
 
 export type Resolvers<ContextType = any> = {
-  Comment?: CommentResolvers<ContextType>
   DateTime?: GraphQLScalarType
+  EmailAddress?: GraphQLScalarType
+  JWT?: GraphQLScalarType
   Menu?: MenuResolvers<ContextType>
   Mutation?: MutationResolvers<ContextType>
   Order?: OrderResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
   Review?: ReviewResolvers<ContextType>
   Store?: StoreResolvers<ContextType>
+  URL?: GraphQLScalarType
   User?: UserResolvers<ContextType>
 }
 

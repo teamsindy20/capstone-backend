@@ -4,5 +4,6 @@ select
 from
   "user"
 where
-  email = $1;
+  email = $1
+  and is_unregistered = false;
 

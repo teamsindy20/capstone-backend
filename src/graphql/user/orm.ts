@@ -1,4 +1,4 @@
-export function formatUserFromDatabaseToGraphQL(user: any) {
+export function userORM(user: any) {
   return {
     id: user.id,
     creationDate: user.creation_date,
