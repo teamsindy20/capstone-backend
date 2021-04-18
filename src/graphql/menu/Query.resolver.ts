@@ -7,7 +7,8 @@ const menusSQL = importSQL(__dirname, 'sql/menus.sql')
 
 export const Query: QueryResolvers = {
   menus: async (_, __, { user }) => {
-    const { rows } = await pool.query(menusSQL)
+    const { rows } = await pool.query(await menusSQL)
+
     return rows.map((row) => menuORM(row))
   },
 }

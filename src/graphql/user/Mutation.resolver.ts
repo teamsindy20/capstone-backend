@@ -26,7 +26,7 @@ export const Mutation: MutationResolvers = {
       input.address,
     ]
 
-    const result = await pool.query(registerSQL, registerValues)
+    const result = await pool.query(await registerSQL, registerValues)
 
     return await generateJWT({ userId: result.rows[0] })
   },
@@ -34,7 +34,7 @@ export const Mutation: MutationResolvers = {
   unregister: async (_, __, { user }) => {
     if (!user) throw new AuthenticationError('User does not log in. Please log in first.')
 
-    await pool.query(unregisterSQL, [user.id])
+    await pool.query(await unregisterSQL, [user.id])
 
     return true
   },
@@ -42,7 +42,7 @@ export const Mutation: MutationResolvers = {
   login: async (_, { email, passwordHash }, { user }) => {
     if (user) throw new ForbiddenError('User already logged in. Please log out first.')
 
-    const { rowCount, rows } = await pool.query(loginSQL, [email])
+    const { rowCount, rows } = await pool.query(await loginSQL, [email])
 
     if (rowCount === 0) throw new AuthenticationError('Failed to log in. Please check your inputs.')
 

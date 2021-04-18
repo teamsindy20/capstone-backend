@@ -10,18 +10,18 @@ export const Menu: MenuResolvers = {
   favorite: async (_, __, { user }) => {
     if (!user) return false
 
-    const { rows } = await pool.query(menuFavoriteSQL, [user.id])
+    const { rows } = await pool.query(await menuFavoriteSQL, [user.id])
 
     return !!rows[0]
   },
 
   hashtags: async ({ id }) => {
-    const { rows } = await pool.query(menuHashtagSQL, [id])
+    const { rows } = await pool.query(await menuHashtagSQL, [id])
     return rows.map((row) => row.name)
   },
 
   imageUrls: async ({ id }) => {
-    const { rows } = await pool.query(menuImageUrlSQL, [id])
+    const { rows } = await pool.query(await menuImageUrlSQL, [id])
     return rows.map((row) => row.url)
   },
 }
