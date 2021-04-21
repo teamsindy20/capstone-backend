@@ -1,9 +1,5 @@
-select
-  id,
+SELECT id,
   password_hash_hash
-from
-  "user"
-where
-  email = $1
-  and is_unregistered = false;
-
+FROM "user"
+WHERE email = $1
+  AND is_unregistered = false;

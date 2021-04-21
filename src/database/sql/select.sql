@@ -1,9 +1,6 @@
-select
-  menu.id as menu_id,
-  hashtag.id as hashtag_id,
-  image_url.id as image_url_id
-from
-  menu,
+SELECT menu.id AS menu_id,
+  hashtag.id AS hashtag_id,
+  image_url.id AS image_url_id
+FROM menu,
   hashtag,
   image_url;
-

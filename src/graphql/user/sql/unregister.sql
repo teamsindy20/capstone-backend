@@ -1,13 +1,9 @@
-update
-  "user"
-set
-  modification_date = now(),
+UPDATE "user"
+SET modification_date = NOW(),
   point = 0,
-  is_unregistered = true,
+  is_unregistered = TRUE,
   password_hash_hash = '',
   image_url = '',
   name = '',
   phone_number = ''
-where
-  id = $1;
-
+WHERE id = $1;
