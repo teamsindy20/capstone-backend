@@ -32,4 +32,11 @@ type Mutation {
   인증 토큰과 같이 요청하면 로그아웃 성공 여부를 반환한다.
   """
   logout: Boolean!
+
+  """
+  사용자 배달 주소를 업데이트한다.
+  """
+  updateDeliveryAddress(input: String!): Boolean!
+
+  setPrimaryDeliveryAddress(deliveryAddress: String!): Boolean!
 }

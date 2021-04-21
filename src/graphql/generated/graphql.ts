@@ -19,6 +19,15 @@ export type Scalars = {
   URL: any
 }
 
+export type InsertMenuInput = {
+  __typename?: 'InsertMenuInput'
+  name: Scalars['String']
+  price: Scalars['Int']
+  category: Scalars['String']
+  imageUrls?: Maybe<Array<Scalars['String']>>
+  hashtags?: Maybe<Array<Scalars['String']>>
+}
+
 export type Menu = {
   __typename?: 'Menu'
   id: Scalars['ID']
@@ -56,23 +65,35 @@ export type Menu = {
 
 export type Mutation = {
   __typename?: 'Mutation'
-  /** 회원가입에 필요한 정보를 주면 성공했을 때 인증 토큰을 반환한다. */
-  register: Scalars['JWT']
-  /** 회원탈퇴 */
-  unregister: Scalars['Boolean']
+  createMenu: Scalars['Boolean']
   /** 이메일과 1번 해싱한 비밀번호를 전송하면 인증 토큰을 반환한다. */
   login: Scalars['JWT']
   /** 인증 토큰과 같이 요청하면 로그아웃 성공 여부를 반환한다. */
   logout: Scalars['Boolean']
+  /** 회원가입에 필요한 정보를 주면 성공했을 때 인증 토큰을 반환한다. */
+  register: Scalars['JWT']
+  setPrimaryDeliveryAddress: Scalars['Boolean']
+  /** 회원탈퇴 시 사용자 정보가 모두 초기화된다. */
+  unregister: Scalars['Boolean']
+  /** 사용자 배달 주소를 업데이트한다. */
+  updateDeliveryAddress: Scalars['Boolean']
+}
+
+export type MutationLoginArgs = {
+  email: Scalars['EmailAddress']
+  passwordHash: Scalars['String']
 }
 
 export type MutationRegisterArgs = {
   input: RegisterInput
 }
 
-export type MutationLoginArgs = {
-  email: Scalars['EmailAddress']
-  passwordHash: Scalars['String']
+export type MutationSetPrimaryDeliveryAddressArgs = {
+  deliveryAddress: Scalars['String']
+}
+
+export type MutationUpdateDeliveryAddressArgs = {
+  input: Scalars['String']
 }
 
 export type Order = {
@@ -270,11 +291,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>
+  InsertMenuInput: ResolverTypeWrapper<InsertMenuInput>
+  String: ResolverTypeWrapper<Scalars['String']>
+  Int: ResolverTypeWrapper<Scalars['Int']>
   JWT: ResolverTypeWrapper<Scalars['JWT']>
   Menu: ResolverTypeWrapper<Menu>
   ID: ResolverTypeWrapper<Scalars['ID']>
-  String: ResolverTypeWrapper<Scalars['String']>
-  Int: ResolverTypeWrapper<Scalars['Int']>
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
   Mutation: ResolverTypeWrapper<{}>
   Order: ResolverTypeWrapper<Order>
@@ -292,11 +314,12 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   DateTime: Scalars['DateTime']
   EmailAddress: Scalars['EmailAddress']
+  InsertMenuInput: InsertMenuInput
+  String: Scalars['String']
+  Int: Scalars['Int']
   JWT: Scalars['JWT']
   Menu: Menu
   ID: Scalars['ID']
-  String: Scalars['String']
-  Int: Scalars['Int']
   Boolean: Scalars['Boolean']
   Mutation: {}
   Order: Order
@@ -316,6 +339,18 @@ export interface DateTimeScalarConfig
 export interface EmailAddressScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes['EmailAddress'], any> {
   name: 'EmailAddress'
+}
+
+export type InsertMenuInputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['InsertMenuInput'] = ResolversParentTypes['InsertMenuInput']
+> = {
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  category?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  imageUrls?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
+  hashtags?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export interface JwtScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JWT'], any> {
@@ -363,13 +398,7 @@ export type MutationResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = {
-  register?: Resolver<
-    ResolversTypes['JWT'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationRegisterArgs, 'input'>
-  >
-  unregister?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+  createMenu?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   login?: Resolver<
     ResolversTypes['JWT'],
     ParentType,
@@ -377,6 +406,25 @@ export type MutationResolvers<
     RequireFields<MutationLoginArgs, 'email' | 'passwordHash'>
   >
   logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+  register?: Resolver<
+    ResolversTypes['JWT'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationRegisterArgs, 'input'>
+  >
+  setPrimaryDeliveryAddress?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationSetPrimaryDeliveryAddressArgs, 'deliveryAddress'>
+  >
+  unregister?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+  updateDeliveryAddress?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateDeliveryAddressArgs, 'input'>
+  >
 }
 
 export type OrderResolvers<
@@ -474,6 +522,7 @@ export type UserResolvers<
 export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType
   EmailAddress?: GraphQLScalarType
+  InsertMenuInput?: InsertMenuInputResolvers<ContextType>
   JWT?: GraphQLScalarType
   Menu?: MenuResolvers<ContextType>
   Mutation?: MutationResolvers<ContextType>

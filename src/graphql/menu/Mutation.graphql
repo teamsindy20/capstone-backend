@@ -1,0 +1,12 @@
+type InsertMenuInput {
+  name: String!
+  price: Int!
+  category: String!
+
+  imageUrls: [String!]
+  hashtags: [String!]
+}
+
+type Mutation {
+  createMenu: Boolean!
+}
