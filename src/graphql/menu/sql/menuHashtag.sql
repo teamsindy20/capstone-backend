@@ -1,6 +1,4 @@
-select
-  hashtag.name
-from
-  menu
-  join menu_x_hashtag on menu_x_hashtag.menu_id = $1
-  join hashtag on menu_x_hashtag.hashtag_id = hashtag.id
+SELECT hashtag.name
+FROM menu
+  JOIN menu_x_hashtag ON menu_x_hashtag.menu_id = $1
+  JOIN hashtag ON menu_x_hashtag.hashtag_id = hashtag.id

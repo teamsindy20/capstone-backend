@@ -1,1 +1,1 @@
-call insert_menu($1, $2, $3, $4, $5);
+SELECT insert_menu ($1, $2, $3, $4, $5, $6);
