@@ -28,6 +28,7 @@ type Menu {
   canBeReserved: Boolean!
 
   # nullable
+  imageUrls: [URL!]
 
   # from other table
   """
@@ -35,5 +36,4 @@ type Menu {
   """
   favorite: Boolean!
   hashtags: [String!]
-  imageUrls: [URL!]
 }

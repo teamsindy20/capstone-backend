@@ -4,6 +4,7 @@ input MenuCreationInput {
   category: String!
   storeId: ID!
 
+  # nullable
   imageUrls: [String!]
   hashtags: [String!]
 }

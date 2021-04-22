@@ -38,5 +38,5 @@ type Mutation {
   """
   updateDeliveryAddress(input: String!): Boolean!
 
-  setPrimaryDeliveryAddress(deliveryAddress: String!): Boolean!
+  updatePrimaryDeliveryAddress(deliveryAddress: String!): Boolean!
 }
