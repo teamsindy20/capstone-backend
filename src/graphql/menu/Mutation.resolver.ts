@@ -5,15 +5,18 @@ import { MutationResolvers } from '../generated/graphql'
 const createMenuSQL = importSQL(__dirname, 'sql/createMenu.sql')
 
 export const Mutation: MutationResolvers = {
-  createMenu: async (_, __, { user }) => {
+  createMenu: async (_, { input }, { user }) => {
+    // if user.role !== store throw new AuthenticationError('매장 사장님만 메뉴를 만들 수 있다.')
+
     const { rows } = await pool.query(await createMenuSQL, [
-      'name',
-      123,
-      'category',
-      ['url1', 'url2'],
-      ['#1', '#2'],
+      input.name,
+      input.price,
+      input.category,
+      input.storeId,
+      input.imageUrls,
+      input.hashtags,
     ])
 
-    return true
+    return rows[0].insert_menu
   },
 }

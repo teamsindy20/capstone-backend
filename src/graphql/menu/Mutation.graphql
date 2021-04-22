@@ -1,12 +1,13 @@
-type InsertMenuInput {
+input MenuCreationInput {
   name: String!
   price: Int!
   category: String!
+  storeId: ID!
 
   imageUrls: [String!]
   hashtags: [String!]
 }
 
 type Mutation {
-  createMenu: Boolean!
+  createMenu(input: MenuCreationInput!): ID!
 }
