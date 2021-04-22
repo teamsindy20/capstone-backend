@@ -1,0 +1,7 @@
+input StoreCreationInput {
+  
+}
+
+type Mutation {
+  createStore(input: StoreCreationInput!): ID!
+}

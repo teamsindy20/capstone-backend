@@ -22,6 +22,8 @@ type Store {
   regularCustomerEventContent: String
   deliveryTimeMin: Int
   deliveryTimeMax: Int
+  imageUrls: [URL!]
 
   # from other table
+  hashtags: [String!]
 }

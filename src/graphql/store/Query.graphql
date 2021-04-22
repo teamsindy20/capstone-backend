@@ -1,0 +1,10 @@
+type Query {
+  """
+  매장 목록을 반환한다.
+  """
+  stores: [Store!]
+  """
+  특정 매장을 반환한다.
+  """
+  store(id: ID!): Store
+}
