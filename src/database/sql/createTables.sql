@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS "user" CASCADE;
 
 CREATE TABLE "user" (
-  id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   point int NOT NULL DEFAULT 0,
@@ -21,7 +21,7 @@ CREATE TABLE "user" (
 DROP TABLE IF EXISTS store CASCADE;
 
 CREATE TABLE store (
-  id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   delivery_fee int NOT NULL DEFAULT 0,
@@ -50,7 +50,7 @@ CREATE TABLE store (
 DROP TABLE IF EXISTS menu CASCADE;
 
 CREATE TABLE menu (
-  id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   delicious_review_count int NOT NULL DEFAULT 0,
@@ -79,7 +79,7 @@ CREATE TABLE menu (
 DROP TABLE IF EXISTS "order" CASCADE;
 
 CREATE TABLE "order" (
-  id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   order_status varchar(16) NOT NULL DEFAULT '접수 대기',
@@ -93,7 +93,7 @@ CREATE TABLE "order" (
 DROP TABLE IF EXISTS review CASCADE;
 
 CREATE TABLE review (
-  id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   helping_others_count int NOT NULL DEFAULT 0,
@@ -112,7 +112,7 @@ CREATE TABLE review (
 DROP TABLE IF EXISTS post CASCADE;
 
 CREATE TABLE post (
-  id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   like_count int NOT NULL DEFAULT 0,
@@ -128,7 +128,7 @@ CREATE TABLE post (
 DROP TABLE IF EXISTS hashtag CASCADE;
 
 CREATE TABLE hashtag (
-  id int PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
@@ -138,8 +138,8 @@ CREATE TABLE hashtag (
 DROP TABLE IF EXISTS user_x_favorite_store;
 
 CREATE TABLE user_x_favorite_store (
-  user_id int REFERENCES "user" ON DELETE CASCADE,
-  store_id int REFERENCES store ON DELETE CASCADE,
+  user_id bigint REFERENCES "user" ON DELETE CASCADE,
+  store_id bigint REFERENCES store ON DELETE CASCADE,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
@@ -149,8 +149,8 @@ CREATE TABLE user_x_favorite_store (
 DROP TABLE IF EXISTS user_x_regular_store;
 
 CREATE TABLE user_x_regular_store (
-  user_id int REFERENCES "user" ON DELETE CASCADE,
-  store_id int REFERENCES store ON DELETE CASCADE,
+  user_id bigint REFERENCES "user" ON DELETE CASCADE,
+  store_id bigint REFERENCES store ON DELETE CASCADE,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
@@ -165,8 +165,8 @@ CREATE TABLE user_x_regular_store (
 DROP TABLE IF EXISTS user_x_favorite_menu;
 
 CREATE TABLE user_x_favorite_menu (
-  user_id int REFERENCES "user" ON DELETE CASCADE,
-  menu_id int REFERENCES menu ON DELETE CASCADE,
+  user_id bigint REFERENCES "user" ON DELETE CASCADE,
+  menu_id bigint REFERENCES menu ON DELETE CASCADE,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
@@ -176,8 +176,8 @@ CREATE TABLE user_x_favorite_menu (
 DROP TABLE IF EXISTS user_x_hashtag;
 
 CREATE TABLE user_x_hashtag (
-  user_id int REFERENCES "user" ON DELETE CASCADE,
-  hashtag_id int REFERENCES hashtag ON DELETE CASCADE,
+  user_id bigint REFERENCES "user" ON DELETE CASCADE,
+  hashtag_id bigint REFERENCES hashtag ON DELETE CASCADE,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
@@ -187,8 +187,8 @@ CREATE TABLE user_x_hashtag (
 DROP TABLE IF EXISTS store_x_hashtag;
 
 CREATE TABLE store_x_hashtag (
-  store_id int REFERENCES store ON DELETE CASCADE,
-  hashtag_id int REFERENCES hashtag ON DELETE CASCADE,
+  store_id bigint REFERENCES store ON DELETE CASCADE,
+  hashtag_id bigint REFERENCES hashtag ON DELETE CASCADE,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
@@ -198,8 +198,8 @@ CREATE TABLE store_x_hashtag (
 DROP TABLE IF EXISTS menu_x_review;
 
 CREATE TABLE menu_x_review (
-  menu_id int REFERENCES menu ON DELETE CASCADE,
-  review_id int REFERENCES review ON DELETE CASCADE,
+  menu_id bigint REFERENCES menu ON DELETE CASCADE,
+  review_id bigint REFERENCES review ON DELETE CASCADE,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
@@ -209,8 +209,8 @@ CREATE TABLE menu_x_review (
 DROP TABLE IF EXISTS menu_x_hashtag;
 
 CREATE TABLE menu_x_hashtag (
-  menu_id int REFERENCES menu,
-  hashtag_id int REFERENCES hashtag,
+  menu_id bigint REFERENCES menu,
+  hashtag_id bigint REFERENCES hashtag,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
@@ -220,8 +220,8 @@ CREATE TABLE menu_x_hashtag (
 DROP TABLE IF EXISTS menu_x_order;
 
 CREATE TABLE menu_x_order (
-  menu_id int REFERENCES menu,
-  order_id int REFERENCES "order",
+  menu_id bigint REFERENCES menu,
+  order_id bigint REFERENCES "order",
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
@@ -231,8 +231,8 @@ CREATE TABLE menu_x_order (
 DROP TABLE IF EXISTS review_x_hashtag;
 
 CREATE TABLE review_x_hashtag (
-  review_id int REFERENCES review,
-  hashtag_id int REFERENCES hashtag,
+  review_id bigint REFERENCES review,
+  hashtag_id bigint REFERENCES hashtag,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
@@ -242,8 +242,8 @@ CREATE TABLE review_x_hashtag (
 DROP TABLE IF EXISTS post_x_hashtag;
 
 CREATE TABLE post_x_hashtag (
-  post_id int REFERENCES post,
-  hashtag_id int REFERENCES hashtag,
+  post_id bigint REFERENCES post,
+  hashtag_id bigint REFERENCES hashtag,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --

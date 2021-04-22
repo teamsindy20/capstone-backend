@@ -7,8 +7,8 @@ CREATE OR REPLACE FUNCTION insert_store (
     delivery_time_max int DEFAULT NULL,
     image_urls text [] DEFAULT NULL,
     hashtags text [] DEFAULT NULL,
-    out inserted_store_id int
-  ) RETURNS int language SQL AS $$ BEGIN WITH inserted_store AS (
+    out inserted_store_id bigint
+  ) language SQL AS $$ WITH inserted_store AS (
     INSERT INTO store (
         name,
         address,
@@ -41,15 +41,18 @@ CREATE OR REPLACE FUNCTION insert_store (
     SELECT hashtag.id
     FROM hashtag_input
       JOIN hashtag USING (name)
+  ),
+  inserted_store_x_hashtag AS (
+    INSERT INTO store_x_hashtag (store_id, hashtag_id)
+    SELECT inserted_store.id,
+      store_hashtag.id
+    FROM inserted_store,
+      store_hashtag
   )
-INSERT INTO store_x_hashtag (store_id, hashtag_id)
-SELECT inserted_store.id,
-  store_hashtag.id
-FROM inserted_store,
-  store_hashtag
-RETURNING store_id;
+SELECT id
+FROM inserted_store;
 
-COMMIT $$;
+$$;
 
 DROP FUNCTION IF EXISTS insert_menu;
 
@@ -57,11 +60,11 @@ CREATE OR REPLACE FUNCTION insert_menu (
     name text,
     price int,
     category text,
-    store_id int,
+    store_id bigint,
     image_urls text [] DEFAULT NULL,
     hashtags text [] DEFAULT NULL,
-    out inserted_menu_id int
-  ) language SQL AS $$ BEGIN WITH inserted_menu AS (
+    out inserted_menu_id bigint
+  ) language SQL AS $$ WITH inserted_menu AS (
     INSERT INTO menu (name, price, category, store_id, image_urls)
     VALUES (
         name,
@@ -88,25 +91,28 @@ CREATE OR REPLACE FUNCTION insert_menu (
     SELECT hashtag.id
     FROM hashtag_input
       JOIN hashtag USING (name)
+  ),
+  inserted_menu_x_hashtag AS (
+    INSERT INTO menu_x_hashtag (menu_id, hashtag_id)
+    SELECT inserted_menu.id,
+      menu_hashtag.id
+    FROM inserted_menu,
+      menu_hashtag
   )
-INSERT INTO menu_x_hashtag (menu_id, hashtag_id)
-SELECT inserted_menu.id,
-  menu_hashtag.id
-FROM inserted_menu,
-  menu_hashtag
-RETURNING menu_id;
+SELECT id
+FROM inserted_menu;
 
-COMMIT $$;
+$$;
 
 DROP FUNCTION IF EXISTS insert_post;
 
 CREATE OR REPLACE FUNCTION insert_post (
     content text,
-    store_id int,
+    store_id bigint,
     image_urls text [] DEFAULT NULL,
     hashtags text [] DEFAULT NULL,
-    out inserted_post_id int
-  ) language SQL AS $$ BEGIN WITH inserted_post AS (
+    out inserted_post_id bigint
+  ) language SQL AS $$ WITH inserted_post AS (
     INSERT INTO post (
         content,
         store_id,
@@ -131,12 +137,15 @@ CREATE OR REPLACE FUNCTION insert_post (
     SELECT hashtag.id
     FROM hashtag_input
       JOIN hashtag USING (name)
+  ),
+  inserted_post_x_hashtag AS (
+    INSERT INTO post_x_hashtag (post_id, hashtag_id)
+    SELECT inserted_post.id,
+      post_hashtag.id
+    FROM inserted_post,
+      post_hashtag
   )
-INSERT INTO post_x_hashtag (post_id, hashtag_id)
-SELECT inserted_post.id,
-  post_hashtag.id
-FROM inserted_post,
-  post_hashtag
-RETURNING post_id;
+SELECT id
+FROM inserted_post;
 
-COMMIT $$;
+$$;
