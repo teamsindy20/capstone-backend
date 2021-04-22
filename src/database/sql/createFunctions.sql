@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS insert_store;
+DROP FUNCTION IF EXISTS create_store;
 
-CREATE OR REPLACE FUNCTION insert_store (
+CREATE OR REPLACE FUNCTION create_store (
     name text,
     address text,
     delivery_time_min int DEFAULT NULL,
@@ -54,9 +54,9 @@ FROM inserted_store;
 
 $$;
 
-DROP FUNCTION IF EXISTS insert_menu;
+DROP FUNCTION IF EXISTS create_menu;
 
-CREATE OR REPLACE FUNCTION insert_menu (
+CREATE OR REPLACE FUNCTION create_menu (
     name text,
     price int,
     category text,
@@ -104,9 +104,9 @@ FROM inserted_menu;
 
 $$;
 
-DROP FUNCTION IF EXISTS insert_post;
+DROP FUNCTION IF EXISTS create_post;
 
-CREATE OR REPLACE FUNCTION insert_post (
+CREATE OR REPLACE FUNCTION create_post (
     content text,
     store_id bigint,
     image_urls text [] DEFAULT NULL,

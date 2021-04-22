@@ -1,4 +1,4 @@
-SELECT insert_store (
+SELECT create_store (
     '스노우플라워',
     '동작구 흑석동',
     10,
@@ -7,7 +7,7 @@ SELECT insert_store (
     ARRAY ['#얼죽이', '#팥빙수맛집']
   );
 
-SELECT insert_store (
+SELECT create_store (
     '프랑세즈',
     '동작구 흑석동',
     10,
@@ -16,7 +16,7 @@ SELECT insert_store (
     ARRAY ['#빵돌이빵순이', '#달달한케이크']
   );
 
-SELECT insert_store (
+SELECT create_store (
     '스타벅스',
     '동작구 흑석동',
     10,
@@ -25,7 +25,7 @@ SELECT insert_store (
     ARRAY ['#무난', '#인테리어']
   );
 
-SELECT insert_store (
+SELECT create_store (
     '디저트정',
     '동작구 흑석동',
     10,
@@ -34,7 +34,7 @@ SELECT insert_store (
     ARRAY ['#갓성비', '#마카마카']
   );
 
-SELECT insert_store (
+SELECT create_store (
     '콜렉티보',
     '영등포구 영등포동 타임스퀘어',
     10,
@@ -43,7 +43,7 @@ SELECT insert_store (
     ARRAY ['#다양', '#개성']
   );
 
-SELECT insert_store (
+SELECT create_store (
     '마얘',
     '영등포구 여의동 더현대',
     10,
@@ -52,7 +52,7 @@ SELECT insert_store (
     ARRAY ['#디저트천국', '#신규오픈']
   );
 
-SELECT insert_store (
+SELECT create_store (
     '나미네양과점',
     '영등포구 문래동',
     10,
@@ -61,7 +61,7 @@ SELECT insert_store (
     ARRAY ['#마카롱맛집', '#문래동디저트맛집', '#뚱카롱', '#존맛', '#달달']
   );
 
-SELECT insert_store (
+SELECT create_store (
     '브릿지엣지',
     '동작구 상도동',
     10,
@@ -70,7 +70,7 @@ SELECT insert_store (
     ARRAY ['#스콘맛집', '#브릿지엣지', '#공정무역커피', '#수제스콘', '#스콘']
   );
 
-SELECT insert_store (
+SELECT create_store (
     '플디',
     '압구정동 압구정로',
     10,
@@ -79,7 +79,7 @@ SELECT insert_store (
     ARRAY ['#디저트맛집', '#plate_d', '#딸기케이크', '#압구정', '#플디']
   );
 
-SELECT insert_menu (
+SELECT create_menu (
     '팥빙수',
     5900,
     '아이스크림',
@@ -88,7 +88,7 @@ SELECT insert_menu (
     ARRAY ['#달달', '#비건', '#다이어트']
   );
 
-SELECT insert_menu (
+SELECT create_menu (
     '메리딸기',
     6500,
     '음료',
@@ -97,7 +97,7 @@ SELECT insert_menu (
     ARRAY ['#달달', '#딸기', '#라떼']
   );
 
-SELECT insert_menu (
+SELECT create_menu (
     '나이트로 콜드 브루 톨',
     5800,
     '음료',
@@ -106,7 +106,7 @@ SELECT insert_menu (
     ARRAY ['#거품', '#콜드브루', '#부드러운']
   );
 
-SELECT insert_menu (
+SELECT create_menu (
     '제주 한라봉 뺑오쇼콜라',
     5800,
     '빵',
@@ -115,7 +115,7 @@ SELECT insert_menu (
     ARRAY ['#한라봉필', '#초코스틱', '#패스츄리']
   );
 
-SELECT insert_menu (
+SELECT create_menu (
     '슈크림 라떼',
     3000,
     '커피',
@@ -124,7 +124,7 @@ SELECT insert_menu (
     ARRAY ['#슈크림', '#달달', '#봄음료', '#달콤']
   );
 
-SELECT insert_menu (
+SELECT create_menu (
     '춘천 감자빵',
     3000,
     '빵',
@@ -133,7 +133,7 @@ SELECT insert_menu (
     ARRAY ['#춘천', '#감자빵', '#고소']
   );
 
-SELECT insert_menu (
+SELECT create_menu (
     '바질 크림치즈 쌀스콘',
     3500,
     '빵',
@@ -142,7 +142,7 @@ SELECT insert_menu (
     ARRAY ['#바질', '#크림치즈', '#쌀', '#스콘', '#건강']
   );
 
-SELECT insert_menu (
+SELECT create_menu (
     '뽀또 스콘',
     4500,
     '빵',
@@ -151,7 +151,7 @@ SELECT insert_menu (
     ARRAY ['#뽀또', '#개성', '#치즈']
   );
 
-SELECT insert_menu (
+SELECT create_menu (
     '밀푀유 바니',
     9500,
     '빵',
@@ -160,14 +160,14 @@ SELECT insert_menu (
     ARRAY ['#마얘', '#정통프렌치디저트', '#바닐라크림', '#패스츄리', '#고소', '#달달']
   );
 
-SELECT insert_post (
+SELECT create_post (
     '오늘은 다음 주 준비 중인 온라인 행사를 위한 외부 촬영으로, 흑석동 오프라인 스토어는 운영하지 않습니다. 멋진 공간에서 촬영 중입니다. #결과물이 #두근두근 💛🤓💛',
     2,
     ARRAY ['https://post-phinf.pstatic.net/MjAxNzAzMDJfMzIg/MDAxNDg4NDQwNzg5NjQz.PjCwCa-LsK0JhSj-YWuoMMQlhxNfOg5_fgzyCYHCPysg.aTQVrQ5QFduqEfsKc8BCh0CblDOf_vfezzM-dp7Qo3Ig.JPEG/image_4562399321488440004463.jpg?type=w1200'],
     ARRAY ['#결과물이', '#두근두근']
   );
 
-SELECT insert_post (
+SELECT create_post (
     '첫번째 줄 \n두번째 줄 \n세번째 줄 \n\n',
     2,
     ARRAY ['https://post-phinf.pstatic.net/MjAxNzAzMDJfMzIg/MDAxNDg4NDQwNzg5NjQz.PjCwCa-LsK0JhSj-YWuoMMQlhxNfOg5_fgzyCYHCPysg.aTQVrQ5QFduqEfsKc8BCh0CblDOf_vfezzM-dp7Qo3Ig.JPEG/image_4562399321488440004463.jpg?type=w1200'],

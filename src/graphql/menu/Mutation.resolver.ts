@@ -6,7 +6,7 @@ const createMenuSQL = importSQL(__dirname, 'sql/createMenu.sql')
 
 export const Mutation: MutationResolvers = {
   createMenu: async (_, { input }, { user }) => {
-    // if user.role !== store throw new AuthenticationError('매장 사장님만 메뉴를 만들 수 있다.')
+    // if (user.role !== store) throw new AuthenticationError('매장 사장님만 메뉴를 만들 수 있습니다.')
 
     const { rows } = await pool.query(await createMenuSQL, [
       input.name,
@@ -17,6 +17,6 @@ export const Mutation: MutationResolvers = {
       input.hashtags,
     ])
 
-    return rows[0].insert_menu
+    return rows[0].create_menu
   },
 }

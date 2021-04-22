@@ -1,1 +1,1 @@
-SELECT insert_menu ($1, $2, $3, $4, $5, $6);
+SELECT create_menu ($1, $2, $3, $4, $5, $6);
