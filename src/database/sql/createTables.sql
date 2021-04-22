@@ -238,3 +238,14 @@ CREATE TABLE review_x_hashtag (
   --
   PRIMARY KEY (review_id, hashtag_id)
 );
+
+DROP TABLE IF EXISTS post_x_hashtag;
+
+CREATE TABLE post_x_hashtag (
+  post_id int REFERENCES post,
+  hashtag_id int REFERENCES hashtag,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  PRIMARY KEY (post_id, hashtag_id)
+);
