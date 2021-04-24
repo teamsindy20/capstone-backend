@@ -17,12 +17,13 @@ export const Menu: MenuResolvers = {
 
   hashtags: async ({ id }) => {
     const { rows } = await pool.query(await menuHashtagSQL, [id])
+
     return rows.map((row) => row.name)
   },
 
   store: async ({ storeId }) => {
     const { rows } = await pool.query(await menuStoreSQL, [storeId])
-    console.log(rows[0])
+
     return rows[0]
   },
 }

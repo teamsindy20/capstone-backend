@@ -1,6 +1,6 @@
 import { ApolloServer } from 'apollo-server'
 import schema from '../graphql/schema'
-import { userORM } from '../graphql/user/orm'
+import { userORM } from '../graphql/user/ORM'
 import { pool } from '../database/postgres'
 import { verifyJWT } from '../utils/jwt'
 
