@@ -1,4 +1,4 @@
-import { menu } from '../menu/ORM1'
+import { menu } from '../menu/ORM'
 
 export const store: any = {
   id: '0',

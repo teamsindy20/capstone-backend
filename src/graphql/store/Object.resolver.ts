@@ -1,7 +1,7 @@
 import { StoreResolvers } from 'src/graphql/generated/graphql'
 import { importSQL } from '../../utils/commons'
 import { pool } from '../../database/postgres'
-import { menuORM } from '../menu/ORM1'
+import { menuORM } from '../menu/ORM'
 
 const storeMenuSQL = importSQL(__dirname, 'sql/storeMenu.sql')
 const storeHashtagSQL = importSQL(__dirname, 'sql/storeHashtag.sql')
