@@ -1,5 +1,13 @@
 input StoreCreationInput {
-  
+  name: String!
+  address: String!
+
+  # nullable
+  reviewEventContent: String
+  regularCustomerEventContent: String
+  deliveryTimeMin: Int
+  deliveryTimeMax: Int
+  imageUrls: [String!]
 }
 
 type Mutation {
