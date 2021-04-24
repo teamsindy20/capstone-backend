@@ -1,5 +1,5 @@
 import { PostResolvers } from 'src/graphql/generated/graphql'
-import { importSQL } from 'src/utils/commons'
+import { importSQL } from '../../utils/commons'
 import { pool } from '../../database/postgres'
 
 const postStoreSQL = importSQL(__dirname, 'sql/postStore.sql')
