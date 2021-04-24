@@ -2,17 +2,21 @@ import { pool } from '../../database/postgres'
 import { importSQL } from '../../utils/commons'
 import { MutationResolvers } from '../generated/graphql'
 
-const createPostSQL = importSQL(__dirname, 'sql/createPost.sql')
+const createStoreSQL = importSQL(__dirname, 'sql/createStore.sql')
 
 export const Mutation: MutationResolvers = {
-  createPost: async (_, { input }, { user }) => {
-    const { rows } = await pool.query(await createPostSQL, [
-      input.content,
-      input.storeId,
+  createStore: async (_, { input }, { user }) => {
+    const { rows } = await pool.query(await createStoreSQL, [
+      input.name,
+      input.address,
+      input.reviewEventContent,
+      input.regularCustomerEventContent,
+      input.deliveryTimeMin,
+      input.deliveryTimeMax,
       input.imageUrls,
       input.hashtags,
     ])
 
-    return true
+    return rows[0].create_store
   },
 }

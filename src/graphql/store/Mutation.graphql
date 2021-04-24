@@ -8,6 +8,7 @@ input StoreCreationInput {
   deliveryTimeMin: Int
   deliveryTimeMax: Int
   imageUrls: [String!]
+  hashtags: [NonEmptyString!]
 }
 
 type Mutation {

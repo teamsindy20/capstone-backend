@@ -25,5 +25,8 @@ type Store {
   imageUrls: [URL!]
 
   # from other table
-  hashtags: [String!]
+  menus: [Menu!]!
+
+  # from other table - nullable
+  hashtags: [NonEmptyString!]
 }

@@ -1,1 +1,1 @@
-SELECT create_store($1, $2, $3, $4, $5, $6);
+SELECT create_store($1, $2, $3, $4, $5, $6, $7, $8);

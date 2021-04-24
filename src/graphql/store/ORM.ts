@@ -1,4 +1,6 @@
-export const store = {
+import { menu } from '../menu/ORM'
+
+export const store: any = {
   id: '0',
   creationDate: '',
   modificationDate: '',
@@ -16,6 +18,7 @@ export const store = {
   favoriteCount: 0,
   clickCount: 0,
   postCount: 0,
+  menus: [menu],
 }
 
 export function storeORM(store: any) {
@@ -37,5 +40,6 @@ export function storeORM(store: any) {
     favoriteCount: store.favorite_count,
     clickCount: store.click_count,
     postCount: store.post_count,
+    menus: [menu],
   }
 }

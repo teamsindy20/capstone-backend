@@ -1,14 +1,21 @@
 import { QueryResolvers } from 'src/graphql/generated/graphql'
 import { importSQL } from '../../utils/commons'
 import { pool } from '../../database/postgres'
-import { storeORM } from './orm'
+import { storeORM } from './ORM'
 
 const storesSQL = importSQL(__dirname, 'sql/stores.sql')
+const storeSQL = importSQL(__dirname, 'sql/store.sql')
 
 export const Query: QueryResolvers = {
-  posts: async (_, { storeId }) => {
-    const { rows } = await pool.query(await storesSQL, [storeId])
+  stores: async () => {
+    const { rows } = await pool.query(await storesSQL)
 
     return rows.map((row) => storeORM(row))
+  },
+
+  store: async (_, { id }) => {
+    const { rows } = await pool.query(await storeSQL, [id])
+
+    return storeORM(rows[0])
   },
 }
