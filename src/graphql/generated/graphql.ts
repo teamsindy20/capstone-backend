@@ -49,7 +49,7 @@ export type Menu = {
   isDiscounted: Scalars['Boolean']
   canBePicked: Scalars['Boolean']
   canBeReserved: Scalars['Boolean']
-  storeId: Scalars['Int']
+  storeId: Scalars['ID']
   imageUrls?: Maybe<Array<Scalars['URL']>>
   /** 로그인 상태일 때 요청하면 사용자가 해당 메뉴를 찜한 여부를 반환한다. */
   favorite: Scalars['Boolean']
@@ -140,6 +140,7 @@ export type Post = {
   likeCount: Scalars['Int']
   commentCount: Scalars['Int']
   content: Array<Scalars['String']>
+  storeId: Scalars['ID']
   imageUrls?: Maybe<Array<Scalars['URL']>>
   store: Store
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
@@ -457,7 +458,7 @@ export type MenuResolvers<
   isDiscounted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   canBePicked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   canBeReserved?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
-  storeId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
   favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
@@ -545,6 +546,7 @@ export type PostResolvers<
   likeCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   commentCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   content?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>
+  storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
   hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
