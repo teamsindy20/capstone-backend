@@ -3,6 +3,8 @@ DROP FUNCTION IF EXISTS create_store;
 CREATE OR REPLACE FUNCTION create_store (
     name text,
     address text,
+    review_event_content text DEFAULT NULL,
+    regular_customer_event_content text DEFAULT NULL,
     delivery_time_min int DEFAULT NULL,
     delivery_time_max int DEFAULT NULL,
     image_urls text [] DEFAULT NULL,
@@ -12,6 +14,8 @@ CREATE OR REPLACE FUNCTION create_store (
     INSERT INTO store (
         name,
         address,
+        review_event_content,
+        regular_customer_event_content,
         delivery_time_min,
         delivery_time_max,
         image_urls
@@ -19,6 +23,8 @@ CREATE OR REPLACE FUNCTION create_store (
     VALUES (
         name,
         address,
+        review_event_content,
+        regular_customer_event_content,
         delivery_time_min,
         delivery_time_max,
         image_urls

@@ -1,6 +1,8 @@
 SELECT create_store (
     '스노우플라워',
     '동작구 흑석동',
+    '',
+    '',
     10,
     19,
     ARRAY ['https://mp-seoul-image-production-s3.mangoplate.com/879146_1528178423311716.jpg?fit=around|512:512&crop=512:512;*,*&output-format=jpg&output-quality=80'],
@@ -10,6 +12,8 @@ SELECT create_store (
 SELECT create_store (
     '프랑세즈',
     '동작구 흑석동',
+    '',
+    '',
     10,
     19,
     ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA4MDlfNCAg/MDAxNTk2OTQ5Njc3OTc3.3zFvcpUO_CcP09zL4yRd6GRP2V0sgyFjkMNgVHlwinsg.yaEiCjPejdDhbjze1TG-WREiO6zXugTQj4F4YCuWBREg.JPEG.jwani84/1596949677506.jpg?type=w800'],
@@ -19,6 +23,8 @@ SELECT create_store (
 SELECT create_store (
     '스타벅스',
     '동작구 흑석동',
+    '',
+    '',
     10,
     19,
     ARRAY ['https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png'],
@@ -28,6 +34,8 @@ SELECT create_store (
 SELECT create_store (
     '디저트정',
     '동작구 흑석동',
+    '',
+    '',
     10,
     19,
     ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
@@ -37,6 +45,8 @@ SELECT create_store (
 SELECT create_store (
     '콜렉티보',
     '영등포구 영등포동 타임스퀘어',
+    '',
+    '',
     10,
     19,
     ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMTAzMDdfMjU3/MDAxNjE1MDQ0OTQwMDkz.mF-dURiMV6Pdo11mPU5v_D8C4NSHjnOM4VXH5dOe_X8g.6Atvg8SW7qUMr1Sqcadr0yPAzVQZ73xcjhylNSE_OsQg.JPEG.artforlove/SE-e19bde1b-e94c-49a3-af7a-e063cf4f157c.jpg?type=w800'],
@@ -46,6 +56,8 @@ SELECT create_store (
 SELECT create_store (
     '마얘',
     '영등포구 여의동 더현대',
+    '',
+    '',
     10,
     19,
     ARRAY ['https://post-phinf.pstatic.net/MjAyMTAzMDlfNDMg/MDAxNjE1MjcwOTEzMDkx.iKy7VXccfQrXFJ9xcLZfYFD0uRVmKGXBNG2mnVZIoi8g.bncAOnbR4jmo9vf2kYJUuyDE5yobf0IBJK06HJ38g8gg.JPEG/seoultravel_1565899068128458059680254575519669482261410n.jpg?type=w1200'],
@@ -55,6 +67,8 @@ SELECT create_store (
 SELECT create_store (
     '나미네양과점',
     '영등포구 문래동',
+    '',
+    '',
     10,
     19,
     ARRAY ['https://blogfiles.pstatic.net/MjAyMTA0MTBfMjMx/MDAxNjE4MDI4Mzk3OTI3.OLfRvBjTY62aZV3Lw2zndsPuEIAqXT8HyB4P5WZiT0Qg.g5o0ca3OIX5oYKOQ4QNZMeaIxu4yXB0SrdOofgMEX24g.JPEG.imina74/2021-03-31-13-08-06-268.jpg?type=w2'],
@@ -64,6 +78,8 @@ SELECT create_store (
 SELECT create_store (
     '브릿지엣지',
     '동작구 상도동',
+    '',
+    '',
     10,
     19,
     ARRAY ['https://postfiles.pstatic.net/MjAyMDAyMjNfMjA2/MDAxNTgyNDUxNTMwMTcz.I9I8KLwnx2moUXzkN5PFmS4FIx-psMhuP6Agv9ZC2hUg.B5CsQEIxY2aUAp5EZoQyOOeQIMtxivQxtGJaaw4Km4Qg.JPEG.lisagracie7762/SE-c61185a0-07e4-4ddb-bdb9-337af4449f7d.jpg?type=w966'],
@@ -73,6 +89,8 @@ SELECT create_store (
 SELECT create_store (
     '플디',
     '압구정동 압구정로',
+    '',
+    '',
     10,
     19,
     ARRAY ['https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTAyMTBfMTIz%2FMDAxNjEyOTMwNDQ2Mjk3.z59nOVeZvFpgma9c0S5zXRwilAvu5FGL8zlycCxFbhcg.bEbuGyY99Vgdf-_lW2UKCqJ8MebT1ATN1vKKVoUzbpog.JPEG.njkmj51%2FIMG_5104.jpg&type=sc960_832'],
