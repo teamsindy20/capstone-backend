@@ -102,7 +102,7 @@ SELECT create_menu (
     5900,
     '아이스크림',
     1,
-    ARRAY ['asdf'],
+    ARRAY ['https://cdn.crowdpic.net/list-thumb/thumb_l_F22044335599802DDF4A7ABF5778ACE5.jpg'],
     ARRAY ['#달달', '#비건', '#다이어트']
   );
 

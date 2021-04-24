@@ -16,16 +16,8 @@ export type Scalars = {
   DateTime: any
   EmailAddress: any
   JWT: any
+  NonEmptyString: any
   URL: any
-}
-
-export type InsertMenuInput = {
-  __typename?: 'InsertMenuInput'
-  name: Scalars['String']
-  price: Scalars['Int']
-  category: Scalars['String']
-  imageUrls?: Maybe<Array<Scalars['String']>>
-  hashtags?: Maybe<Array<Scalars['String']>>
 }
 
 export type Menu = {
@@ -57,26 +49,51 @@ export type Menu = {
   isDiscounted: Scalars['Boolean']
   canBePicked: Scalars['Boolean']
   canBeReserved: Scalars['Boolean']
+  storeId: Scalars['Int']
+  imageUrls?: Maybe<Array<Scalars['URL']>>
   /** 로그인 상태일 때 요청하면 사용자가 해당 메뉴를 찜한 여부를 반환한다. */
   favorite: Scalars['Boolean']
+  store: Store
   hashtags?: Maybe<Array<Scalars['String']>>
+}
+
+export type MenuCreationInput = {
+  name: Scalars['String']
+  price: Scalars['Int']
+  category: Scalars['String']
+  storeId: Scalars['ID']
   imageUrls?: Maybe<Array<Scalars['URL']>>
+  hashtags?: Maybe<Array<Scalars['String']>>
 }
 
 export type Mutation = {
   __typename?: 'Mutation'
-  createMenu: Scalars['Boolean']
+  createMenu: Scalars['ID']
+  createPost: Scalars['ID']
+  createStore: Scalars['ID']
   /** 이메일과 1번 해싱한 비밀번호를 전송하면 인증 토큰을 반환한다. */
   login: Scalars['JWT']
   /** 인증 토큰과 같이 요청하면 로그아웃 성공 여부를 반환한다. */
   logout: Scalars['Boolean']
   /** 회원가입에 필요한 정보를 주면 성공했을 때 인증 토큰을 반환한다. */
   register: Scalars['JWT']
-  setPrimaryDeliveryAddress: Scalars['Boolean']
   /** 회원탈퇴 시 사용자 정보가 모두 초기화된다. */
   unregister: Scalars['Boolean']
   /** 사용자 배달 주소를 업데이트한다. */
   updateDeliveryAddress: Scalars['Boolean']
+  updatePrimaryDeliveryAddress: Scalars['Boolean']
+}
+
+export type MutationCreateMenuArgs = {
+  input: MenuCreationInput
+}
+
+export type MutationCreatePostArgs = {
+  input: PostCreationInput
+}
+
+export type MutationCreateStoreArgs = {
+  input: StoreCreationInput
 }
 
 export type MutationLoginArgs = {
@@ -88,12 +105,12 @@ export type MutationRegisterArgs = {
   input: RegisterInput
 }
 
-export type MutationSetPrimaryDeliveryAddressArgs = {
-  deliveryAddress: Scalars['String']
-}
-
 export type MutationUpdateDeliveryAddressArgs = {
   input: Scalars['String']
+}
+
+export type MutationUpdatePrimaryDeliveryAddressArgs = {
+  deliveryAddress: Scalars['String']
 }
 
 export type Order = {
@@ -115,11 +132,53 @@ export enum OrderStatus {
   DeliveryCompletion = 'DELIVERY_COMPLETION',
 }
 
+export type Post = {
+  __typename?: 'Post'
+  id: Scalars['ID']
+  creationDate: Scalars['DateTime']
+  modificationDate: Scalars['DateTime']
+  likeCount: Scalars['Int']
+  commentCount: Scalars['Int']
+  content: Array<Scalars['String']>
+  imageUrls?: Maybe<Array<Scalars['URL']>>
+  store: Store
+  hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+}
+
+export type PostCreationInput = {
+  /** 글 내용 중에 줄 바꿈 1개 당 `\n`을 1개 사용한다. */
+  content: Scalars['String']
+  storeId: Scalars['ID']
+  imageUrls?: Maybe<Array<Scalars['URL']>>
+  hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+}
+
 export type Query = {
   __typename?: 'Query'
   /** 인증 토큰과 같이 요청하면 사용자 정보를 반환한다. */
   me: User
+  /** 로그인 시 사용자 맞춤 메뉴 목록을 반환한다. 비로그인 시 일반 메뉴 목록을 반환한다. */
   menus: Array<Menu>
+  /** 특정 글 정보를 반환한다. */
+  post?: Maybe<Post>
+  /** 특정 매장이 쓴 글을 반환한다. */
+  posts?: Maybe<Array<Post>>
+  /** 특정 매장을 반환한다. */
+  store?: Maybe<Store>
+  /** 매장 목록을 반환한다. */
+  stores?: Maybe<Array<Store>>
+}
+
+export type QueryPostArgs = {
+  id: Scalars['ID']
+}
+
+export type QueryPostsArgs = {
+  storeId: Scalars['ID']
+}
+
+export type QueryStoreArgs = {
+  id: Scalars['ID']
 }
 
 export enum Rating {
@@ -137,7 +196,7 @@ export type RegisterInput = {
   gender?: Maybe<Scalars['String']>
   birthDate?: Maybe<Scalars['DateTime']>
   address?: Maybe<Scalars['String']>
-  preference?: Maybe<Array<Scalars['String']>>
+  preference?: Maybe<Array<Scalars['NonEmptyString']>>
 }
 
 export type Review = {
@@ -174,6 +233,20 @@ export type Store = {
   regularCustomerEventContent?: Maybe<Scalars['String']>
   deliveryTimeMin?: Maybe<Scalars['Int']>
   deliveryTimeMax?: Maybe<Scalars['Int']>
+  imageUrls?: Maybe<Array<Scalars['URL']>>
+  menus: Array<Menu>
+  hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+}
+
+export type StoreCreationInput = {
+  name: Scalars['String']
+  address: Scalars['String']
+  reviewEventContent?: Maybe<Scalars['String']>
+  regularCustomerEventContent?: Maybe<Scalars['String']>
+  deliveryTimeMin?: Maybe<Scalars['Int']>
+  deliveryTimeMax?: Maybe<Scalars['Int']>
+  imageUrls?: Maybe<Array<Scalars['String']>>
+  hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
 }
 
 export type User = {
@@ -193,7 +266,7 @@ export type User = {
   favoriteStores?: Maybe<Array<Store>>
   regularStores?: Maybe<Array<Store>>
   orders?: Maybe<Array<Order>>
-  preference?: Maybe<Array<Scalars['String']>>
+  preference?: Maybe<Array<Scalars['NonEmptyString']>>
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -291,21 +364,25 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>
-  InsertMenuInput: ResolverTypeWrapper<InsertMenuInput>
-  String: ResolverTypeWrapper<Scalars['String']>
-  Int: ResolverTypeWrapper<Scalars['Int']>
   JWT: ResolverTypeWrapper<Scalars['JWT']>
   Menu: ResolverTypeWrapper<Menu>
   ID: ResolverTypeWrapper<Scalars['ID']>
+  String: ResolverTypeWrapper<Scalars['String']>
+  Int: ResolverTypeWrapper<Scalars['Int']>
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
+  MenuCreationInput: MenuCreationInput
   Mutation: ResolverTypeWrapper<{}>
+  NonEmptyString: ResolverTypeWrapper<Scalars['NonEmptyString']>
   Order: ResolverTypeWrapper<Order>
   OrderStatus: OrderStatus
+  Post: ResolverTypeWrapper<Post>
+  PostCreationInput: PostCreationInput
   Query: ResolverTypeWrapper<{}>
   Rating: Rating
   RegisterInput: RegisterInput
   Review: ResolverTypeWrapper<Review>
   Store: ResolverTypeWrapper<Store>
+  StoreCreationInput: StoreCreationInput
   URL: ResolverTypeWrapper<Scalars['URL']>
   User: ResolverTypeWrapper<User>
 }
@@ -314,19 +391,23 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   DateTime: Scalars['DateTime']
   EmailAddress: Scalars['EmailAddress']
-  InsertMenuInput: InsertMenuInput
-  String: Scalars['String']
-  Int: Scalars['Int']
   JWT: Scalars['JWT']
   Menu: Menu
   ID: Scalars['ID']
+  String: Scalars['String']
+  Int: Scalars['Int']
   Boolean: Scalars['Boolean']
+  MenuCreationInput: MenuCreationInput
   Mutation: {}
+  NonEmptyString: Scalars['NonEmptyString']
   Order: Order
+  Post: Post
+  PostCreationInput: PostCreationInput
   Query: {}
   RegisterInput: RegisterInput
   Review: Review
   Store: Store
+  StoreCreationInput: StoreCreationInput
   URL: Scalars['URL']
   User: User
 }
@@ -339,18 +420,6 @@ export interface DateTimeScalarConfig
 export interface EmailAddressScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes['EmailAddress'], any> {
   name: 'EmailAddress'
-}
-
-export type InsertMenuInputResolvers<
-  ContextType = any,
-  ParentType extends ResolversParentTypes['InsertMenuInput'] = ResolversParentTypes['InsertMenuInput']
-> = {
-  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  category?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  imageUrls?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
-  hashtags?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export interface JwtScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JWT'], any> {
@@ -388,9 +457,11 @@ export type MenuResolvers<
   isDiscounted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   canBePicked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   canBeReserved?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
-  favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
-  hashtags?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
+  storeId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
+  favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+  store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
+  hashtags?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -398,7 +469,24 @@ export type MutationResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = {
-  createMenu?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+  createMenu?: Resolver<
+    ResolversTypes['ID'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateMenuArgs, 'input'>
+  >
+  createPost?: Resolver<
+    ResolversTypes['ID'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreatePostArgs, 'input'>
+  >
+  createStore?: Resolver<
+    ResolversTypes['ID'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateStoreArgs, 'input'>
+  >
   login?: Resolver<
     ResolversTypes['JWT'],
     ParentType,
@@ -412,12 +500,6 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationRegisterArgs, 'input'>
   >
-  setPrimaryDeliveryAddress?: Resolver<
-    ResolversTypes['Boolean'],
-    ParentType,
-    ContextType,
-    RequireFields<MutationSetPrimaryDeliveryAddressArgs, 'deliveryAddress'>
-  >
   unregister?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   updateDeliveryAddress?: Resolver<
     ResolversTypes['Boolean'],
@@ -425,6 +507,17 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationUpdateDeliveryAddressArgs, 'input'>
   >
+  updatePrimaryDeliveryAddress?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdatePrimaryDeliveryAddressArgs, 'deliveryAddress'>
+  >
+}
+
+export interface NonEmptyStringScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['NonEmptyString'], any> {
+  name: 'NonEmptyString'
 }
 
 export type OrderResolvers<
@@ -442,12 +535,47 @@ export type OrderResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
+export type PostResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Post'] = ResolversParentTypes['Post']
+> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  likeCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  commentCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  content?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>
+  imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
+  store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
+  hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
 export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
   me?: Resolver<ResolversTypes['User'], ParentType, ContextType>
   menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
+  post?: Resolver<
+    Maybe<ResolversTypes['Post']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPostArgs, 'id'>
+  >
+  posts?: Resolver<
+    Maybe<Array<ResolversTypes['Post']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPostsArgs, 'storeId'>
+  >
+  store?: Resolver<
+    Maybe<ResolversTypes['Store']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryStoreArgs, 'id'>
+  >
+  stores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>
 }
 
 export type ReviewResolvers<
@@ -489,6 +617,9 @@ export type StoreResolvers<
   regularCustomerEventContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   deliveryTimeMin?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
   deliveryTimeMax?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
+  imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
+  menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
+  hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -515,18 +646,19 @@ export type UserResolvers<
   favoriteStores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>
   regularStores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>
   orders?: Resolver<Maybe<Array<ResolversTypes['Order']>>, ParentType, ContextType>
-  preference?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
+  preference?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type Resolvers<ContextType = any> = {
   DateTime?: GraphQLScalarType
   EmailAddress?: GraphQLScalarType
-  InsertMenuInput?: InsertMenuInputResolvers<ContextType>
   JWT?: GraphQLScalarType
   Menu?: MenuResolvers<ContextType>
   Mutation?: MutationResolvers<ContextType>
+  NonEmptyString?: GraphQLScalarType
   Order?: OrderResolvers<ContextType>
+  Post?: PostResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
   Review?: ReviewResolvers<ContextType>
   Store?: StoreResolvers<ContextType>
