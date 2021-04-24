@@ -1,4 +1,4 @@
-import { store } from '../store/ORM1'
+import { store } from '../store/ORM'
 
 function returnZeroWhenZeroDivision(numerator: number, denominator: number) {
   return denominator !== 0 ? numerator / denominator : 0
