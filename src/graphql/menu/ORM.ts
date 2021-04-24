@@ -1,5 +1,39 @@
 import { store } from '../store/ORM'
 
+export const menu: any = {
+  id: '',
+  creationDate: '',
+  modificationDate: '',
+  name: '',
+  price: 0,
+  category: '',
+  deliciousReviewCount: 0,
+  deliciousReviewRatio: 0,
+  fineReviewCount: 0,
+  fineReviewRatio: 0,
+  positiveReviewRatio: 0,
+  badReviewCount: 0,
+  badReviewRatio: 0,
+  newOrderCount: 0,
+  newOrderRatio: 0,
+  reorderCount: 0,
+  reorderRatio: 0,
+  newCustomerCount: 0,
+  newCustomerRatio: 0,
+  regularCustomerCount: 0,
+  regularCustomerRatio: 0,
+  favoriteCount: 0,
+  clickCount: 0,
+  storePostCount: 0,
+  isDiscounted: false,
+  canBePicked: false,
+  canBeReserved: false,
+  storeId: '',
+
+  favorite: false,
+  store: store,
+}
+
 function returnZeroWhenZeroDivision(numerator: number, denominator: number) {
   return denominator !== 0 ? numerator / denominator : 0
 }
@@ -58,8 +92,9 @@ export function menuORM(menu: any) {
     price: menu.price,
     category: menu.category,
     storeId: menu.store_id,
+    imageUrls: menu.image_urls,
 
-    store: store,
     favorite: false,
+    store: store,
   }
 }
