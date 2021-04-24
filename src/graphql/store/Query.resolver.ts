@@ -1,7 +1,7 @@
 import { QueryResolvers } from 'src/graphql/generated/graphql'
 import { importSQL } from '../../utils/commons'
 import { pool } from '../../database/postgres'
-import { storeORM } from './ORM'
+import { storeORM } from './ORM1'
 
 const storesSQL = importSQL(__dirname, 'sql/stores.sql')
 const storeSQL = importSQL(__dirname, 'sql/store.sql')
