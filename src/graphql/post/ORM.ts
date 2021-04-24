@@ -10,6 +10,7 @@ export function postORM(post: any) {
     content: post.content.split('\\n'),
     storeId: post.store_id,
     imageUrls: post.image_urls,
+
     store: store,
   }
 }

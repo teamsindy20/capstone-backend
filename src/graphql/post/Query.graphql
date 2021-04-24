@@ -1,0 +1,10 @@
+type Query {
+  """
+  특정 매장이 쓴 글을 반환한다.
+  """
+  posts(storeId: ID!): [Post!]
+  """
+  특정 글 정보를 반환한다.
+  """
+  post(id: ID!): Post
+}

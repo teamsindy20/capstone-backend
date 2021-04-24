@@ -1,0 +1,15 @@
+input PostCreationInput {
+  """
+  글 내용 중에 줄 바꿈 1개 당 `\n`을 1개 사용한다.
+  """
+  content: String!
+  storeId: ID!
+
+  # nullable
+  imageUrls: [URL!]
+  hashtags: [NonEmptyString!]
+}
+
+type Mutation {
+  createPost(input: PostCreationInput!): ID!
+}

@@ -1,0 +1,18 @@
+type Post {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+  likeCount: Int!
+  commentCount: Int!
+  content: [String!]!
+  storeId: ID!
+
+  # nullable
+  imageUrls: [URL!]
+
+  # from other table
+  store: Store!
+
+  # from other table - nullable
+  hashtags: [NonEmptyString!]
+}
