@@ -13,10 +13,10 @@ type User {
   birthDate: DateTime
   address: String
 
-  # from other table
+  # from other table - nullable
   favoriteMenu: [Menu!]
   favoriteStores: [Store!]
   regularStores: [Store!]
   orders: [Order!]
-  preference: [String!]
+  preference: [NonEmptyString!]
 }

@@ -9,7 +9,7 @@ input RegisterInput {
   gender: String
   birthDate: DateTime
   address: String
-  preference: [String!]
+  preference: [NonEmptyString!]
 }
 
 type Mutation {
