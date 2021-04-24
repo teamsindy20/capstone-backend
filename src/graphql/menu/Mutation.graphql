@@ -5,7 +5,7 @@ input MenuCreationInput {
   storeId: ID!
 
   # nullable
-  imageUrls: [String!]
+  imageUrls: [URL!]
   hashtags: [String!]
 }
 

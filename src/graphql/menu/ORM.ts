@@ -57,8 +57,8 @@ export function menuORM(menu: any) {
     name: menu.name,
     price: menu.price,
     category: menu.category,
-
     storeId: menu.store_id,
+
     store: store,
     favorite: false,
   }

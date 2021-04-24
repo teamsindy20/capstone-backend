@@ -1,7 +1,7 @@
 import { QueryResolvers } from 'src/graphql/generated/graphql'
 import { importSQL } from '../../utils/commons'
 import { pool } from '../../database/postgres'
-import { menuORM } from './orm'
+import { menuORM } from './ORM'
 
 const menusSQL = importSQL(__dirname, 'sql/menus.sql')
 
