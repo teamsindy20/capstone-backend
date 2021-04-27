@@ -4,6 +4,8 @@ CREATE TABLE "user" (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
+  valid_authentication_date timestamptz NOT NULL DEFAULT NOW(),
+  -- 이 시간 이후의 JWT 토큰만 유효함
   point int NOT NULL DEFAULT 0,
   is_unregistered boolean NOT NULL DEFAULT FALSE,
   --
@@ -85,6 +87,7 @@ CREATE TABLE "order" (
   order_status varchar(16) NOT NULL DEFAULT '접수 대기',
   --
   order_total int NOT NULL,
+  delivery_address varchar(64) NOT NULL,
   --
   user_id int NOT NULL REFERENCES "user" ON DELETE CASCADE,
   store_id int NOT NULL REFERENCES store ON DELETE CASCADE
@@ -133,6 +136,22 @@ CREATE TABLE hashtag (
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
   name varchar(32) NOT NULL UNIQUE
+);
+
+DROP TABLE IF EXISTS menu_option CASCADE;
+
+CREATE TABLE menu_option (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  is_necessary boolean NOT NULL DEFAULT false,
+  price int NOT NULL DEFAULT 0,
+  --
+  name varchar(32) NOT NULL,
+  --
+  menu_id int NOT NULL REFERENCES menu ON DELETE CASCADE,
+  --
+  category varchar(32)
 );
 
 DROP TABLE IF EXISTS user_x_favorite_store;
@@ -248,4 +267,11 @@ CREATE TABLE post_x_hashtag (
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
   PRIMARY KEY (post_id, hashtag_id)
+);
+
+DROP TABLE IF EXISTS test;
+
+CREATE TABLE test (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW()
 );

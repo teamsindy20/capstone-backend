@@ -8,6 +8,7 @@ import { importSQL } from '../../utils/commons'
 const registerSQL = importSQL(__dirname, 'sql/register.sql')
 const unregisterSQL = importSQL(__dirname, 'sql/unregister.sql')
 const loginSQL = importSQL(__dirname, 'sql/login.sql')
+const logoutSQL = importSQL(__dirname, 'sql/logout.sql')
 
 export const Mutation: MutationResolvers = {
   register: async (_, { input }, { user }) => {
@@ -18,17 +19,17 @@ export const Mutation: MutationResolvers = {
     const registerValues = [
       input.email,
       passwordHashHash,
-      input.imageUrl,
       input.name,
       input.phoneNumber,
       input.gender,
       input.birthDate,
-      input.address,
+      input.imageUrl,
+      input.deliveryAddress,
     ]
 
-    const result = await pool.query(await registerSQL, registerValues)
+    const { rows } = await pool.query(await registerSQL, registerValues)
 
-    return await generateJWT({ userId: result.rows[0] })
+    return await generateJWT({ userId: rows[0].id, lastLoginDate: new Date() })
   },
 
   unregister: async (_, __, { user }) => {
@@ -51,11 +52,13 @@ export const Mutation: MutationResolvers = {
     if (!authenticationSuceed)
       throw new AuthenticationError('Failed to log in. Please check your inputs.')
 
-    return await generateJWT({ userId: rows[0].id })
+    return await generateJWT({ userId: rows[0].id, lastLoginDate: new Date() })
   },
 
-  logout: (_, __, { user }) => {
+  logout: async (_, __, { user }) => {
     if (!user) throw new AuthenticationError('User does not log in. Please log in first.')
+
+    await pool.query(await logoutSQL, [user.id])
 
     return true
   },

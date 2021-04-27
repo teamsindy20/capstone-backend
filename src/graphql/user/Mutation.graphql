@@ -3,12 +3,12 @@ input RegisterInput {
   passwordHash: String!
 
   # nullable
-  imageUrl: String
   name: String
   phoneNumber: String
   gender: String
   birthDate: DateTime
-  address: String
+  imageUrl: URL
+  deliveryAddress: String
   preference: [NonEmptyString!]
 }
 

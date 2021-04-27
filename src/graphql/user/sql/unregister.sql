@@ -6,4 +6,5 @@ SET modification_date = NOW(),
   image_url = '',
   name = '',
   phone_number = ''
-WHERE id = $1;
+WHERE id = $1
+RETURNING id;
