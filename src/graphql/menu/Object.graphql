@@ -9,6 +9,7 @@ type Menu {
   deliciousReviewRatio: Int!
   fineReviewCount: Int!
   fineReviewRatio: Int!
+  positiveReviewCount: Int!
   positiveReviewRatio: Int!
   badReviewCount: Int!
   badReviewRatio: Int!

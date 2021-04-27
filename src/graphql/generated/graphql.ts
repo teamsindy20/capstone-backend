@@ -32,6 +32,7 @@ export type Menu = {
   deliciousReviewRatio: Scalars['Int']
   fineReviewCount: Scalars['Int']
   fineReviewRatio: Scalars['Int']
+  positiveReviewCount: Scalars['Int']
   positiveReviewRatio: Scalars['Int']
   badReviewCount: Scalars['Int']
   badReviewRatio: Scalars['Int']
@@ -64,11 +65,26 @@ export type MenuCreationInput = {
   storeId: Scalars['ID']
   imageUrls?: Maybe<Array<Scalars['URL']>>
   hashtags?: Maybe<Array<Scalars['String']>>
+  options?: Maybe<Array<MenuOptionInput>>
+}
+
+export type MenuOptionInput = {
+  name: Scalars['String']
+  price: Scalars['Int']
+  isNecessary: Scalars['Boolean']
+  category?: Maybe<Scalars['String']>
+}
+
+export type MenuSelectionInput = {
+  menuId: Scalars['ID']
+  menuOptionIds?: Maybe<Array<Scalars['ID']>>
+  count: Scalars['Int']
 }
 
 export type Mutation = {
   __typename?: 'Mutation'
   createMenu: Scalars['ID']
+  createOrder: Scalars['ID']
   createPost: Scalars['ID']
   createStore: Scalars['ID']
   /** 이메일과 1번 해싱한 비밀번호를 전송하면 인증 토큰을 반환한다. */
@@ -86,6 +102,10 @@ export type Mutation = {
 
 export type MutationCreateMenuArgs = {
   input: MenuCreationInput
+}
+
+export type MutationCreateOrderArgs = {
+  input: OrderCreationInput
 }
 
 export type MutationCreatePostArgs = {
@@ -125,11 +145,22 @@ export type Order = {
   menu?: Maybe<Array<Menu>>
 }
 
+export type OrderCreationInput = {
+  menus: Array<MenuSelectionInput>
+  payment: PaymentInfoInput
+  user: UserInfoInput
+}
+
 export enum OrderStatus {
   OrderWaiting = 'ORDER_WAITING',
   CookingInProgress = 'COOKING_IN_PROGRESS',
   DeliveryInProgress = 'DELIVERY_IN_PROGRESS',
   DeliveryCompletion = 'DELIVERY_COMPLETION',
+}
+
+export type PaymentInfoInput = {
+  paymentId: Scalars['ID']
+  paymentDate: Scalars['DateTime']
 }
 
 export type Post = {
@@ -191,12 +222,12 @@ export enum Rating {
 export type RegisterInput = {
   email: Scalars['EmailAddress']
   passwordHash: Scalars['String']
-  imageUrl?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
   phoneNumber?: Maybe<Scalars['String']>
   gender?: Maybe<Scalars['String']>
   birthDate?: Maybe<Scalars['DateTime']>
-  address?: Maybe<Scalars['String']>
+  imageUrl?: Maybe<Scalars['URL']>
+  deliveryAddress?: Maybe<Scalars['String']>
   preference?: Maybe<Array<Scalars['NonEmptyString']>>
 }
 
@@ -268,6 +299,16 @@ export type User = {
   regularStores?: Maybe<Array<Store>>
   orders?: Maybe<Array<Order>>
   preference?: Maybe<Array<Scalars['NonEmptyString']>>
+}
+
+export type UserInfoInput = {
+  deliveryAddress: Scalars['String']
+  reviewReward?: Maybe<Scalars['Boolean']>
+  regularReward?: Maybe<Scalars['Boolean']>
+  point?: Maybe<Scalars['Int']>
+  deliveryRequest?: Maybe<Scalars['String']>
+  storeRequest?: Maybe<Scalars['String']>
+  coupons?: Maybe<Array<Scalars['ID']>>
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -372,10 +413,14 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
   MenuCreationInput: MenuCreationInput
+  MenuOptionInput: MenuOptionInput
+  MenuSelectionInput: MenuSelectionInput
   Mutation: ResolverTypeWrapper<{}>
   NonEmptyString: ResolverTypeWrapper<Scalars['NonEmptyString']>
   Order: ResolverTypeWrapper<Order>
+  OrderCreationInput: OrderCreationInput
   OrderStatus: OrderStatus
+  PaymentInfoInput: PaymentInfoInput
   Post: ResolverTypeWrapper<Post>
   PostCreationInput: PostCreationInput
   Query: ResolverTypeWrapper<{}>
@@ -386,6 +431,7 @@ export type ResolversTypes = {
   StoreCreationInput: StoreCreationInput
   URL: ResolverTypeWrapper<Scalars['URL']>
   User: ResolverTypeWrapper<User>
+  UserInfoInput: UserInfoInput
 }
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -399,9 +445,13 @@ export type ResolversParentTypes = {
   Int: Scalars['Int']
   Boolean: Scalars['Boolean']
   MenuCreationInput: MenuCreationInput
+  MenuOptionInput: MenuOptionInput
+  MenuSelectionInput: MenuSelectionInput
   Mutation: {}
   NonEmptyString: Scalars['NonEmptyString']
   Order: Order
+  OrderCreationInput: OrderCreationInput
+  PaymentInfoInput: PaymentInfoInput
   Post: Post
   PostCreationInput: PostCreationInput
   Query: {}
@@ -411,6 +461,7 @@ export type ResolversParentTypes = {
   StoreCreationInput: StoreCreationInput
   URL: Scalars['URL']
   User: User
+  UserInfoInput: UserInfoInput
 }
 
 export interface DateTimeScalarConfig
@@ -441,6 +492,7 @@ export type MenuResolvers<
   deliciousReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   fineReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   fineReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  positiveReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   positiveReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   badReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   badReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
@@ -475,6 +527,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationCreateMenuArgs, 'input'>
+  >
+  createOrder?: Resolver<
+    ResolversTypes['ID'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateOrderArgs, 'input'>
   >
   createPost?: Resolver<
     ResolversTypes['ID'],
