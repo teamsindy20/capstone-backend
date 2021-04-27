@@ -110,6 +110,38 @@ FROM inserted_menu;
 
 $$;
 
+DROP FUNCTION IF EXISTS create_order;
+
+CREATE OR REPLACE FUNCTION create_order (
+    order_total int,
+    user_id bigint,
+    store_id bigint,
+    menu_id_array bigint [],
+    out inserted_order_id bigint
+  ) language SQL AS $$ WITH inserted_order AS (
+    INSERT INTO "order" (
+        order_total,
+        user_id,
+        store_id
+      )
+    VALUES (order_total, user_id, store_id)
+    RETURNING id
+  ),
+  menu_ids (id) AS (
+    SELECT unnest(menu_id_array)
+  ),
+  inserted_menu_x_order AS (
+    INSERT INTO menu_x_order (menu_id, order_id)
+    SELECT inserted_order.id,
+      menu_ids.id
+    FROM inserted_order,
+      menu_ids
+  )
+SELECT id
+FROM inserted_order;
+
+$$;
+
 DROP FUNCTION IF EXISTS create_post;
 
 CREATE OR REPLACE FUNCTION create_post (

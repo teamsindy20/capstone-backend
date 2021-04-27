@@ -1,0 +1,30 @@
+input MenuSelectionInput {
+  menuId: ID!
+  menuOptionIds: [ID!]
+  count: Int!
+}
+
+input PaymentInfoInput {
+  paymentId: ID!
+  paymentDate: DateTime!
+}
+
+input UserInfoInput {
+  deliveryAddress: String!
+  reviewReward: Boolean
+  regularReward: Boolean
+  point: Int
+  deliveryRequest: String
+  storeRequest: String
+  coupons: [ID!]
+}
+
+input OrderCreationInput {
+  menus: [MenuSelectionInput!]!
+  payment: PaymentInfoInput!
+  user: UserInfoInput!
+}
+
+type Mutation {
+  createOrder(input: OrderCreationInput!): ID!
+}
