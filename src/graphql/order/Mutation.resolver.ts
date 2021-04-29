@@ -7,7 +7,7 @@ const createOrderSQL = importSQL(__dirname, 'sql/createOrder.sql')
 
 export const Mutation: MutationResolvers = {
   createOrder: async (_, { input }, { user }) => {
-    if (!user) throw new AuthenticationError('User does not log in. Please log in first.')
+    if (!user) throw new AuthenticationError('로그인되어 있지 않습니다. 로그인 후 시도해주세요.')
 
     const { rows } = await pool.query(await createOrderSQL, [
       // input.orderTotal,

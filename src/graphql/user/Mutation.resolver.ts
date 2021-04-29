@@ -12,7 +12,7 @@ const logoutSQL = importSQL(__dirname, 'sql/logout.sql')
 
 export const Mutation: MutationResolvers = {
   register: async (_, { input }, { user }) => {
-    if (user) throw new ForbiddenError('User already logged in. Please log out first.')
+    if (user) throw new ForbiddenError('이미 로그인되어 있습니다. 로그아웃 후 시도해주세요.')
 
     const passwordHashHash = await hash(input.passwordHash, await genSalt())
 
@@ -33,7 +33,7 @@ export const Mutation: MutationResolvers = {
   },
 
   unregister: async (_, __, { user }) => {
-    if (!user) throw new AuthenticationError('User does not log in. Please log in first.')
+    if (!user) throw new AuthenticationError('로그인되어 있지 않습니다. 로그인 후 시도해주세요.')
 
     await pool.query(await unregisterSQL, [user.id])
 
@@ -41,7 +41,7 @@ export const Mutation: MutationResolvers = {
   },
 
   login: async (_, { email, passwordHash }, { user }) => {
-    if (user) throw new ForbiddenError('User already logged in. Please log out first.')
+    if (user) throw new ForbiddenError('이미 로그인되어 있습니다. 로그아웃 후 시도해주세요.')
 
     const { rowCount, rows } = await pool.query(await loginSQL, [email])
 
@@ -56,7 +56,7 @@ export const Mutation: MutationResolvers = {
   },
 
   logout: async (_, __, { user }) => {
-    if (!user) throw new AuthenticationError('User does not log in. Please log in first.')
+    if (!user) throw new AuthenticationError('로그인되어 있지 않습니다. 로그인 후 시도해주세요.')
 
     await pool.query(await logoutSQL, [user.id])
 
