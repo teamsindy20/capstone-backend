@@ -17,7 +17,7 @@ RUN yarn build
 RUN yarn remove typescript copyfiles \
                 @types/death @types/jsonwebtoken \
                 @types/node @types/pg \
-                @types/bcryptjs
+                @types/bcryptjs @types/pg-format
 RUN rm -f yarn.lock
 RUN rm -rf src
 RUN rm -f tsconfig.json
