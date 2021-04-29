@@ -2,5 +2,25 @@ type Query {
   """
   로그인 시 사용자 맞춤 메뉴 목록을 반환한다. 비로그인 시 일반 메뉴 목록을 반환한다.
   """
-  menus: [Menu!]!
+  menus: [Menu!]
+
+  """
+  특정 카테고리에 속하는 메뉴 목록을 반환한다.
+  """
+  menusByCategory(category: String!): [Menu!]
+
+  """
+  특정 테마에 속하는 메뉴 목록을 반환한다.
+  """
+  menusByTheme(theme: String!): [Menu!]
+
+  """
+  특정 매장에서 판매하는 메뉴 목록을 반환한다.
+  """
+  menusByStore(storeId: ID!): [Menu!]
+
+  """
+  특정 메뉴의 세부 정보를 반환한다.
+  """
+  menu(id: ID!): Menu
 }

@@ -1,0 +1,8 @@
+# 개발 중
+input ReviewCreationInput {
+  menuIds: ID!
+}
+
+type Mutation {
+  createReview(input: ReviewCreationInput!): ID!
+}

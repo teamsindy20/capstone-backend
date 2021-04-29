@@ -1,0 +1,11 @@
+type Query {
+  """
+  사용자의 주문 목록을 반환한다.
+  """
+  orders: [Order!]
+
+  """
+  특정 주문에 대한 상세 정보를 반환한다.
+  """
+  order(id: ID!): Order
+}

@@ -1,0 +1,21 @@
+type Query {
+  """
+  사용자가 작성한 리뷰 목록을 반환한다.
+  """
+  reviews: [Post!]
+
+  """
+  특정 매장의 리뷰 목록을 반환한다.
+  """
+  reviewsByStore(storeId: ID!): [Post!]
+
+  """
+  여러 메뉴의 리뷰 목록을 반환한다.
+  """
+  reviewsByMenu(menuIds: [ID!]!): [Post!]
+
+  """
+  특정 글 정보를 반환한다.
+  """
+  review(id: ID!): Post
+}

@@ -4,6 +4,7 @@ input MenuSelectionInput {
   count: Int!
 }
 
+# 결제는 어디서 이뤄지는지?
 input PaymentInfoInput {
   paymentId: ID!
   paymentDate: DateTime!
@@ -11,11 +12,11 @@ input PaymentInfoInput {
 
 input UserInfoInput {
   deliveryAddress: String!
-  reviewReward: Boolean
-  regularReward: Boolean
-  point: Int
+  reviewReward: String
+  regularReward: String
   deliveryRequest: String
   storeRequest: String
+  pointUsed: Int
   coupons: [ID!]
 }
 
@@ -27,4 +28,9 @@ input OrderCreationInput {
 
 type Mutation {
   createOrder(input: OrderCreationInput!): ID!
+
+  """
+  주문 상태 변경에 대한 적절한 권한이 있으면 주문 상태를 업데이트한다.
+  """
+  updateOrderStatus(orderStatus: OrderStatus!): ID!
 }
