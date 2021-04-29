@@ -6,21 +6,16 @@ WORKDIR /server
 
 ## 외부 패키지 설치
 COPY package.json yarn.lock ./
-RUN yarn install
+RUN yarn install --production=false
 
-# TypeScript 빌드
+# Transpile TypeScript into JavaScript
 COPY src src
-COPY tsconfig.json tsconfig.json
+COPY tsconfig.json ./
 RUN yarn build
 
 # 필요 없는 파일 삭제
-RUN yarn remove typescript copyfiles \
-                @types/death @types/jsonwebtoken \
-                @types/node @types/pg \
-                @types/bcryptjs @types/pg-format
-RUN rm -f yarn.lock
-RUN rm -rf src
-RUN rm -f tsconfig.json
+RUN rm -rf node_modules src tsconfig.json
+RUN yarn install
 
 EXPOSE 4000
 
