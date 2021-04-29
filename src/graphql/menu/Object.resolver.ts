@@ -15,7 +15,7 @@ export const Menu: MenuResolvers = {
     return !!rows[0]
   },
 
-  store: async ({ storeId }) => {
+  store: async ({ storeId }, _, __, info) => {
     const { rows } = await pool.query(await menuStoreSQL, [storeId])
 
     return rows[0]

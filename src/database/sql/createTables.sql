@@ -42,6 +42,8 @@ CREATE TABLE store (
   name varchar(64) NOT NULL,
   address varchar(64) NOT NULL,
   --
+  user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
+  --
   review_event_content text,
   regular_customer_event_content text,
   delivery_time_min int,
@@ -73,10 +75,14 @@ CREATE TABLE menu (
   price int NOT NULL,
   category varchar(16) NOT NULL,
   --
-  store_id int NOT NULL REFERENCES store ON DELETE CASCADE,
+  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
   --
   image_urls text ARRAY
 );
+
+DROP INDEX IF EXISTS menu_category_index CASCADE;
+
+CREATE INDEX menu_category_index ON menu (category);
 
 DROP TABLE IF EXISTS "order" CASCADE;
 
@@ -85,12 +91,22 @@ CREATE TABLE "order" (
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   order_status varchar(16) NOT NULL DEFAULT '접수 대기',
+  review_reward boolean NOT NULL DEFAULT false,
+  regular_reward boolean NOT NULL DEFAULT false,
+  point_used int NOT NULL DEFAULT 0,
   --
   order_total int NOT NULL,
+  menu_total int NOT NULL,
+  delivery_charge int NOT NULL,
   delivery_address varchar(64) NOT NULL,
+  payment_date timestamptz NOT NULL,
   --
-  user_id int NOT NULL REFERENCES "user" ON DELETE CASCADE,
-  store_id int NOT NULL REFERENCES store ON DELETE CASCADE
+  payment_id bigint NOT NULL REFERENCES payment ON DELETE CASCADE,
+  user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
+  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
+  --
+  delivery_request varchar(256),
+  store_request varchar(256)
 );
 
 DROP TABLE IF EXISTS review CASCADE;
@@ -103,9 +119,9 @@ CREATE TABLE review (
   --
   rating varchar(16) NOT NULL,
   --
-  user_id int NOT NULL REFERENCES "user" ON DELETE CASCADE,
-  store_id int NOT NULL REFERENCES store ON DELETE CASCADE,
-  order_id int NOT NULL REFERENCES "order" ON DELETE CASCADE,
+  user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
+  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
+  order_id bigint NOT NULL REFERENCES "order" ON DELETE CASCADE,
   --
   image_urls text ARRAY,
   good_point_content text,
@@ -123,7 +139,7 @@ CREATE TABLE post (
   --
   content text NOT NULL,
   --
-  store_id int NOT NULL REFERENCES store ON DELETE CASCADE,
+  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
   --
   image_urls text ARRAY
 );
@@ -133,7 +149,6 @@ DROP TABLE IF EXISTS hashtag CASCADE;
 CREATE TABLE hashtag (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
-  modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
   name varchar(32) NOT NULL UNIQUE
 );
@@ -149,9 +164,36 @@ CREATE TABLE menu_option (
   --
   name varchar(32) NOT NULL,
   --
-  menu_id int NOT NULL REFERENCES menu ON DELETE CASCADE,
+  menu_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE,
   --
   category varchar(32)
+);
+
+DROP TABLE IF EXISTS coupon CASCADE;
+
+CREATE TABLE coupon (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  name varchar(32) NOT NULL,
+  TYPE varchar(16) NOT NULL,
+  discount_amount int NOT NULL,
+  --
+  user_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE,
+  --
+  category varchar(32),
+  --
+  order_id bigint REFERENCES menu ON DELETE CASCADE,
+  store_id bigint REFERENCES store ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS payment CASCADE;
+
+CREATE TABLE payment (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW()
 );
 
 DROP TABLE IF EXISTS user_x_favorite_store;
@@ -267,11 +309,4 @@ CREATE TABLE post_x_hashtag (
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
   PRIMARY KEY (post_id, hashtag_id)
-);
-
-DROP TABLE IF EXISTS test;
-
-CREATE TABLE test (
-  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  creation_date timestamptz NOT NULL DEFAULT NOW()
 );

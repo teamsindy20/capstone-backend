@@ -1,12 +1,17 @@
+import { ForbiddenError } from 'apollo-server'
 import { pool } from '../../database/postgres'
 import { importSQL } from '../../utils/commons'
 import { MutationResolvers } from '../generated/graphql'
 
 const createMenuSQL = importSQL(__dirname, 'sql/createMenu.sql')
+const userStoreSQL = importSQL(__dirname, 'sql/userStore.sql')
 
 export const Mutation: MutationResolvers = {
   createMenu: async (_, { input }, { user }) => {
-    // if (user.role !== store) throw new AuthenticationError('매장 사장님만 메뉴를 만들 수 있습니다.')
+    const { rows: userStoreRows } = await pool.query(await userStoreSQL, [user.id])
+
+    if (!userStoreRows.includes(input.storeId))
+      throw new ForbiddenError('해당 매장을 소유하지 않았습니다.')
 
     const { rows } = await pool.query(await createMenuSQL, [
       input.name,
