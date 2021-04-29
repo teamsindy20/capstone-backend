@@ -2,7 +2,7 @@ import { UserResolvers } from 'src/graphql/generated/graphql'
 import { pool } from '../../database/postgres'
 
 export const User: UserResolvers = {
-  favoriteMenu: async () => {
+  favoriteMenus: async () => {
     return null
   },
 

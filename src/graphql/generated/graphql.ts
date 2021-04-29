@@ -54,8 +54,10 @@ export type Menu = {
   imageUrls?: Maybe<Array<Scalars['URL']>>
   /** 로그인 상태일 때 요청하면 사용자가 해당 메뉴를 찜한 여부를 반환한다. */
   favorite: Scalars['Boolean']
+  /** 해당 메뉴가 속한 매장 정보를 반환한다. */
   store: Store
-  hashtags?: Maybe<Array<Scalars['String']>>
+  /** 해당 메뉴가 가진 해시태그 목록을 반환한다. */
+  hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
 }
 
 export type MenuCreationInput = {
@@ -86,6 +88,7 @@ export type Mutation = {
   createMenu: Scalars['ID']
   createOrder: Scalars['ID']
   createPost: Scalars['ID']
+  createReview: Scalars['ID']
   createStore: Scalars['ID']
   /** 이메일과 1번 해싱한 비밀번호를 전송하면 인증 토큰을 반환한다. */
   login: Scalars['JWT']
@@ -97,6 +100,12 @@ export type Mutation = {
   unregister: Scalars['Boolean']
   /** 사용자 배달 주소를 업데이트한다. */
   updateDeliveryAddress: Scalars['Boolean']
+  /** 사용자의 메뉴 찜 목록을 업데이트한다. 해당 메뉴가 기존 찜 목록에 있으면 제거하고, 없으면 추가한다. */
+  updateFavoriteMenus?: Maybe<Array<Scalars['ID']>>
+  /** 사용자의 매장 찜 목록을 업데이트한다. 해당 매장이 기존 찜 목록에 있으면 제거하고, 없으면 추가한다. */
+  updateFavoriteStores?: Maybe<Array<Scalars['ID']>>
+  /** 주문 상태 변경에 대한 적절한 권한이 있으면 주문 상태를 업데이트한다. */
+  updateOrderStatus: Scalars['ID']
   updatePrimaryDeliveryAddress: Scalars['Boolean']
 }
 
@@ -110,6 +119,10 @@ export type MutationCreateOrderArgs = {
 
 export type MutationCreatePostArgs = {
   input: PostCreationInput
+}
+
+export type MutationCreateReviewArgs = {
+  input: ReviewCreationInput
 }
 
 export type MutationCreateStoreArgs = {
@@ -127,6 +140,18 @@ export type MutationRegisterArgs = {
 
 export type MutationUpdateDeliveryAddressArgs = {
   input: Scalars['String']
+}
+
+export type MutationUpdateFavoriteMenusArgs = {
+  menuIds: Array<Scalars['ID']>
+}
+
+export type MutationUpdateFavoriteStoresArgs = {
+  storeIds: Array<Scalars['ID']>
+}
+
+export type MutationUpdateOrderStatusArgs = {
+  orderStatus: OrderStatus
 }
 
 export type MutationUpdatePrimaryDeliveryAddressArgs = {
@@ -189,16 +214,56 @@ export type Query = {
   __typename?: 'Query'
   /** 인증 토큰과 같이 요청하면 사용자 정보를 반환한다. */
   me: User
+  /** 특정 메뉴의 세부 정보를 반환한다. */
+  menu?: Maybe<Menu>
   /** 로그인 시 사용자 맞춤 메뉴 목록을 반환한다. 비로그인 시 일반 메뉴 목록을 반환한다. */
-  menus: Array<Menu>
+  menus?: Maybe<Array<Menu>>
+  /** 특정 카테고리에 속하는 메뉴 목록을 반환한다. */
+  menusByCategory?: Maybe<Array<Menu>>
+  /** 특정 매장에서 판매하는 메뉴 목록을 반환한다. */
+  menusByStore?: Maybe<Array<Menu>>
+  /** 특정 테마에 속하는 메뉴 목록을 반환한다. */
+  menusByTheme?: Maybe<Array<Menu>>
+  /** 특정 주문에 대한 상세 정보를 반환한다. */
+  order?: Maybe<Order>
+  /** 사용자의 주문 목록을 반환한다. */
+  orders?: Maybe<Array<Order>>
   /** 특정 글 정보를 반환한다. */
   post?: Maybe<Post>
   /** 특정 매장이 쓴 글을 반환한다. */
   posts?: Maybe<Array<Post>>
+  /** 특정 글 정보를 반환한다. */
+  review?: Maybe<Post>
+  /** 사용자가 작성한 리뷰 목록을 반환한다. */
+  reviews?: Maybe<Array<Post>>
+  /** 여러 메뉴의 리뷰 목록을 반환한다. */
+  reviewsByMenu?: Maybe<Array<Post>>
+  /** 특정 매장의 리뷰 목록을 반환한다. */
+  reviewsByStore?: Maybe<Array<Post>>
   /** 특정 매장을 반환한다. */
   store?: Maybe<Store>
   /** 매장 목록을 반환한다. */
   stores?: Maybe<Array<Store>>
+}
+
+export type QueryMenuArgs = {
+  id: Scalars['ID']
+}
+
+export type QueryMenusByCategoryArgs = {
+  category: Scalars['String']
+}
+
+export type QueryMenusByStoreArgs = {
+  storeId: Scalars['ID']
+}
+
+export type QueryMenusByThemeArgs = {
+  theme: Scalars['String']
+}
+
+export type QueryOrderArgs = {
+  id: Scalars['ID']
 }
 
 export type QueryPostArgs = {
@@ -206,6 +271,18 @@ export type QueryPostArgs = {
 }
 
 export type QueryPostsArgs = {
+  storeId: Scalars['ID']
+}
+
+export type QueryReviewArgs = {
+  id: Scalars['ID']
+}
+
+export type QueryReviewsByMenuArgs = {
+  menuIds: Array<Scalars['ID']>
+}
+
+export type QueryReviewsByStoreArgs = {
   storeId: Scalars['ID']
 }
 
@@ -240,6 +317,10 @@ export type Review = {
   rating: Rating
   goodPointContent?: Maybe<Scalars['String']>
   desiredPointContent?: Maybe<Scalars['String']>
+}
+
+export type ReviewCreationInput = {
+  menuIds: Scalars['ID']
 }
 
 export type Store = {
@@ -294,7 +375,7 @@ export type User = {
   gender?: Maybe<Scalars['String']>
   birthDate?: Maybe<Scalars['DateTime']>
   address?: Maybe<Scalars['String']>
-  favoriteMenu?: Maybe<Array<Menu>>
+  favoriteMenus?: Maybe<Array<Menu>>
   favoriteStores?: Maybe<Array<Store>>
   regularStores?: Maybe<Array<Store>>
   orders?: Maybe<Array<Order>>
@@ -303,11 +384,11 @@ export type User = {
 
 export type UserInfoInput = {
   deliveryAddress: Scalars['String']
-  reviewReward?: Maybe<Scalars['Boolean']>
-  regularReward?: Maybe<Scalars['Boolean']>
-  point?: Maybe<Scalars['Int']>
+  reviewReward?: Maybe<Scalars['String']>
+  regularReward?: Maybe<Scalars['String']>
   deliveryRequest?: Maybe<Scalars['String']>
   storeRequest?: Maybe<Scalars['String']>
+  pointUsed?: Maybe<Scalars['Int']>
   coupons?: Maybe<Array<Scalars['ID']>>
 }
 
@@ -427,6 +508,7 @@ export type ResolversTypes = {
   Rating: Rating
   RegisterInput: RegisterInput
   Review: ResolverTypeWrapper<Review>
+  ReviewCreationInput: ReviewCreationInput
   Store: ResolverTypeWrapper<Store>
   StoreCreationInput: StoreCreationInput
   URL: ResolverTypeWrapper<Scalars['URL']>
@@ -457,6 +539,7 @@ export type ResolversParentTypes = {
   Query: {}
   RegisterInput: RegisterInput
   Review: Review
+  ReviewCreationInput: ReviewCreationInput
   Store: Store
   StoreCreationInput: StoreCreationInput
   URL: Scalars['URL']
@@ -514,7 +597,7 @@ export type MenuResolvers<
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
   favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
-  hashtags?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>
+  hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -539,6 +622,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationCreatePostArgs, 'input'>
+  >
+  createReview?: Resolver<
+    ResolversTypes['ID'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateReviewArgs, 'input'>
   >
   createStore?: Resolver<
     ResolversTypes['ID'],
@@ -565,6 +654,24 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationUpdateDeliveryAddressArgs, 'input'>
+  >
+  updateFavoriteMenus?: Resolver<
+    Maybe<Array<ResolversTypes['ID']>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateFavoriteMenusArgs, 'menuIds'>
+  >
+  updateFavoriteStores?: Resolver<
+    Maybe<Array<ResolversTypes['ID']>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateFavoriteStoresArgs, 'storeIds'>
+  >
+  updateOrderStatus?: Resolver<
+    ResolversTypes['ID'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateOrderStatusArgs, 'orderStatus'>
   >
   updatePrimaryDeliveryAddress?: Resolver<
     ResolversTypes['Boolean'],
@@ -616,7 +723,38 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
   me?: Resolver<ResolversTypes['User'], ParentType, ContextType>
-  menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
+  menu?: Resolver<
+    Maybe<ResolversTypes['Menu']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMenuArgs, 'id'>
+  >
+  menus?: Resolver<Maybe<Array<ResolversTypes['Menu']>>, ParentType, ContextType>
+  menusByCategory?: Resolver<
+    Maybe<Array<ResolversTypes['Menu']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMenusByCategoryArgs, 'category'>
+  >
+  menusByStore?: Resolver<
+    Maybe<Array<ResolversTypes['Menu']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMenusByStoreArgs, 'storeId'>
+  >
+  menusByTheme?: Resolver<
+    Maybe<Array<ResolversTypes['Menu']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMenusByThemeArgs, 'theme'>
+  >
+  order?: Resolver<
+    Maybe<ResolversTypes['Order']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryOrderArgs, 'id'>
+  >
+  orders?: Resolver<Maybe<Array<ResolversTypes['Order']>>, ParentType, ContextType>
   post?: Resolver<
     Maybe<ResolversTypes['Post']>,
     ParentType,
@@ -628,6 +766,25 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryPostsArgs, 'storeId'>
+  >
+  review?: Resolver<
+    Maybe<ResolversTypes['Post']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryReviewArgs, 'id'>
+  >
+  reviews?: Resolver<Maybe<Array<ResolversTypes['Post']>>, ParentType, ContextType>
+  reviewsByMenu?: Resolver<
+    Maybe<Array<ResolversTypes['Post']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryReviewsByMenuArgs, 'menuIds'>
+  >
+  reviewsByStore?: Resolver<
+    Maybe<Array<ResolversTypes['Post']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryReviewsByStoreArgs, 'storeId'>
   >
   store?: Resolver<
     Maybe<ResolversTypes['Store']>,
@@ -702,7 +859,7 @@ export type UserResolvers<
   gender?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   birthDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>
   address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
-  favoriteMenu?: Resolver<Maybe<Array<ResolversTypes['Menu']>>, ParentType, ContextType>
+  favoriteMenus?: Resolver<Maybe<Array<ResolversTypes['Menu']>>, ParentType, ContextType>
   favoriteStores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>
   regularStores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>
   orders?: Resolver<Maybe<Array<ResolversTypes['Order']>>, ParentType, ContextType>
