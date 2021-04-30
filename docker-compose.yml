@@ -31,7 +31,7 @@ services:
     env_file:
       - .env
     ports:
-      - 4000:4000
+      - $PORT:$PORT
 
 volumes:
   sindy-volume:

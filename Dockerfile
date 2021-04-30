@@ -4,7 +4,7 @@ ENV NODE_ENV=production
 
 WORKDIR /server
 
-## 외부 패키지 설치
+# Install all packages
 COPY package.json yarn.lock ./
 RUN yarn install --production=false
 
@@ -13,11 +13,13 @@ COPY src src
 COPY tsconfig.json ./
 RUN yarn build
 
-# 필요 없는 파일 삭제
+# Remove useless files
 RUN rm -rf node_modules src tsconfig.json
+
+# Install only dependency packages 
 RUN yarn install
 
-EXPOSE 4000
+EXPOSE $PORT
 
 ENTRYPOINT [ "yarn" ]
 

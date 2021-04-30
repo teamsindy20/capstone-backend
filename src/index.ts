@@ -1,7 +1,10 @@
 /* eslint-disable no-console */
 import ON_DEATH from 'death'
+import dotenv from 'dotenv'
 import { server } from './apollo/server'
 import { connectDatabase } from './database/postgres'
+
+dotenv.config()
 
 connectDatabase()
 

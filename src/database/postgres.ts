@@ -1,8 +1,5 @@
-import dotenv from 'dotenv'
 import { Pool } from 'pg'
 import { sleep } from '../utils/commons'
-
-dotenv.config()
 
 export const pool = new Pool({
   host: process.env.POSTGRES_HOST,
