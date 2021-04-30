@@ -30,6 +30,17 @@
 
 ### 환경 변수 설정
 
+```
+POSTGRES_HOST=
+POSTGRES_DB=
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+
+JWT_SECRET_KEY=
+
+PORT=4000
+```
+
 루트 폴더에 `.env` 파일을 생성하고 거기에 프로젝트에 필요한 환경 변수를 설정합니다.
 
 ### 개발 모드 (Local)
@@ -38,22 +49,14 @@
 > yarn dev
 ```
 
-### 개발 모드 (Docker)
-
-```shell
-> docker-compose --file docker-compose.dev.yml up --detach --build --force-recreate
-```
-
-로컬 컴퓨터에서 작업한 결과가 자동으로 Docker에 있는 GraphQL 서버에 반영됩니다.
-
-`Dockerfile.dev` 나 `docker-compose.dev.yml` 파일을 수정했을 경우엔 위 명령어를 다시 실행해야 합니다.
-
 ### 프로덕션 모드 (Local)
 
 ```shell
 > yarn build
 > yarn start
 ```
+
+TypeScript 파일을 JavaScript로 트랜스파일한 후 Node.js로 서비스를 실행합니다.
 
 ### 프로덕션 모드 (Docker)
 
@@ -73,7 +76,7 @@ http://localhost:4000
 
 ## GCP Cloud Run 배포
 
-GCP Cloud Run이 GitHub 저장소 변경 사항을 자동으로 감지하기 때문에 GitHub로 commit을 push할 때마다 Cloud Run에 자동으로 반영됩니다.
+GCP Cloud Run이 GitHub 저장소 변경 사항을 자동으로 감지하기 때문에 GitHub로 commit을 push할 때마다 Cloud Run에 자동으로 배포됩니다.
 
 ## 프로젝트 구조
 
@@ -81,4 +84,4 @@ GCP Cloud Run이 GitHub 저장소 변경 사항을 자동으로 감지하기 때
 
 - 스케일링에 의해 백엔드 컨테이너 수가 늘어날 수록 pg에서 제공하는 client pooling의 의미가 퇴색될까?
 
-- menu 개수에 비례해서 sql 수가 증가하는 문제점
+- menu 개수에 비례해서 sql 수가 증가하는 문제점. query chaining. optional field는 sql에서 select 하지 않기
