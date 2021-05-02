@@ -1,6 +1,12 @@
-# 개발 중
 input ReviewCreationInput {
   menuIds: ID!
+  rating: Rating!
+  orderId: ID!
+
+  imageUrls: [URL!]
+  goodPointContent: String
+  desiredPointContent: String
+  hashtags: [NonEmptyString!]
 }
 
 type Mutation {
