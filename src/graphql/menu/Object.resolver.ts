@@ -2,27 +2,34 @@ import { MenuResolvers } from 'src/graphql/generated/graphql'
 import { importSQL } from '../../utils/commons'
 import { pool } from '../../database/postgres'
 
-const menuFavoriteSQL = importSQL(__dirname, 'sql/menuFavorite.sql')
-const menuStoreSQL = importSQL(__dirname, 'sql/menuStore.sql')
-const menuHashtagSQL = importSQL(__dirname, 'sql/menuHashtag.sql')
+const menuCategory = importSQL(__dirname, 'sql/menuCategory.sql')
+const menuFavorite = importSQL(__dirname, 'sql/menuFavorite.sql')
+const menuStore = importSQL(__dirname, 'sql/menuStore.sql')
+const menuHashtags = importSQL(__dirname, 'sql/menuHashtags.sql')
 
 export const Menu: MenuResolvers = {
-  favorite: async (_, __, { user }) => {
+  category: async ({ categoryId }) => {
+    const { rows } = await pool.query(await menuCategory, [categoryId])
+
+    return rows[0].name
+  },
+
+  favorite: async ({ id }, __, { user }) => {
     if (!user) return false
 
-    const { rows } = await pool.query(await menuFavoriteSQL, [user.id])
+    const { rowCount } = await pool.query(await menuFavorite, [user.id, id])
 
-    return !!rows[0]
+    return !!rowCount
   },
 
   store: async ({ storeId }, _, __, info) => {
-    const { rows } = await pool.query(await menuStoreSQL, [storeId])
+    const { rows } = await pool.query(await menuStore, [storeId])
 
     return rows[0]
   },
 
   hashtags: async ({ id }) => {
-    const { rows } = await pool.query(await menuHashtagSQL, [id])
+    const { rows } = await pool.query(await menuHashtags, [id])
 
     return rows.map((row) => row.name)
   },

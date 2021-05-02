@@ -92,10 +92,12 @@ export function menuORM(menu: any) {
     canBeReserved: menu.can_be_reserved,
     name: menu.name,
     price: menu.price,
-    category: menu.category,
+    categoryId: menu.category_id,
     storeId: menu.store_id,
     imageUrls: menu.image_urls,
 
+    // from other table
+    category: '',
     favorite: false,
     store: store,
   }
@@ -119,10 +121,12 @@ export function menuFieldColumnMapping(menuField: string) {
       return ['new_customer_count', 'regular_customer_count']
     case 'regularCustomerRatio':
       return ['new_customer_count', 'regular_customer_count']
+    case 'category':
+      return ['category_id']
     case 'favorite':
       return ''
     case 'store':
-      return ''
+      return ['store_id']
     case 'hashtags':
       return ''
     default:
