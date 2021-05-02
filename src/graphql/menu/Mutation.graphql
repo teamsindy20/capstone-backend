@@ -18,5 +18,10 @@ input MenuCreationInput {
 }
 
 type Mutation {
+  """
+  자신이 소유하고 있는 매장에 새로운 메뉴를 생성합니다.
+  """
   createMenu(input: MenuCreationInput!): ID!
+
+  searchMenuCategory(searchTerm: String!): [String!]
 }

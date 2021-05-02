@@ -3,12 +3,19 @@ import { importSQL } from '../../utils/commons'
 import { pool } from '../../database/postgres'
 import { postORM } from './ORM'
 
-const postsSQL = importSQL(__dirname, 'sql/posts.sql')
+const postsByStore = importSQL(__dirname, 'sql/postsByStore.sql')
+const postsByAddress = importSQL(__dirname, 'sql/postsByAddress.sql')
 const postSQL = importSQL(__dirname, 'sql/post.sql')
 
 export const Query: QueryResolvers = {
-  posts: async (_, { storeId }) => {
-    const { rows } = await pool.query(await postsSQL, [storeId])
+  postsByStore: async (_, { storeId }) => {
+    const { rows } = await pool.query(await postsByStore, [storeId])
+
+    return rows.map((row) => postORM(row))
+  },
+
+  postsByAddress: async (_, { address }) => {
+    const { rows } = await pool.query(await postsByAddress)
 
     return rows.map((row) => postORM(row))
   },

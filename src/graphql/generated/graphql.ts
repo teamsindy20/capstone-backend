@@ -27,7 +27,6 @@ export type Menu = {
   modificationDate: Scalars['DateTime']
   name: Scalars['String']
   price: Scalars['Int']
-  category: Scalars['String']
   deliciousReviewCount: Scalars['Int']
   deliciousReviewRatio: Scalars['Int']
   fineReviewCount: Scalars['Int']
@@ -51,7 +50,10 @@ export type Menu = {
   canBePicked: Scalars['Boolean']
   canBeReserved: Scalars['Boolean']
   storeId: Scalars['ID']
+  categoryId: Scalars['ID']
   imageUrls?: Maybe<Array<Scalars['URL']>>
+  /** 해당 메뉴의 카테고리를 반환한다. */
+  category: Scalars['String']
   /** 로그인 상태일 때 요청하면 사용자가 해당 메뉴를 찜한 여부를 반환한다. */
   favorite: Scalars['Boolean']
   /** 해당 메뉴가 속한 매장 정보를 반환한다. */
@@ -85,6 +87,7 @@ export type MenuSelectionInput = {
 
 export type Mutation = {
   __typename?: 'Mutation'
+  /** 자신이 소유하고 있는 매장에 새로운 메뉴를 생성합니다. */
   createMenu: Scalars['ID']
   createOrder: Scalars['ID']
   createPost: Scalars['ID']
@@ -96,6 +99,7 @@ export type Mutation = {
   logout: Scalars['Boolean']
   /** 회원가입에 필요한 정보를 주면 성공했을 때 인증 토큰을 반환한다. */
   register: Scalars['JWT']
+  searchMenuCategory?: Maybe<Array<Scalars['String']>>
   /** 회원탈퇴 시 사용자 정보가 모두 초기화된다. */
   unregister: Scalars['Boolean']
   /** 사용자 배달 주소를 업데이트한다. */
@@ -136,6 +140,10 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   input: RegisterInput
+}
+
+export type MutationSearchMenuCategoryArgs = {
+  searchTerm: Scalars['String']
 }
 
 export type MutationUpdateDeliveryAddressArgs = {
@@ -216,22 +224,28 @@ export type Query = {
   me: User
   /** 특정 메뉴의 세부 정보를 반환한다. */
   menu?: Maybe<Menu>
+  /** 메뉴 카테고리 목록을 반환한다. */
+  menuCategories: Array<Scalars['String']>
+  /** 메뉴 테마 목록을 반환한다. */
+  menuThemes: Array<Scalars['String']>
   /** 로그인 시 사용자 맞춤 메뉴 목록을 반환한다. 비로그인 시 일반 메뉴 목록을 반환한다. */
-  menus?: Maybe<Array<Menu>>
+  menus: Array<Menu>
   /** 특정 카테고리에 속하는 메뉴 목록을 반환한다. */
-  menusByCategory?: Maybe<Array<Menu>>
+  menusByCategory: Array<Menu>
   /** 특정 매장에서 판매하는 메뉴 목록을 반환한다. */
-  menusByStore?: Maybe<Array<Menu>>
+  menusByStore: Array<Menu>
   /** 특정 테마에 속하는 메뉴 목록을 반환한다. */
-  menusByTheme?: Maybe<Array<Menu>>
+  menusByTheme: Array<Menu>
   /** 특정 주문에 대한 상세 정보를 반환한다. */
   order?: Maybe<Order>
   /** 사용자의 주문 목록을 반환한다. */
   orders?: Maybe<Array<Order>>
   /** 특정 글 정보를 반환한다. */
   post?: Maybe<Post>
+  /** 특정 주소 기반 여러 매장이 쓴 글을 반환한다. */
+  postsByAddress: Array<Post>
   /** 특정 매장이 쓴 글을 반환한다. */
-  posts?: Maybe<Array<Post>>
+  postsByStore: Array<Post>
   /** 특정 글 정보를 반환한다. */
   review?: Maybe<Post>
   /** 사용자가 작성한 리뷰 목록을 반환한다. */
@@ -270,7 +284,11 @@ export type QueryPostArgs = {
   id: Scalars['ID']
 }
 
-export type QueryPostsArgs = {
+export type QueryPostsByAddressArgs = {
+  address: Scalars['String']
+}
+
+export type QueryPostsByStoreArgs = {
   storeId: Scalars['ID']
 }
 
@@ -321,6 +339,12 @@ export type Review = {
 
 export type ReviewCreationInput = {
   menuIds: Scalars['ID']
+  rating: Rating
+  orderId: Scalars['ID']
+  imageUrls?: Maybe<Array<Scalars['URL']>>
+  goodPointContent?: Maybe<Scalars['String']>
+  desiredPointContent?: Maybe<Scalars['String']>
+  hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
 }
 
 export type Store = {
@@ -570,7 +594,6 @@ export type MenuResolvers<
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  category?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   deliciousReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   deliciousReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   fineReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
@@ -594,7 +617,9 @@ export type MenuResolvers<
   canBePicked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   canBeReserved?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  categoryId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
+  category?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
   hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
@@ -647,6 +672,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationRegisterArgs, 'input'>
+  >
+  searchMenuCategory?: Resolver<
+    Maybe<Array<ResolversTypes['String']>>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationSearchMenuCategoryArgs, 'searchTerm'>
   >
   unregister?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   updateDeliveryAddress?: Resolver<
@@ -729,21 +760,23 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryMenuArgs, 'id'>
   >
-  menus?: Resolver<Maybe<Array<ResolversTypes['Menu']>>, ParentType, ContextType>
+  menuCategories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>
+  menuThemes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>
+  menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
   menusByCategory?: Resolver<
-    Maybe<Array<ResolversTypes['Menu']>>,
+    Array<ResolversTypes['Menu']>,
     ParentType,
     ContextType,
     RequireFields<QueryMenusByCategoryArgs, 'category'>
   >
   menusByStore?: Resolver<
-    Maybe<Array<ResolversTypes['Menu']>>,
+    Array<ResolversTypes['Menu']>,
     ParentType,
     ContextType,
     RequireFields<QueryMenusByStoreArgs, 'storeId'>
   >
   menusByTheme?: Resolver<
-    Maybe<Array<ResolversTypes['Menu']>>,
+    Array<ResolversTypes['Menu']>,
     ParentType,
     ContextType,
     RequireFields<QueryMenusByThemeArgs, 'theme'>
@@ -761,11 +794,17 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryPostArgs, 'id'>
   >
-  posts?: Resolver<
-    Maybe<Array<ResolversTypes['Post']>>,
+  postsByAddress?: Resolver<
+    Array<ResolversTypes['Post']>,
     ParentType,
     ContextType,
-    RequireFields<QueryPostsArgs, 'storeId'>
+    RequireFields<QueryPostsByAddressArgs, 'address'>
+  >
+  postsByStore?: Resolver<
+    Array<ResolversTypes['Post']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryPostsByStoreArgs, 'storeId'>
   >
   review?: Resolver<
     Maybe<ResolversTypes['Post']>,
