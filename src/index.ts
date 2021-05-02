@@ -1,10 +1,12 @@
+/* eslint-disable import/first */
 /* eslint-disable no-console */
-import ON_DEATH from 'death'
 import dotenv from 'dotenv'
-import { server } from './apollo/server'
-import { connectDatabase } from './database/postgres'
 
 dotenv.config()
+
+import ON_DEATH from 'death'
+import { server } from './apollo/server'
+import { connectDatabase } from './database/postgres'
 
 connectDatabase()
 
