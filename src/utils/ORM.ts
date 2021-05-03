@@ -8,7 +8,7 @@ import { GraphQLResolveInfo } from 'graphql'
  */
 export function selectColumnFromField(
   info: GraphQLResolveInfo,
-  fieldColumnMapping: (field: string) => string | string[]
+  fieldColumnMapping: (field: any) => string | string[]
 ) {
   return [
     ...new Set(

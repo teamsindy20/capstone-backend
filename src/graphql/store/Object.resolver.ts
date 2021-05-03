@@ -1,20 +1,24 @@
 import { StoreResolvers } from 'src/graphql/generated/graphql'
 import { importSQL } from '../../utils/commons'
 import { pool } from '../../database/postgres'
-import { menuORM } from '../menu/ORM'
+import { menuFieldColumnMapping, menuORM } from '../menu/ORM'
+import format from 'pg-format'
+import { selectColumnFromField } from '../../utils/ORM'
 
-const storeMenuSQL = importSQL(__dirname, 'sql/storeMenu.sql')
-const storeHashtagSQL = importSQL(__dirname, 'sql/storeHashtag.sql')
+const storeMenus = importSQL(__dirname, 'sql/storeMenus.sql')
+const storeHashtags = importSQL(__dirname, 'sql/storeHashtags.sql')
 
 export const Store: StoreResolvers = {
-  menus: async ({ id }) => {
-    const { rows } = await pool.query(await storeMenuSQL, [id])
+  menus: async ({ id }, _, __, info) => {
+    const columns = selectColumnFromField(info, menuFieldColumnMapping)
+
+    const { rows } = await pool.query(format(await storeMenus, columns), [id])
 
     return rows.map((row) => menuORM(row))
   },
 
   hashtags: async ({ id }) => {
-    const { rows } = await pool.query(await storeHashtagSQL, [id])
+    const { rows } = await pool.query(await storeHashtags, [id])
 
     return rows.map((row) => row.name)
   },

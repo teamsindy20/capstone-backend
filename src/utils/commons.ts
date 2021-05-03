@@ -12,3 +12,7 @@ export async function importSQL(dirname: string, filename: string) {
 export function camelToSnake(str: string) {
   return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`)
 }
+
+export function returnZeroWhenZeroDivision(numerator: number, denominator: number) {
+  return denominator !== 0 ? numerator / denominator : 0
+}

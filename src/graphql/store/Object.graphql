@@ -7,12 +7,21 @@ type Store {
   deliveryFee: Int!
   minimumDeliveryAmount: Int!
   deliciousReviewCount: Int!
+  deliciousReviewRatio: Int!
   fineReviewCount: Int!
+  fineReviewRatio: Int!
+  positiveReviewCount: Int!
+  positiveReviewRatio: Int!
   badReviewCount: Int!
+  badReviewRatio: Int!
   newOrderCount: Int!
+  newOrderRatio: Int!
   reorderCount: Int!
+  reorderRatio: Int!
   newCustomerCount: Int!
+  newCustomerRatio: Int!
   regularCustomerCount: Int!
+  regularCustomerRatio: Int!
   favoriteCount: Int!
   clickCount: Int!
   postCount: Int!
@@ -20,8 +29,8 @@ type Store {
   # nullable
   reviewEventContent: String
   regularCustomerEventContent: String
-  deliveryTimeMin: Int
-  deliveryTimeMax: Int
+  minimumDeliveryTime: Int
+  maximumDeliveryTime: Int
   imageUrls: [URL!]
 
   # from other table
