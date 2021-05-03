@@ -4,8 +4,8 @@ input MenuSelectionInput {
   count: Int!
 }
 
-# 결제는 어디서 이뤄지는지?
-input PaymentInfoInput {
+# 결제는 어디서 어떻게 이뤄질까?
+input PaymentInput {
   paymentId: ID!
   paymentDate: DateTime!
 }
@@ -17,12 +17,12 @@ input UserInfoInput {
   deliveryRequest: String
   storeRequest: String
   pointUsed: Int
-  coupons: [ID!]
+  promotions: [ID!]
 }
 
 input OrderCreationInput {
   menus: [MenuSelectionInput!]!
-  payment: PaymentInfoInput!
+  payment: PaymentInput!
   user: UserInfoInput!
 }
 
