@@ -1,6 +1,28 @@
+INSERT INTO "user" (
+    email,
+    password_hash_hash,
+    name,
+    phone_number,
+    gender,
+    birth_date,
+    image_urls,
+    delivery_addresses
+  )
+VALUES (
+    'asdf@asdf.com',
+    'asdfasdf',
+    'name',
+    'phone_number',
+    'gender',
+    '2021-01-01',
+    array ['image_url'],
+    array ['delivery_address']
+  );
+
 SELECT create_store (
     '스노우플라워',
     '동작구 흑석동',
+    1,
     '',
     '',
     10,
@@ -12,6 +34,7 @@ SELECT create_store (
 SELECT create_store (
     '프랑세즈',
     '동작구 흑석동',
+    1,
     '',
     '',
     10,
@@ -23,6 +46,7 @@ SELECT create_store (
 SELECT create_store (
     '스타벅스',
     '동작구 흑석동',
+    1,
     '',
     '',
     10,
@@ -34,6 +58,7 @@ SELECT create_store (
 SELECT create_store (
     '디저트정',
     '동작구 흑석동',
+    1,
     '',
     '',
     10,
@@ -45,6 +70,7 @@ SELECT create_store (
 SELECT create_store (
     '콜렉티보',
     '영등포구 영등포동 타임스퀘어',
+    1,
     '',
     '',
     10,
@@ -56,6 +82,7 @@ SELECT create_store (
 SELECT create_store (
     '마얘',
     '영등포구 여의동 더현대',
+    1,
     '',
     '',
     10,
@@ -67,6 +94,7 @@ SELECT create_store (
 SELECT create_store (
     '나미네양과점',
     '영등포구 문래동',
+    1,
     '',
     '',
     10,
@@ -78,6 +106,7 @@ SELECT create_store (
 SELECT create_store (
     '브릿지엣지',
     '동작구 상도동',
+    1,
     '',
     '',
     10,
@@ -89,6 +118,7 @@ SELECT create_store (
 SELECT create_store (
     '플디',
     '압구정동 압구정로',
+    1,
     '',
     '',
     10,
@@ -129,7 +159,7 @@ SELECT create_menu (
     5800,
     '빵',
     3,
-    ARRAY ['https://image.istarbucks.co.kr/upload/store/skuimg/2019/11/%5B9300000002488 %5D_20191106172218633.jpg'],
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAxOTEyMTFfMTQ4/MDAxNTc2MDMxODQ5ODUw.9Dy4J1joxSrAXoqIp-z2HIOqkdyG3oEPP5bRE3E0d7Mg.PAqtcuA6XKqYALGCX-LjsH8RDuxZNXfiYkiGJ2oebcsg.JPEG.zzzzzangg/SE-092ff13a-3dfa-4f66-ae6f-4fbe2f0663b2.jpg?type=w800'],
     ARRAY ['#한라봉필', '#초코스틱', '#패스츄리']
   );
 

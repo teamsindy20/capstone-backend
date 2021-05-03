@@ -37,13 +37,13 @@ CREATE OR REPLACE FUNCTION create_store (
   hashtag_input (name) AS (
     SELECT unnest(hashtags)
   ),
-  inserted_hashtag AS (
+  inserted_hashtag (id) AS (
     INSERT INTO hashtag (name)
     SELECT *
     FROM hashtag_input ON CONFLICT (name) DO NOTHING
     RETURNING id
   ),
-  store_hashtag AS (
+  store_hashtag (id) AS (
     SELECT id
     FROM inserted_hashtag
     UNION ALL
@@ -63,22 +63,43 @@ FROM inserted_store;
 
 $$;
 
+DROP FUNCTION IF EXISTS select_insert_menu_category;
+
+CREATE OR REPLACE FUNCTION select_insert_menu_category(_name text, OUT menu_category_id int) AS $$ BEGIN LOOP
+SELECT id
+FROM menu_category
+WHERE name = _name INTO menu_category_id;
+
+EXIT
+WHEN FOUND;
+
+INSERT INTO menu_category (name)
+VALUES (_name) ON CONFLICT (name) DO NOTHING
+RETURNING menu_category.id INTO menu_category_id;
+
+EXIT
+WHEN FOUND;
+
+END LOOP;
+
+END $$ LANGUAGE plpgsql;
+
 DROP FUNCTION IF EXISTS create_menu;
 
 CREATE OR REPLACE FUNCTION create_menu (
     name text,
     price int,
-    category text,
+    category_name text,
     store_id bigint,
     image_urls text [] DEFAULT NULL,
     hashtags text [] DEFAULT NULL,
     out inserted_menu_id bigint
   ) language SQL AS $$ WITH inserted_menu AS (
-    INSERT INTO menu (name, price, category, store_id, image_urls)
+    INSERT INTO menu (name, price, category_id, store_id, image_urls)
     VALUES (
         name,
         price,
-        category,
+        select_insert_menu_category(category_name),
         store_id,
         image_urls
       )
@@ -89,7 +110,7 @@ CREATE OR REPLACE FUNCTION create_menu (
   ),
   inserted_hashtag AS (
     INSERT INTO hashtag (name)
-    SELECT *
+    SELECT name
     FROM hashtag_input ON CONFLICT (name) DO NOTHING
     RETURNING id
   ),
@@ -116,18 +137,18 @@ $$;
 DROP FUNCTION IF EXISTS create_order;
 
 CREATE OR REPLACE FUNCTION create_order (
-    order_total int,
     user_id bigint,
     store_id bigint,
     menu_id_array bigint [],
+    review_reward boolean DEFAULT NULL,
+    regular_reward boolean DEFAULT NULL,
     out inserted_order_id bigint
   ) language SQL AS $$ WITH inserted_order AS (
     INSERT INTO "order" (
-        order_total,
         user_id,
         store_id
       )
-    VALUES (order_total, user_id, store_id)
+    VALUES (user_id, store_id)
     RETURNING id
   ),
   menu_ids (id) AS (

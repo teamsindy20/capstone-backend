@@ -1,11 +1,11 @@
 DROP TABLE IF EXISTS "user" CASCADE;
 
+-- valid_authentication_date 이후의 JWT 토큰만 유효함
 CREATE TABLE "user" (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   valid_authentication_date timestamptz NOT NULL DEFAULT NOW(),
-  -- 이 시간 이후의 JWT 토큰만 유효함
   point int NOT NULL DEFAULT 0,
   is_unregistered boolean NOT NULL DEFAULT FALSE,
   --
@@ -26,6 +26,8 @@ CREATE TABLE store (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
+  name varchar(64) NOT NULL,
+  address varchar(64) NOT NULL,
   delivery_fee int NOT NULL DEFAULT 0,
   minimum_delivery_amount int NOT NULL DEFAULT 0,
   delicious_review_count int NOT NULL DEFAULT 0,
@@ -39,9 +41,6 @@ CREATE TABLE store (
   click_count int NOT NULL DEFAULT 0,
   post_count int NOT NULL DEFAULT 0,
   --
-  name varchar(64) NOT NULL,
-  address varchar(64) NOT NULL,
-  --
   user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
   --
   review_event_content text,
@@ -49,6 +48,25 @@ CREATE TABLE store (
   delivery_time_min int,
   delivery_time_max int,
   image_urls text ARRAY
+);
+
+DROP TABLE IF EXISTS menu_category CASCADE;
+
+CREATE TABLE menu_category (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  name varchar(32) UNIQUE NOT NULL,
+  menu_category_id bigint REFERENCES menu_category ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS menu_theme CASCADE;
+
+CREATE TABLE menu_theme (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  name varchar(32) UNIQUE NOT NULL
 );
 
 DROP TABLE IF EXISTS menu CASCADE;
@@ -73,16 +91,65 @@ CREATE TABLE menu (
   --
   name varchar(64) NOT NULL,
   price int NOT NULL,
-  category varchar(16) NOT NULL,
   --
   store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
+  category_id bigint NOT NULL REFERENCES menu_category ON DELETE CASCADE,
   --
-  image_urls text ARRAY
+  image_urls text ARRAY,
+  --
+  theme_id bigint REFERENCES menu_theme ON DELETE CASCADE
 );
 
-DROP INDEX IF EXISTS menu_category_index CASCADE;
+DROP INDEX IF EXISTS menu_store_id CASCADE;
 
-CREATE INDEX menu_category_index ON menu (category);
+CREATE INDEX menu_store_id ON menu (store_id);
+
+DROP INDEX IF EXISTS menu_category_id CASCADE;
+
+CREATE INDEX menu_category_id ON menu (category_id);
+
+DROP INDEX IF EXISTS menu_theme_id CASCADE;
+
+CREATE INDEX menu_theme_id ON menu (theme_id);
+
+DROP TABLE IF EXISTS menu_option_category CASCADE;
+
+-- type은 '단일선택형', '다중선택형', '서술형'
+CREATE TABLE menu_option_category (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  is_necessary boolean NOT NULL DEFAULT false,
+  --
+  name varchar(32) NOT NULL,
+  TYPE varchar(16) NOT NULL,
+  --
+  menu_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE,
+  --
+  minimum_selection_count int,
+  maximum_selection_count int
+);
+
+DROP TABLE IF EXISTS menu_option CASCADE;
+
+CREATE TABLE menu_option (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  price int NOT NULL DEFAULT 0,
+  --
+  name varchar(32) NOT NULL,
+  --
+  category_id bigint NOT NULL REFERENCES menu_option_category ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS payment CASCADE;
+
+CREATE TABLE payment (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW()
+);
 
 DROP TABLE IF EXISTS "order" CASCADE;
 
@@ -95,7 +162,6 @@ CREATE TABLE "order" (
   regular_reward boolean NOT NULL DEFAULT false,
   point_used int NOT NULL DEFAULT 0,
   --
-  order_total int NOT NULL,
   menu_total int NOT NULL,
   delivery_charge int NOT NULL,
   delivery_address varchar(64) NOT NULL,
@@ -107,6 +173,38 @@ CREATE TABLE "order" (
   --
   delivery_request varchar(256),
   store_request varchar(256)
+);
+
+DROP TABLE IF EXISTS coupon CASCADE;
+
+-- user_id 또는 store_id 가 존재해야 한다. 둘 다 없으면 안 된다.
+CREATE TABLE coupon (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  name varchar(32) NOT NULL,
+  operation varchar(16) NOT NULL,
+  discount_amount int NOT NULL,
+  minimum_order_amount int NOT NULL,
+  --
+  user_id bigint REFERENCES menu ON DELETE CASCADE,
+  store_id bigint REFERENCES store ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS promotion CASCADE;
+
+CREATE TABLE promotion (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  name varchar(32) NOT NULL,
+  operattion varchar(16) NOT NULL,
+  discount_amount int NOT NULL,
+  --
+  order_id bigint REFERENCES menu ON DELETE CASCADE,
+  store_id bigint REFERENCES store ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS review CASCADE;
@@ -153,48 +251,9 @@ CREATE TABLE hashtag (
   name varchar(32) NOT NULL UNIQUE
 );
 
-DROP TABLE IF EXISTS menu_option CASCADE;
+DROP INDEX IF EXISTS hashtag_name CASCADE;
 
-CREATE TABLE menu_option (
-  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  creation_date timestamptz NOT NULL DEFAULT NOW(),
-  modification_date timestamptz NOT NULL DEFAULT NOW(),
-  is_necessary boolean NOT NULL DEFAULT false,
-  price int NOT NULL DEFAULT 0,
-  --
-  name varchar(32) NOT NULL,
-  --
-  menu_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE,
-  --
-  category varchar(32)
-);
-
-DROP TABLE IF EXISTS coupon CASCADE;
-
-CREATE TABLE coupon (
-  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  creation_date timestamptz NOT NULL DEFAULT NOW(),
-  modification_date timestamptz NOT NULL DEFAULT NOW(),
-  --
-  name varchar(32) NOT NULL,
-  TYPE varchar(16) NOT NULL,
-  discount_amount int NOT NULL,
-  --
-  user_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE,
-  --
-  category varchar(32),
-  --
-  order_id bigint REFERENCES menu ON DELETE CASCADE,
-  store_id bigint REFERENCES store ON DELETE CASCADE
-);
-
-DROP TABLE IF EXISTS payment CASCADE;
-
-CREATE TABLE payment (
-  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  creation_date timestamptz NOT NULL DEFAULT NOW(),
-  modification_date timestamptz NOT NULL DEFAULT NOW()
-);
+CREATE UNIQUE INDEX hashtag_name ON hashtag (name);
 
 DROP TABLE IF EXISTS user_x_favorite_store;
 

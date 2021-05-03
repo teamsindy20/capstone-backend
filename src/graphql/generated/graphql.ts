@@ -35,10 +35,12 @@ export type Menu = {
   positiveReviewRatio: Scalars['Int']
   badReviewCount: Scalars['Int']
   badReviewRatio: Scalars['Int']
+  totalReviewCount: Scalars['Int']
   newOrderCount: Scalars['Int']
   newOrderRatio: Scalars['Int']
   reorderCount: Scalars['Int']
   reorderRatio: Scalars['Int']
+  totalOrderCount: Scalars['Int']
   newCustomerCount: Scalars['Int']
   newCustomerRatio: Scalars['Int']
   regularCustomerCount: Scalars['Int']
@@ -49,8 +51,8 @@ export type Menu = {
   isDiscounted: Scalars['Boolean']
   canBePicked: Scalars['Boolean']
   canBeReserved: Scalars['Boolean']
-  storeId: Scalars['ID']
   categoryId: Scalars['ID']
+  storeId: Scalars['ID']
   imageUrls?: Maybe<Array<Scalars['URL']>>
   /** 해당 메뉴의 카테고리를 반환한다. */
   category: Scalars['String']
@@ -180,7 +182,7 @@ export type Order = {
 
 export type OrderCreationInput = {
   menus: Array<MenuSelectionInput>
-  payment: PaymentInfoInput
+  payment: PaymentInput
   user: UserInfoInput
 }
 
@@ -191,7 +193,7 @@ export enum OrderStatus {
   DeliveryCompletion = 'DELIVERY_COMPLETION',
 }
 
-export type PaymentInfoInput = {
+export type PaymentInput = {
   paymentId: Scalars['ID']
   paymentDate: Scalars['DateTime']
 }
@@ -357,19 +359,28 @@ export type Store = {
   deliveryFee: Scalars['Int']
   minimumDeliveryAmount: Scalars['Int']
   deliciousReviewCount: Scalars['Int']
+  deliciousReviewRatio: Scalars['Int']
   fineReviewCount: Scalars['Int']
+  fineReviewRatio: Scalars['Int']
+  positiveReviewCount: Scalars['Int']
+  positiveReviewRatio: Scalars['Int']
   badReviewCount: Scalars['Int']
+  badReviewRatio: Scalars['Int']
   newOrderCount: Scalars['Int']
+  newOrderRatio: Scalars['Int']
   reorderCount: Scalars['Int']
+  reorderRatio: Scalars['Int']
   newCustomerCount: Scalars['Int']
+  newCustomerRatio: Scalars['Int']
   regularCustomerCount: Scalars['Int']
+  regularCustomerRatio: Scalars['Int']
   favoriteCount: Scalars['Int']
   clickCount: Scalars['Int']
   postCount: Scalars['Int']
   reviewEventContent?: Maybe<Scalars['String']>
   regularCustomerEventContent?: Maybe<Scalars['String']>
-  deliveryTimeMin?: Maybe<Scalars['Int']>
-  deliveryTimeMax?: Maybe<Scalars['Int']>
+  minimumDeliveryTime?: Maybe<Scalars['Int']>
+  maximumDeliveryTime?: Maybe<Scalars['Int']>
   imageUrls?: Maybe<Array<Scalars['URL']>>
   menus: Array<Menu>
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
@@ -413,7 +424,7 @@ export type UserInfoInput = {
   deliveryRequest?: Maybe<Scalars['String']>
   storeRequest?: Maybe<Scalars['String']>
   pointUsed?: Maybe<Scalars['Int']>
-  coupons?: Maybe<Array<Scalars['ID']>>
+  promotions?: Maybe<Array<Scalars['ID']>>
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -525,7 +536,7 @@ export type ResolversTypes = {
   Order: ResolverTypeWrapper<Order>
   OrderCreationInput: OrderCreationInput
   OrderStatus: OrderStatus
-  PaymentInfoInput: PaymentInfoInput
+  PaymentInput: PaymentInput
   Post: ResolverTypeWrapper<Post>
   PostCreationInput: PostCreationInput
   Query: ResolverTypeWrapper<{}>
@@ -557,7 +568,7 @@ export type ResolversParentTypes = {
   NonEmptyString: Scalars['NonEmptyString']
   Order: Order
   OrderCreationInput: OrderCreationInput
-  PaymentInfoInput: PaymentInfoInput
+  PaymentInput: PaymentInput
   Post: Post
   PostCreationInput: PostCreationInput
   Query: {}
@@ -602,10 +613,12 @@ export type MenuResolvers<
   positiveReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   badReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   badReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  totalReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   newOrderCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   newOrderRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   reorderCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   reorderRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  totalOrderCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   newCustomerCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   newCustomerRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   regularCustomerCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
@@ -616,8 +629,8 @@ export type MenuResolvers<
   isDiscounted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   canBePicked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   canBeReserved?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
-  storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   categoryId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
@@ -860,19 +873,28 @@ export type StoreResolvers<
   deliveryFee?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   minimumDeliveryAmount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   deliciousReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  deliciousReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   fineReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  fineReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  positiveReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  positiveReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   badReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  badReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   newOrderCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  newOrderRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   reorderCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  reorderRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   newCustomerCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  newCustomerRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   regularCustomerCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  regularCustomerRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   favoriteCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   clickCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   postCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   reviewEventContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   regularCustomerEventContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
-  deliveryTimeMin?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
-  deliveryTimeMax?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
+  minimumDeliveryTime?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
+  maximumDeliveryTime?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
   menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
   hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
