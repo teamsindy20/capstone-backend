@@ -1,9 +1,10 @@
 import { QueryResolvers } from 'src/graphql/generated/graphql'
 import { importSQL } from '../../utils/commons'
-import { pool } from '../../database/postgres'
+import { pool, poolQuery } from '../../database/postgres'
 import { menuFieldColumnMapping, menuORM } from './ORM'
 import format from 'pg-format'
 import { selectColumnFromField } from '../../utils/ORM'
+import { DatabaseQueryError } from '../../apollo/errors'
 
 const menusSQL = importSQL(__dirname, 'sql/menus.sql')
 const menusByCategory = importSQL(__dirname, 'sql/menusByCategory.sql')
@@ -52,7 +53,7 @@ export const Query: QueryResolvers = {
   },
 
   menuCategories: async () => {
-    const { rows } = await pool.query(await menuCategories)
+    const { rows } = await poolQuery(await menuCategories)
 
     return rows.map((row) => row.name)
   },
