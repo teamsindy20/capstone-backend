@@ -5,6 +5,7 @@
     "christian-kohler.path-intellisense",
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
-    "apollographql.vscode-apollo"
+    "apollographql.vscode-apollo",
+    "ms-azuretools.vscode-docker"
   ]
 }

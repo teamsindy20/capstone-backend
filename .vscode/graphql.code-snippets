@@ -1,6 +1,6 @@
 {
   "GraphQL Object": {
-    "prefix": "go",
+    "prefix": "type",
     "body": [
       "type ${TM_FILENAME_BASE} {",
       "  id: ID!",
@@ -10,6 +10,6 @@
       "}",
       ""
     ],
-    "description": "GraphQL Object"
+    "description": "GraphQL Object Type"
   }
 }
