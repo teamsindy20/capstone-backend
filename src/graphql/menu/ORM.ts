@@ -1,7 +1,8 @@
-import { camelToSnake } from '../../utils/commons'
+import { camelToSnake, returnZeroWhenZeroDivision } from '../../utils/commons'
+import { Menu } from '../generated/graphql'
 import { store } from '../store/ORM'
 
-export const menu: any = {
+export const menu: Menu = {
   id: '',
   creationDate: '',
   modificationDate: '',
@@ -12,13 +13,16 @@ export const menu: any = {
   deliciousReviewRatio: 0,
   fineReviewCount: 0,
   fineReviewRatio: 0,
+  positiveReviewCount: 0,
   positiveReviewRatio: 0,
   badReviewCount: 0,
   badReviewRatio: 0,
+  totalReviewCount: 0,
   newOrderCount: 0,
   newOrderRatio: 0,
   reorderCount: 0,
   reorderRatio: 0,
+  totalOrderCount: 0,
   newCustomerCount: 0,
   newCustomerRatio: 0,
   regularCustomerCount: 0,
@@ -30,13 +34,10 @@ export const menu: any = {
   canBePicked: false,
   canBeReserved: false,
   storeId: '',
+  categoryId: '',
 
   favorite: false,
   store: store,
-}
-
-function returnZeroWhenZeroDivision(numerator: number, denominator: number) {
-  return denominator !== 0 ? numerator / denominator : 0
 }
 
 export function menuORM(menu: any) {
@@ -64,6 +65,7 @@ export function menuORM(menu: any) {
       menu.bad_review_count,
       menu.delicious_review_count + menu.fine_review_count + menu.bad_review_count
     ),
+    totalReviewCount: menu.delicious_review_count + menu.fine_review_count + menu.bad_review_count,
     newOrderCount: menu.new_order_count,
     newOrderRatio: returnZeroWhenZeroDivision(
       menu.new_order_count,
@@ -74,6 +76,7 @@ export function menuORM(menu: any) {
       menu.reorder_count,
       menu.reorder_count + menu.new_order_count
     ),
+    totalOrderCount: menu.new_order_count + menu.reorder_count,
     newCustomerCount: menu.new_customer_count,
     newCustomerRatio: returnZeroWhenZeroDivision(
       menu.new_customer_count,
@@ -103,7 +106,7 @@ export function menuORM(menu: any) {
   }
 }
 
-export function menuFieldColumnMapping(menuField: string) {
+export function menuFieldColumnMapping(menuField: keyof Menu) {
   switch (menuField) {
     case 'deliciousReviewRatio':
       return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
@@ -113,9 +116,13 @@ export function menuFieldColumnMapping(menuField: string) {
       return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
     case 'badReviewRatio':
       return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
+    case 'totalReviewCount':
+      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
     case 'newOrderRatio':
       return ['reorder_count', 'new_order_count']
     case 'reorderRatio':
+      return ['reorder_count', 'new_order_count']
+    case 'totalOrderCount':
       return ['reorder_count', 'new_order_count']
     case 'newCustomerRatio':
       return ['new_customer_count', 'regular_customer_count']
@@ -128,6 +135,8 @@ export function menuFieldColumnMapping(menuField: string) {
     case 'store':
       return ['store_id']
     case 'hashtags':
+      return ''
+    case '__typename':
       return ''
     default:
       return camelToSnake(menuField)

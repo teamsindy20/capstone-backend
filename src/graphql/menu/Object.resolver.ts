@@ -1,6 +1,7 @@
 import { MenuResolvers } from 'src/graphql/generated/graphql'
 import { importSQL } from '../../utils/commons'
 import { pool } from '../../database/postgres'
+import { storeORM } from '../store/ORM'
 
 const menuCategory = importSQL(__dirname, 'sql/menuCategory.sql')
 const menuFavorite = importSQL(__dirname, 'sql/menuFavorite.sql')
@@ -25,7 +26,7 @@ export const Menu: MenuResolvers = {
   store: async ({ storeId }, _, __, info) => {
     const { rows } = await pool.query(await menuStore, [storeId])
 
-    return rows[0]
+    return storeORM(rows[0])
   },
 
   hashtags: async ({ id }) => {

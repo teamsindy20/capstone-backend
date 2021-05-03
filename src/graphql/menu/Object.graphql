@@ -12,10 +12,12 @@ type Menu {
   positiveReviewRatio: Int!
   badReviewCount: Int!
   badReviewRatio: Int!
+  totalReviewCount: Int!
   newOrderCount: Int!
   newOrderRatio: Int!
   reorderCount: Int!
   reorderRatio: Int!
+  totalOrderCount: Int!
   newCustomerCount: Int!
   newCustomerRatio: Int!
   regularCustomerCount: Int!

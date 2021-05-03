@@ -8,7 +8,7 @@ const userStoreSQL = importSQL(__dirname, 'sql/userStore.sql')
 
 export const Mutation: MutationResolvers = {
   createMenu: async (_, { input }, { user }) => {
-    // SQL 하나로 합치기
+    // SQL 하나로 합치기?
     const { rows: userStoreRows } = await pool.query(await userStoreSQL, [user.id])
 
     if (!userStoreRows.includes(input.storeId))
