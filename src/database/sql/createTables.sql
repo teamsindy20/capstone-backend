@@ -28,6 +28,10 @@ CREATE TABLE store (
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   name varchar(64) NOT NULL,
   address varchar(64) NOT NULL,
+  business_registration_name varchar(64) NOT NULL,
+  business_registration_number varchar(64) NOT NULL,
+  business_registration_address varchar(64) NOT NULL,
+  business_representative_name varchar(64) NOT NULL,
   delivery_fee int NOT NULL DEFAULT 0,
   minimum_delivery_amount int NOT NULL DEFAULT 0,
   delicious_review_count int NOT NULL DEFAULT 0,
@@ -114,7 +118,7 @@ CREATE INDEX menu_theme_id ON menu (theme_id);
 
 DROP TABLE IF EXISTS menu_option_category CASCADE;
 
--- type은 '단일선택형', '다중선택형', '서술형'
+-- type은 '양자택일형', '단일선택형', '다중선택형', '서술형'
 CREATE TABLE menu_option_category (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
@@ -122,9 +126,7 @@ CREATE TABLE menu_option_category (
   is_necessary boolean NOT NULL DEFAULT false,
   --
   name varchar(32) NOT NULL,
-  TYPE varchar(16) NOT NULL,
-  --
-  menu_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE,
+  "type" varchar(16) NOT NULL,
   --
   minimum_selection_count int,
   maximum_selection_count int
@@ -136,11 +138,12 @@ CREATE TABLE menu_option (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
-  price int NOT NULL DEFAULT 0,
   --
   name varchar(32) NOT NULL,
+  price int NOT NULL DEFAULT 0,
   --
-  category_id bigint NOT NULL REFERENCES menu_option_category ON DELETE CASCADE
+  category_id bigint NOT NULL REFERENCES menu_option_category ON DELETE CASCADE,
+  menu_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS payment CASCADE;
@@ -148,7 +151,9 @@ DROP TABLE IF EXISTS payment CASCADE;
 CREATE TABLE payment (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
-  modification_date timestamptz NOT NULL DEFAULT NOW()
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  name varchar(32) NOT NULL
 );
 
 DROP TABLE IF EXISTS "order" CASCADE;
@@ -157,19 +162,25 @@ CREATE TABLE "order" (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  delivery_address varchar(64) NOT NULL,
   order_status varchar(16) NOT NULL DEFAULT '접수 대기',
   review_reward boolean NOT NULL DEFAULT false,
   regular_reward boolean NOT NULL DEFAULT false,
-  point_used int NOT NULL DEFAULT 0,
-  --
   menu_total int NOT NULL,
+  point_used int NOT NULL,
   delivery_charge int NOT NULL,
-  delivery_address varchar(64) NOT NULL,
   payment_date timestamptz NOT NULL,
   --
-  payment_id bigint NOT NULL REFERENCES payment ON DELETE CASCADE,
+  store_name varchar(64) NOT NULL,
+  store_address varchar(64) NOT NULL,
+  store_business_registration_name varchar(64) NOT NULL,
+  store_business_registration_number varchar(64) NOT NULL,
+  store_business_registration_address varchar(64) NOT NULL,
+  store_business_representative_name varchar(64) NOT NULL,
+  --
   user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
-  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
+  payment_id bigint NOT NULL REFERENCES payment ON DELETE CASCADE,
   --
   delivery_request varchar(256),
   store_request varchar(256)
@@ -177,36 +188,67 @@ CREATE TABLE "order" (
 
 DROP TABLE IF EXISTS coupon CASCADE;
 
+-- type은 '정액형', '정률형'
 -- user_id 또는 store_id 가 존재해야 한다. 둘 다 없으면 안 된다.
+-- 쿠폰의 유효기간 = 쿠폰 다운로드 가능 기간
 CREATE TABLE coupon (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
   name varchar(32) NOT NULL,
-  operation varchar(16) NOT NULL,
+  "type" varchar(16) NOT NULL,
   discount_amount int NOT NULL,
   minimum_order_amount int NOT NULL,
+  is_used boolean NOT NULL DEFAULT false,
+  expiration_start_date timestamptz NOT NULL,
+  expiration_end_date timestamptz NOT NULL,
   --
-  user_id bigint REFERENCES menu ON DELETE CASCADE,
-  store_id bigint REFERENCES store ON DELETE CASCADE
+  store_id bigint REFERENCES store ON DELETE CASCADE,
+  user_id bigint REFERENCES "user" ON DELETE CASCADE,
+  order_id bigint REFERENCES "order" ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS promotion CASCADE;
+DROP TABLE IF EXISTS store_x_coupon;
 
-CREATE TABLE promotion (
-  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+-- 쿠폰을 사용할 수 있는 매장 관계
+CREATE TABLE store_x_coupon (
+  store_id bigint REFERENCES store ON DELETE CASCADE,
+  coupon_id bigint REFERENCES coupon ON DELETE CASCADE,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
-  name varchar(32) NOT NULL,
-  operattion varchar(16) NOT NULL,
-  discount_amount int NOT NULL,
-  --
-  order_id bigint REFERENCES menu ON DELETE CASCADE,
-  store_id bigint REFERENCES store ON DELETE CASCADE
+  PRIMARY KEY (store_id, coupon_id)
 );
 
+DROP TABLE IF EXISTS order_x_menu_option;
+
+-- 주문할 때 선택한 메뉴 옵션
+-- menu_option_text는 메뉴 옵션이 '서술형'일 떄 사용
+CREATE TABLE order_x_menu_option (
+  order_id bigint REFERENCES "order" ON DELETE CASCADE,
+  menu_option_id bigint REFERENCES menu_option ON DELETE CASCADE,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  menu_option_text text,
+  --
+  PRIMARY KEY (store_id, coupon_id)
+);
+
+-- DROP TABLE IF EXISTS promotion CASCADE;
+-- CREATE TABLE promotion (
+--   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+--   creation_date timestamptz NOT NULL DEFAULT NOW(),
+--   modification_date timestamptz NOT NULL DEFAULT NOW(),
+--   --
+--   name varchar(32) NOT NULL,
+--   operattion varchar(16) NOT NULL,
+--   discount_amount int NOT NULL,
+--   --
+--   order_id bigint REFERENCES menu ON DELETE CASCADE,
+--   store_id bigint REFERENCES store ON DELETE CASCADE
+-- );
 DROP TABLE IF EXISTS review CASCADE;
 
 CREATE TABLE review (
