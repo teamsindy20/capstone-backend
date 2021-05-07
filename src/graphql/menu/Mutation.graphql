@@ -6,14 +6,38 @@ input MenuOptionInput {
 }
 
 input MenuCreationInput {
+  storeId: ID!
   name: String!
   price: Int!
   category: String!
-  storeId: ID!
 
   # nullable
   imageUrls: [URL!]
   hashtags: [String!]
+  options: [MenuOptionInput!]
+}
+
+input MenuModificationInput {
+  storeId: ID!
+  name: String
+  price: Int
+  category: String
+
+  # nullable
+  """
+  기존 이미지 주소 목록을 입력한 목록으로 대체한다.
+  기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
+  """
+  imageUrls: [URL!]
+  """
+  기존 해시태그 목록을 입력한 목록으로 대체한다.
+  기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
+  """
+  hashtags: [String!]
+  """
+  기존 메뉴 옵션 목록을 입력한 목록으로 대체한다.
+  기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
+  """
   options: [MenuOptionInput!]
 }
 
@@ -24,4 +48,6 @@ type Mutation {
   createMenu(input: MenuCreationInput!): ID!
 
   searchMenuCategory(searchTerm: String!): [String!]
+
+  modifyMenu(input: MenuModificationInput!): ID!
 }

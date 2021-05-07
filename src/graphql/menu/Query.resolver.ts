@@ -1,10 +1,9 @@
 import { QueryResolvers } from 'src/graphql/generated/graphql'
 import { importSQL } from '../../utils/commons'
-import { pool, poolQuery } from '../../database/postgres'
+import { poolQuery } from '../../database/postgres'
 import { menuFieldColumnMapping, menuORM } from './ORM'
 import format from 'pg-format'
 import { selectColumnFromField } from '../../utils/ORM'
-import { DatabaseQueryError } from '../../apollo/errors'
 
 const menusSQL = importSQL(__dirname, 'sql/menus.sql')
 const menusByCategory = importSQL(__dirname, 'sql/menusByCategory.sql')
@@ -19,7 +18,7 @@ export const Query: QueryResolvers = {
 
     const columns = selectColumnFromField(info, menuFieldColumnMapping)
 
-    const { rows } = await pool.query(format(await menusSQL, columns))
+    const { rows } = await poolQuery(format(await menusSQL, columns))
 
     return rows.map((row) => menuORM(row))
   },
@@ -29,7 +28,7 @@ export const Query: QueryResolvers = {
 
     const columns = selectColumnFromField(info, menuFieldColumnMapping)
 
-    const { rows } = await pool.query(format(await menusByCategory, columns), [category])
+    const { rows } = await poolQuery(format(await menusByCategory, columns), [category])
 
     return rows.map((row) => menuORM(row))
   },
@@ -39,7 +38,7 @@ export const Query: QueryResolvers = {
 
     const columns = selectColumnFromField(info, menuFieldColumnMapping)
 
-    const { rows } = await pool.query(format(await menusByTheme, columns), [theme])
+    const { rows } = await poolQuery(format(await menusByTheme, columns), [theme])
 
     return rows.map((row) => menuORM(row))
   },
@@ -47,7 +46,7 @@ export const Query: QueryResolvers = {
   menusByStore: async (_, { storeId }, info) => {
     const columns = selectColumnFromField(info, menuFieldColumnMapping)
 
-    const { rows } = await pool.query(format(await menusByStore, columns), [storeId])
+    const { rows } = await poolQuery(format(await menusByStore, columns), [storeId])
 
     return rows.map((row) => menuORM(row))
   },
@@ -59,7 +58,7 @@ export const Query: QueryResolvers = {
   },
 
   menuThemes: async () => {
-    const { rows } = await pool.query(await menuThemes)
+    const { rows } = await poolQuery(await menuThemes)
 
     return rows.map((row) => row.name)
   },

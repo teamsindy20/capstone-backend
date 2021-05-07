@@ -65,12 +65,34 @@ export type Menu = {
 }
 
 export type MenuCreationInput = {
+  storeId: Scalars['ID']
   name: Scalars['String']
   price: Scalars['Int']
   category: Scalars['String']
-  storeId: Scalars['ID']
   imageUrls?: Maybe<Array<Scalars['URL']>>
   hashtags?: Maybe<Array<Scalars['String']>>
+  options?: Maybe<Array<MenuOptionInput>>
+}
+
+export type MenuModificationInput = {
+  storeId: Scalars['ID']
+  name?: Maybe<Scalars['String']>
+  price?: Maybe<Scalars['Int']>
+  category?: Maybe<Scalars['String']>
+  /**
+   * 기존 이미지 주소 목록을 입력한 목록으로 대체한다.
+   * 기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
+   */
+  imageUrls?: Maybe<Array<Scalars['URL']>>
+  /**
+   * 기존 해시태그 목록을 입력한 목록으로 대체한다.
+   * 기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
+   */
+  hashtags?: Maybe<Array<Scalars['String']>>
+  /**
+   * 기존 메뉴 옵션 목록을 입력한 목록으로 대체한다.
+   * 기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
+   */
   options?: Maybe<Array<MenuOptionInput>>
 }
 
@@ -81,10 +103,14 @@ export type MenuOptionInput = {
   category?: Maybe<Scalars['String']>
 }
 
+export type MenuOptionSelectionInput = {
+  menuOptionId: Scalars['ID']
+  text?: Maybe<Scalars['String']>
+}
+
 export type MenuSelectionInput = {
-  menuId: Scalars['ID']
-  menuOptionIds?: Maybe<Array<Scalars['ID']>>
   count: Scalars['Int']
+  menuOptionIds?: Maybe<Array<MenuOptionSelectionInput>>
 }
 
 export type Mutation = {
@@ -99,6 +125,7 @@ export type Mutation = {
   login: Scalars['JWT']
   /** 인증 토큰과 같이 요청하면 로그아웃 성공 여부를 반환한다. */
   logout: Scalars['Boolean']
+  modifyMenu: Scalars['ID']
   /** 회원가입에 필요한 정보를 주면 성공했을 때 인증 토큰을 반환한다. */
   register: Scalars['JWT']
   searchMenuCategory?: Maybe<Array<Scalars['String']>>
@@ -138,6 +165,10 @@ export type MutationCreateStoreArgs = {
 export type MutationLoginArgs = {
   email: Scalars['EmailAddress']
   passwordHash: Scalars['String']
+}
+
+export type MutationModifyMenuArgs = {
+  input: MenuModificationInput
 }
 
 export type MutationRegisterArgs = {
@@ -423,8 +454,8 @@ export type UserInfoInput = {
   regularReward?: Maybe<Scalars['String']>
   deliveryRequest?: Maybe<Scalars['String']>
   storeRequest?: Maybe<Scalars['String']>
-  pointUsed?: Maybe<Scalars['Int']>
-  promotions?: Maybe<Array<Scalars['ID']>>
+  point?: Maybe<Scalars['Int']>
+  coupon?: Maybe<Scalars['ID']>
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -529,7 +560,9 @@ export type ResolversTypes = {
   Int: ResolverTypeWrapper<Scalars['Int']>
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
   MenuCreationInput: MenuCreationInput
+  MenuModificationInput: MenuModificationInput
   MenuOptionInput: MenuOptionInput
+  MenuOptionSelectionInput: MenuOptionSelectionInput
   MenuSelectionInput: MenuSelectionInput
   Mutation: ResolverTypeWrapper<{}>
   NonEmptyString: ResolverTypeWrapper<Scalars['NonEmptyString']>
@@ -562,7 +595,9 @@ export type ResolversParentTypes = {
   Int: Scalars['Int']
   Boolean: Scalars['Boolean']
   MenuCreationInput: MenuCreationInput
+  MenuModificationInput: MenuModificationInput
   MenuOptionInput: MenuOptionInput
+  MenuOptionSelectionInput: MenuOptionSelectionInput
   MenuSelectionInput: MenuSelectionInput
   Mutation: {}
   NonEmptyString: Scalars['NonEmptyString']
@@ -680,6 +715,12 @@ export type MutationResolvers<
     RequireFields<MutationLoginArgs, 'email' | 'passwordHash'>
   >
   logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+  modifyMenu?: Resolver<
+    ResolversTypes['ID'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationModifyMenuArgs, 'input'>
+  >
   register?: Resolver<
     ResolversTypes['JWT'],
     ParentType,
