@@ -10,10 +10,6 @@ export const User: UserResolvers = {
     return null
   },
 
-  regularStores: async () => {
-    return null
-  },
-
   orders: async () => {
     return null
   },
@@ -21,5 +17,9 @@ export const User: UserResolvers = {
   preference: async (p) => {
     console.log('favoriteMenu', new Date())
     return ['#a', '#b', '#c']
+  },
+
+  regularStores: async () => {
+    return null
   },
 }

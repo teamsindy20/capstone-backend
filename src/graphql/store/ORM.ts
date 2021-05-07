@@ -1,14 +1,19 @@
 import { camelToSnake, returnZeroWhenZeroDivision } from '../../utils/commons'
 import { Store } from '../generated/graphql'
 import { menu } from '../menu/ORM'
+import { user } from '../user/ORM'
 
 export const store: Store = {
-  id: '0',
+  id: '',
   creationDate: '',
   modificationDate: '',
   name: '',
   address: '',
-  deliveryFee: 0,
+  businessRegistrationName: '',
+  businessRegistrationNumber: '',
+  businessRegistrationAddress: '',
+  businessRepresentativeName: '',
+  deliveryCharge: 0,
   minimumDeliveryAmount: 0,
   deliciousReviewCount: 0,
   deliciousReviewRatio: 0,
@@ -18,28 +23,37 @@ export const store: Store = {
   badReviewRatio: 0,
   positiveReviewCount: 0,
   positiveReviewRatio: 0,
+  totalReviewCount: 0,
   newOrderCount: 0,
   newOrderRatio: 0,
   reorderCount: 0,
   reorderRatio: 0,
+  totalOrderCount: 0,
   newCustomerCount: 0,
   newCustomerRatio: 0,
   regularCustomerCount: 0,
   regularCustomerRatio: 0,
+  totalCustomerCount: 0,
   favoriteCount: 0,
   clickCount: 0,
   postCount: 0,
   menus: [menu],
+  userId: '',
+  user: user,
 }
 
-export function storeORM(store: any) {
+export function storeORM(store: any): Store {
   return {
     id: store.id,
     creationDate: store.creation_date,
     modificationDate: store.modification_date,
     name: store.name,
     address: store.address,
-    deliveryFee: store.delivery_fee,
+    businessRegistrationName: store.business_registration_name,
+    businessRegistrationNumber: store.business_registration_number,
+    businessRegistrationAddress: store.business_registration_address,
+    businessRepresentativeName: store.business_representative_name,
+    deliveryCharge: store.delivery_charge,
     minimumDeliveryAmount: store.minimum_delivery_amount,
     deliciousReviewCount: store.delicious_review_count,
     deliciousReviewRatio: returnZeroWhenZeroDivision(
@@ -61,6 +75,8 @@ export function storeORM(store: any) {
       store.bad_review_count,
       store.delicious_review_count + store.fine_review_count + store.bad_review_count
     ),
+    totalReviewCount:
+      store.delicious_review_count + store.fine_review_count + store.bad_review_count,
     newOrderCount: store.new_order_count,
     newOrderRatio: returnZeroWhenZeroDivision(
       store.new_order_count,
@@ -71,6 +87,7 @@ export function storeORM(store: any) {
       store.reorder_count,
       store.reorder_count + store.new_order_count
     ),
+    totalOrderCount: store.new_order_count + store.reorder_count,
     newCustomerCount: store.new_customer_count,
     newCustomerRatio: returnZeroWhenZeroDivision(
       store.new_customer_count,
@@ -81,11 +98,18 @@ export function storeORM(store: any) {
       store.regular_customer_count,
       store.new_customer_count + store.regular_customer_count
     ),
+    totalCustomerCount: store.new_customer_count + store.regular_customer_count,
     favoriteCount: store.favorite_count,
     clickCount: store.click_count,
     postCount: store.post_count,
-
+    reviewEventContent: store.review_event_content,
+    regularCustomerEventContent: store.regular_customer_event_content,
+    minimumDeliveryTime: store.minimum_delivery_time,
+    maximumDeliveryTime: store.maximum_delivery_time,
+    imageUrls: store.image_urls,
     menus: [menu],
+    userId: store.user_id,
+    user: user,
   }
 }
 
@@ -109,7 +133,11 @@ export function storeFieldColumnMapping(storeField: keyof Store) {
       return ['new_customer_count', 'regular_customer_count']
     case 'menus':
       return ''
+    case 'user':
+      return 'user_id'
     case 'hashtags':
+      return ''
+    case 'posts':
       return ''
     case '__typename':
       return ''

@@ -4,7 +4,11 @@ type Store {
   modificationDate: DateTime!
   name: String!
   address: String!
-  deliveryFee: Int!
+  businessRegistrationName: String!
+  businessRegistrationNumber: String!
+  businessRegistrationAddress: String!
+  businessRepresentativeName: String!
+  deliveryCharge: Int!
   minimumDeliveryAmount: Int!
   deliciousReviewCount: Int!
   deliciousReviewRatio: Int!
@@ -14,17 +18,21 @@ type Store {
   positiveReviewRatio: Int!
   badReviewCount: Int!
   badReviewRatio: Int!
+  totalReviewCount: Int!
   newOrderCount: Int!
   newOrderRatio: Int!
   reorderCount: Int!
   reorderRatio: Int!
+  totalOrderCount: Int!
   newCustomerCount: Int!
   newCustomerRatio: Int!
   regularCustomerCount: Int!
   regularCustomerRatio: Int!
+  totalCustomerCount: Int!
   favoriteCount: Int!
   clickCount: Int!
   postCount: Int!
+  userId: ID!
 
   # nullable
   reviewEventContent: String
@@ -34,8 +42,16 @@ type Store {
   imageUrls: [URL!]
 
   # from other table
+  """
+  해당 매장에서 판매 중인 메뉴 목록을 반환한다.
+  """
   menus: [Menu!]!
+  """
+  해당 매장을 소유한 사용자 정보를 반환한다.
+  """
+  user: User!
 
   # from other table - nullable
   hashtags: [NonEmptyString!]
+  posts: [Post!]
 }

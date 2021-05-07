@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "capstone-backend",
   "main": "dist/index.js",
-  "repository": "https://github.com/capstone-2021-1/capstone-backend.git",
+  "repository": "https://github.com/capstone-2021-1/capstone-backend-node.git",
   "author": "sindy",
   "license": "GPL-3.0-only",
   "private": false,

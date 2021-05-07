@@ -7,7 +7,7 @@ CREATE TABLE "user" (
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
   email varchar(64) NOT NULL UNIQUE,
-  password_hash_hash varchar(128) NOT NULL,
+  point int NOT NULL DEFAULT 0 CHECK (point >= 0),
   --
   name varchar(64),
   phone_number varchar(32),
@@ -15,8 +15,9 @@ CREATE TABLE "user" (
   birth_date timestamptz,
   image_urls text ARRAY,
   delivery_addresses varchar(64) ARRAY,
-  point int NOT NULL DEFAULT 0 CHECK (point >= 0),
+  representative_delivery_address int CHECK (representative_delivery_address >= 1),
   --
+  password_hash_hash varchar(128) NOT NULL,
   valid_authentication_date timestamptz NOT NULL DEFAULT NOW(),
   is_unregistered boolean NOT NULL DEFAULT FALSE
 );
@@ -27,6 +28,7 @@ CREATE TABLE store (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
   name varchar(64) NOT NULL,
   address varchar(64) NOT NULL,
   business_registration_name varchar(64) NOT NULL,
@@ -34,16 +36,8 @@ CREATE TABLE store (
   business_registration_address varchar(64) NOT NULL,
   business_representative_name varchar(64) NOT NULL,
   --
-  user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
-  --
   delivery_charge int NOT NULL DEFAULT 0,
   minimum_delivery_amount int NOT NULL DEFAULT 0,
-  minimum_delivery_time int,
-  maximum_delivery_time int,
-  image_urls text ARRAY,
-  review_event_content text,
-  regular_customer_event_content text,
-  --
   delicious_review_count int NOT NULL DEFAULT 0,
   fine_review_count int NOT NULL DEFAULT 0,
   bad_review_count int NOT NULL DEFAULT 0,
@@ -53,7 +47,15 @@ CREATE TABLE store (
   regular_customer_count int NOT NULL DEFAULT 0,
   favorite_count int NOT NULL DEFAULT 0,
   click_count int NOT NULL DEFAULT 0,
-  post_count int NOT NULL DEFAULT 0
+  post_count int NOT NULL DEFAULT 0,
+  --
+  user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
+  --
+  review_event_content text,
+  regular_customer_event_content text,
+  minimum_delivery_time int,
+  maximum_delivery_time int,
+  image_urls text ARRAY
 );
 
 DROP TABLE IF EXISTS menu_category CASCADE;
@@ -85,10 +87,6 @@ CREATE TABLE menu (
   name varchar(64) NOT NULL,
   price int NOT NULL,
   --
-  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
-  category_id bigint NOT NULL REFERENCES menu_category ON DELETE CASCADE,
-  --
-  image_urls text ARRAY,
   delicious_review_count int NOT NULL DEFAULT 0,
   fine_review_count int NOT NULL DEFAULT 0,
   bad_review_count int NOT NULL DEFAULT 0,
@@ -102,6 +100,11 @@ CREATE TABLE menu (
   is_discounted boolean NOT NULL DEFAULT FALSE,
   can_be_picked boolean NOT NULL DEFAULT FALSE,
   can_be_reserved boolean NOT NULL DEFAULT FALSE,
+  --
+  category_id bigint NOT NULL REFERENCES menu_category ON DELETE CASCADE,
+  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
+  --
+  image_urls text ARRAY,
   --
   theme_id bigint REFERENCES menu_theme ON DELETE CASCADE
 );
@@ -125,11 +128,12 @@ DROP TABLE IF EXISTS menu_option_category CASCADE;
 CREATE TABLE menu_option_category (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
-  modification_date timestamptz NOT NULL DEFAULT NOW(),
-  is_necessary boolean NOT NULL DEFAULT false,
   --  
   name varchar(32) NOT NULL,
   "type" varchar(16) NOT NULL,
+  --
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  is_necessary boolean NOT NULL DEFAULT false,
   --
   minimum_selection_count int,
   maximum_selection_count int
@@ -182,7 +186,7 @@ CREATE TABLE "order" (
   delivery_request varchar(256),
   store_request varchar(256),
   --
-  coupon_id bigint NOT NULL REFERENCES coupon ON DELETE CASCADE
+  coupon_id bigint REFERENCES coupon ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS coupon CASCADE;
@@ -200,9 +204,10 @@ CREATE TABLE coupon (
   "type" varchar(16) NOT NULL,
   discount_amount int NOT NULL CHECK (discount_amount >= 0),
   minimum_order_amount int NOT NULL CHECK (minimum_order_amount >= 0),
-  is_used boolean NOT NULL DEFAULT false,
   expiration_start_date timestamptz NOT NULL,
   expiration_end_date timestamptz NOT NULL CHECK (expiration_start_date < expiration_end_date),
+  --
+  is_used boolean NOT NULL DEFAULT false,
   --
   store_id bigint REFERENCES store ON DELETE CASCADE,
   user_id bigint REFERENCES "user" ON DELETE CASCADE,
@@ -275,14 +280,15 @@ CREATE TABLE post (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
-  like_count int NOT NULL DEFAULT 0,
-  comment_count int NOT NULL DEFAULT 0,
   --
   content text NOT NULL,
   --
-  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
+  comment_count int NOT NULL DEFAULT 0,
+  like_count int NOT NULL DEFAULT 0,
   --
-  image_urls text ARRAY
+  image_urls text ARRAY,
+  --
+  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS hashtag CASCADE;
@@ -292,6 +298,19 @@ CREATE TABLE hashtag (
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   --
   name varchar(32) NOT NULL UNIQUE
+);
+
+DROP TABLE IF EXISTS banner_advertisement CASCADE;
+
+CREATE TABLE banner_advertisement (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  imageUrl text NOT NULL UNIQUE,
+  advertisement_start_date timestamptz NOT NULL,
+  advertisement_end_date timestamptz NOT NULL CHECK (
+    advertisement_start_date < advertisement_end_date
+  ),
 );
 
 DROP INDEX IF EXISTS hashtag_name CASCADE;

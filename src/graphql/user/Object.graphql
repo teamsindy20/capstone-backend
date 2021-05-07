@@ -6,17 +6,18 @@ type User {
   point: Int!
 
   # nullable
-  imageUrl: URL
   name: String
   phoneNumber: String
   gender: String
   birthDate: DateTime
-  address: String
+  imageUrls: [URL!]
+  deliveryAddresses: String
+  representativeDeliveryAddress: String
 
   # from other table - nullable
   favoriteMenus: [Menu!]
   favoriteStores: [Store!]
-  regularStores: [Store!]
   orders: [Order!]
   preference: [NonEmptyString!]
+  regularStores: [Store!]
 }

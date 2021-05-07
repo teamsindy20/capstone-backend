@@ -45,6 +45,7 @@ export type Menu = {
   newCustomerRatio: Scalars['Int']
   regularCustomerCount: Scalars['Int']
   regularCustomerRatio: Scalars['Int']
+  totalCustomerCount: Scalars['Int']
   favoriteCount: Scalars['Int']
   clickCount: Scalars['Int']
   storePostCount: Scalars['Int']
@@ -54,6 +55,7 @@ export type Menu = {
   categoryId: Scalars['ID']
   storeId: Scalars['ID']
   imageUrls?: Maybe<Array<Scalars['URL']>>
+  themeId?: Maybe<Scalars['ID']>
   /** 해당 메뉴의 카테고리를 반환한다. */
   category: Scalars['String']
   /** 로그인 상태일 때 요청하면 사용자가 해당 메뉴를 찜한 여부를 반환한다. */
@@ -62,6 +64,8 @@ export type Menu = {
   store: Store
   /** 해당 메뉴가 가진 해시태그 목록을 반환한다. */
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+  /** 해당 메뉴가 속한 테마를 반환한다. */
+  theme?: Maybe<Scalars['String']>
 }
 
 export type MenuCreationInput = {
@@ -234,11 +238,12 @@ export type Post = {
   id: Scalars['ID']
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
-  likeCount: Scalars['Int']
+  contents: Array<Scalars['String']>
   commentCount: Scalars['Int']
-  content: Array<Scalars['String']>
+  likeCount: Scalars['Int']
   storeId: Scalars['ID']
   imageUrls?: Maybe<Array<Scalars['URL']>>
+  /** 해당 글을 작성한 매장 정보를 반환한다. */
   store: Store
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
 }
@@ -387,7 +392,11 @@ export type Store = {
   modificationDate: Scalars['DateTime']
   name: Scalars['String']
   address: Scalars['String']
-  deliveryFee: Scalars['Int']
+  businessRegistrationName: Scalars['String']
+  businessRegistrationNumber: Scalars['String']
+  businessRegistrationAddress: Scalars['String']
+  businessRepresentativeName: Scalars['String']
+  deliveryCharge: Scalars['Int']
   minimumDeliveryAmount: Scalars['Int']
   deliciousReviewCount: Scalars['Int']
   deliciousReviewRatio: Scalars['Int']
@@ -397,24 +406,32 @@ export type Store = {
   positiveReviewRatio: Scalars['Int']
   badReviewCount: Scalars['Int']
   badReviewRatio: Scalars['Int']
+  totalReviewCount: Scalars['Int']
   newOrderCount: Scalars['Int']
   newOrderRatio: Scalars['Int']
   reorderCount: Scalars['Int']
   reorderRatio: Scalars['Int']
+  totalOrderCount: Scalars['Int']
   newCustomerCount: Scalars['Int']
   newCustomerRatio: Scalars['Int']
   regularCustomerCount: Scalars['Int']
   regularCustomerRatio: Scalars['Int']
+  totalCustomerCount: Scalars['Int']
   favoriteCount: Scalars['Int']
   clickCount: Scalars['Int']
   postCount: Scalars['Int']
+  userId: Scalars['ID']
   reviewEventContent?: Maybe<Scalars['String']>
   regularCustomerEventContent?: Maybe<Scalars['String']>
   minimumDeliveryTime?: Maybe<Scalars['Int']>
   maximumDeliveryTime?: Maybe<Scalars['Int']>
   imageUrls?: Maybe<Array<Scalars['URL']>>
+  /** 해당 매장에서 판매 중인 메뉴 목록을 반환한다. */
   menus: Array<Menu>
+  /** 해당 매장을 소유한 사용자 정보를 반환한다. */
+  user: User
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+  posts?: Maybe<Array<Post>>
 }
 
 export type StoreCreationInput = {
@@ -435,17 +452,18 @@ export type User = {
   modificationDate: Scalars['DateTime']
   email: Scalars['EmailAddress']
   point: Scalars['Int']
-  imageUrl?: Maybe<Scalars['URL']>
   name?: Maybe<Scalars['String']>
   phoneNumber?: Maybe<Scalars['String']>
   gender?: Maybe<Scalars['String']>
   birthDate?: Maybe<Scalars['DateTime']>
-  address?: Maybe<Scalars['String']>
+  imageUrls?: Maybe<Array<Scalars['URL']>>
+  deliveryAddresses?: Maybe<Scalars['String']>
+  representativeDeliveryAddress?: Maybe<Scalars['String']>
   favoriteMenus?: Maybe<Array<Menu>>
   favoriteStores?: Maybe<Array<Store>>
-  regularStores?: Maybe<Array<Store>>
   orders?: Maybe<Array<Order>>
   preference?: Maybe<Array<Scalars['NonEmptyString']>>
+  regularStores?: Maybe<Array<Store>>
 }
 
 export type UserInfoInput = {
@@ -658,6 +676,7 @@ export type MenuResolvers<
   newCustomerRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   regularCustomerCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   regularCustomerRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  totalCustomerCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   favoriteCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   clickCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   storePostCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
@@ -667,10 +686,12 @@ export type MenuResolvers<
   categoryId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
+  themeId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
   hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
+  theme?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -793,9 +814,9 @@ export type PostResolvers<
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
-  likeCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  contents?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>
   commentCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  content?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>
+  likeCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
@@ -911,7 +932,11 @@ export type StoreResolvers<
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   address?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  deliveryFee?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  businessRegistrationName?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  businessRegistrationNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  businessRegistrationAddress?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  businessRepresentativeName?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  deliveryCharge?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   minimumDeliveryAmount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   deliciousReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   deliciousReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
@@ -921,24 +946,30 @@ export type StoreResolvers<
   positiveReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   badReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   badReviewRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  totalReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   newOrderCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   newOrderRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   reorderCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   reorderRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  totalOrderCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   newCustomerCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   newCustomerRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   regularCustomerCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   regularCustomerRatio?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  totalCustomerCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   favoriteCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   clickCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   postCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   reviewEventContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   regularCustomerEventContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   minimumDeliveryTime?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
   maximumDeliveryTime?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
   menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>
   hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
+  posts?: Resolver<Maybe<Array<ResolversTypes['Post']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -955,17 +986,18 @@ export type UserResolvers<
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   email?: Resolver<ResolversTypes['EmailAddress'], ParentType, ContextType>
   point?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  imageUrl?: Resolver<Maybe<ResolversTypes['URL']>, ParentType, ContextType>
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   phoneNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   gender?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   birthDate?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>
-  address?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
+  deliveryAddresses?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  representativeDeliveryAddress?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   favoriteMenus?: Resolver<Maybe<Array<ResolversTypes['Menu']>>, ParentType, ContextType>
   favoriteStores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>
-  regularStores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>
   orders?: Resolver<Maybe<Array<ResolversTypes['Order']>>, ParentType, ContextType>
   preference?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
+  regularStores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 

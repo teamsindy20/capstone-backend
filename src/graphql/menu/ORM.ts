@@ -27,6 +27,7 @@ export const menu: Menu = {
   newCustomerRatio: 0,
   regularCustomerCount: 0,
   regularCustomerRatio: 0,
+  totalCustomerCount: 0,
   favoriteCount: 0,
   clickCount: 0,
   storePostCount: 0,
@@ -35,16 +36,17 @@ export const menu: Menu = {
   canBeReserved: false,
   storeId: '',
   categoryId: '',
-
   favorite: false,
   store: store,
 }
 
-export function menuORM(menu: any) {
+export function menuORM(menu: any): Menu {
   return {
     id: menu.id,
     creationDate: menu.creation_date,
     modificationDate: menu.modification_date,
+    name: menu.name,
+    price: menu.price,
     deliciousReviewCount: menu.delicious_review_count,
     deliciousReviewRatio: returnZeroWhenZeroDivision(
       menu.delicious_review_count,
@@ -87,19 +89,17 @@ export function menuORM(menu: any) {
       menu.regular_customer_count,
       menu.new_customer_count + menu.regular_customer_count
     ),
+    totalCustomerCount: menu.new_customer_count + menu.regular_customer_count,
     favoriteCount: menu.favorite_count,
     clickCount: menu.click_count,
     storePostCount: menu.store_post_count,
     isDiscounted: menu.is_discounted,
     canBePicked: menu.can_be_picked,
     canBeReserved: menu.can_be_reserved,
-    name: menu.name,
-    price: menu.price,
     categoryId: menu.category_id,
     storeId: menu.store_id,
     imageUrls: menu.image_urls,
-
-    // from other table
+    themeId: menu.theme_id,
     category: '',
     favorite: false,
     store: store,
@@ -128,14 +128,18 @@ export function menuFieldColumnMapping(menuField: keyof Menu) {
       return ['new_customer_count', 'regular_customer_count']
     case 'regularCustomerRatio':
       return ['new_customer_count', 'regular_customer_count']
+    case 'totalCustomerCount':
+      return ['new_customer_count', 'regular_customer_count']
     case 'category':
-      return ['category_id']
+      return 'category_id'
     case 'favorite':
       return ''
     case 'store':
-      return ['store_id']
+      return 'store_id'
     case 'hashtags':
       return ''
+    case 'theme':
+      return 'theme_id'
     case '__typename':
       return ''
     default:

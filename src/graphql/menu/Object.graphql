@@ -22,6 +22,7 @@ type Menu {
   newCustomerRatio: Int!
   regularCustomerCount: Int!
   regularCustomerRatio: Int!
+  totalCustomerCount: Int!
   favoriteCount: Int!
   clickCount: Int!
   storePostCount: Int!
@@ -33,6 +34,7 @@ type Menu {
 
   # nullable
   imageUrls: [URL!]
+  themeId: ID
 
   # from other table
   """
@@ -53,4 +55,8 @@ type Menu {
   해당 메뉴가 가진 해시태그 목록을 반환한다.
   """
   hashtags: [NonEmptyString!]
+  """
+  해당 메뉴가 속한 테마를 반환한다.
+  """
+  theme: String
 }
