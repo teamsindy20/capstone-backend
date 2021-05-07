@@ -1,7 +1,11 @@
+input MenuOptionSelectionInput {
+  menuOptionId: ID!
+  text: String
+}
+
 input MenuSelectionInput {
-  menuId: ID!
-  menuOptionIds: [ID!]
   count: Int!
+  menuOptionIds: [MenuOptionSelectionInput!]
 }
 
 # 결제는 어디서 어떻게 이뤄질까?
@@ -16,8 +20,8 @@ input UserInfoInput {
   regularReward: String
   deliveryRequest: String
   storeRequest: String
-  pointUsed: Int
-  promotions: [ID!]
+  point: Int
+  coupon: ID
 }
 
 input OrderCreationInput {
