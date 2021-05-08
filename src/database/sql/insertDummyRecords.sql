@@ -68,6 +68,66 @@ SELECT create_store (
   );
 
 SELECT create_store (
+    '조이마카롱',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '앳더블랑',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '페이브베이커리',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '샌드위드',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '메이카페',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
     '콜렉티보',
     '영등포구 영등포동 타임스퀘어',
     1,
@@ -79,6 +139,185 @@ SELECT create_store (
     ARRAY ['#다양', '#개성']
   );
 
+SELECT create_store (
+    '토크넌센스',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '흑석커피',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '오후홍콩',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '브런치로뎀',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '베러댄와플',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '띵똥와플',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '그랩커피',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '베브릿지',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '다카페',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '스마일꽈배기',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '리앤홍',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '카페그리지',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '카페출국',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '언니네식빵',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
+
+SELECT create_store (
+    '뚜스뚜스',
+    '동작구 흑석동',
+    1,
+    '',
+    '',
+    10,
+    19,
+    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
+    ARRAY ['#갓성비', '#마카마카']
+  );
 
 SELECT create_store (
     '마얘',
