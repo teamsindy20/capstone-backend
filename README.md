@@ -7,6 +7,8 @@
 - macOS 11.2
 - Git 2.31
 - Yarn 1.22
+- Node.js LTS
+- PostgreSQL 13.2
 - Docker 20.10
 - Docker Compose 1.28
 - Visual Studio Code 1.54
@@ -41,7 +43,7 @@ JWT_SECRET_KEY=
 PORT=4000
 ```
 
-루트 폴더에 `.env` 파일을 생성하고 거기에 프로젝트에 필요한 환경 변수를 설정합니다.
+루트 폴더에 `.env`, `.env.development` 파일을 생성하고 거기에 프로젝트에 필요한 환경 변수를 설정합니다.
 
 ### 개발 모드 (Local)
 
