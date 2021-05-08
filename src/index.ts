@@ -2,7 +2,8 @@
 /* eslint-disable no-console */
 import dotenv from 'dotenv'
 
-dotenv.config()
+if (process.env.NODE_ENV === 'production') dotenv.config()
+else dotenv.config({ path: '.env.development' })
 
 import { server } from './apollo/server'
 import { connectDatabase } from './database/postgres'
