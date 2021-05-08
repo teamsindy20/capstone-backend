@@ -14,5 +14,26 @@
     "yarn.lock": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
-  "eslint.packageManager": "yarn"
+  "eslint.packageManager": "yarn",
+
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "Localhost - Sindy",
+      "database": "sindy",
+      "username": "sindy",
+      "password": ""
+    }
+  ],
+  "[sql]": {
+    "editor.defaultFormatter": "mtxr.sqltools"
+  },
+  "sqltools.highlightQuery": false,
+  "sqltools.format": {
+    "reservedWordCase": "upper",
+    "linesBetweenQueries": 2
+  }
 }
