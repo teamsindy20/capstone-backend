@@ -1,4 +1,20 @@
-DROP TABLE IF EXISTS "user" CASCADE;
+DROP SCHEMA public CASCADE;
+
+CREATE SCHEMA public AUTHORIZATION sindy;
+
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+GRANT ALL ON SCHEMA public TO sindy;
+
+DROP SCHEMA deleted CASCADE;
+
+CREATE SCHEMA deleted AUTHORIZATION sindy;
+
+COMMENT ON SCHEMA deleted IS 'deleted records history';
+
+GRANT ALL ON SCHEMA deleted TO sindy;
 
 -- valid_authentication_date 이후의 JWT 토큰만 유효함
 CREATE TABLE "user" (
@@ -18,11 +34,26 @@ CREATE TABLE "user" (
   representative_delivery_address int CHECK (representative_delivery_address >= 1),
   --
   password_hash_hash varchar(128) NOT NULL,
-  valid_authentication_date timestamptz NOT NULL DEFAULT NOW(),
-  is_unregistered boolean NOT NULL DEFAULT FALSE
+  valid_authentication_date timestamptz NOT NULL DEFAULT NOW()
 );
 
-DROP TABLE IF EXISTS store CASCADE;
+CREATE TABLE deleted."user" (
+  id bigint PRIMARY KEY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  deletion_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  email varchar(64) NOT NULL UNIQUE,
+  point int NOT NULL DEFAULT 0 CHECK (point >= 0),
+  --
+  name varchar(64),
+  phone_number varchar(32),
+  gender varchar(16),
+  birth_date timestamptz,
+  image_urls text ARRAY,
+  delivery_addresses varchar(64) ARRAY,
+  representative_delivery_address int CHECK (representative_delivery_address >= 1)
+);
 
 CREATE TABLE store (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -58,8 +89,6 @@ CREATE TABLE store (
   image_urls text ARRAY
 );
 
-DROP TABLE IF EXISTS menu_category CASCADE;
-
 CREATE TABLE menu_category (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
@@ -68,16 +97,12 @@ CREATE TABLE menu_category (
   menu_category_id bigint REFERENCES menu_category ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS menu_theme CASCADE;
-
 CREATE TABLE menu_theme (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   --
   name varchar(32) UNIQUE NOT NULL
 );
-
-DROP TABLE IF EXISTS menu CASCADE;
 
 CREATE TABLE menu (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -109,19 +134,11 @@ CREATE TABLE menu (
   theme_id bigint REFERENCES menu_theme ON DELETE CASCADE
 );
 
-DROP INDEX IF EXISTS menu_store_id CASCADE;
-
 CREATE INDEX menu_store_id ON menu (store_id);
-
-DROP INDEX IF EXISTS menu_category_id CASCADE;
 
 CREATE INDEX menu_category_id ON menu (category_id);
 
-DROP INDEX IF EXISTS menu_theme_id CASCADE;
-
 CREATE INDEX menu_theme_id ON menu (theme_id);
-
-DROP TABLE IF EXISTS menu_option_category CASCADE;
 
 -- type은 '양자택일형', '단일선택형', '다중선택형', '서술형'
 -- selection_count는 '다중선택형'일 때 사용
@@ -139,8 +156,6 @@ CREATE TABLE menu_option_category (
   maximum_selection_count int
 );
 
-DROP TABLE IF EXISTS menu_option CASCADE;
-
 CREATE TABLE menu_option (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
@@ -153,8 +168,6 @@ CREATE TABLE menu_option (
   menu_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS payment CASCADE;
-
 CREATE TABLE payment (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
@@ -163,7 +176,34 @@ CREATE TABLE payment (
   name varchar(32) NOT NULL
 );
 
-DROP TABLE IF EXISTS "order" CASCADE;
+CREATE TABLE "order" (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY
+);
+
+-- type은 '정액형', '정률형'
+-- user_id: 쿠폰 소유 사용자 
+-- store_id: 쿠폰 발행 매장
+-- order_id: 쿠폰을 사용한 주문
+-- 쿠폰의 유효기간 = 쿠폰 다운로드 가능 기간
+CREATE TABLE coupon (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  name varchar(32) NOT NULL,
+  "type" varchar(16) NOT NULL,
+  discount_amount int NOT NULL CHECK (discount_amount >= 0),
+  minimum_order_amount int NOT NULL CHECK (minimum_order_amount >= 0),
+  expiration_start_date timestamptz NOT NULL,
+  expiration_end_date timestamptz NOT NULL CHECK (expiration_start_date < expiration_end_date),
+  --
+  is_used boolean NOT NULL DEFAULT false,
+  --
+  store_id bigint REFERENCES store ON DELETE CASCADE,
+  user_id bigint REFERENCES "user" ON DELETE CASCADE,
+  order_id bigint REFERENCES "order" ON DELETE CASCADE
+);
+
+DROP TABLE "order" CASCADE;
 
 CREATE TABLE "order" (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -189,32 +229,8 @@ CREATE TABLE "order" (
   coupon_id bigint REFERENCES coupon ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS coupon CASCADE;
-
--- type은 '정액형', '정률형'
--- user_id: 쿠폰 소유 사용자 
--- store_id: 쿠폰 발행 매장
--- order_id: 쿠폰을 사용한 주문
--- 쿠폰의 유효기간 = 쿠폰 다운로드 가능 기간
-CREATE TABLE coupon (
-  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  creation_date timestamptz NOT NULL DEFAULT NOW(),
-  --
-  name varchar(32) NOT NULL,
-  "type" varchar(16) NOT NULL,
-  discount_amount int NOT NULL CHECK (discount_amount >= 0),
-  minimum_order_amount int NOT NULL CHECK (minimum_order_amount >= 0),
-  expiration_start_date timestamptz NOT NULL,
-  expiration_end_date timestamptz NOT NULL CHECK (expiration_start_date < expiration_end_date),
-  --
-  is_used boolean NOT NULL DEFAULT false,
-  --
-  store_id bigint REFERENCES store ON DELETE CASCADE,
-  user_id bigint REFERENCES "user" ON DELETE CASCADE,
-  order_id bigint REFERENCES "order" ON DELETE CASCADE
-);
-
-DROP TABLE IF EXISTS store_x_coupon;
+ALTER TABLE coupon
+ADD FOREIGN KEY (order_id) REFERENCES "order";
 
 -- 쿠폰을 사용할 수 있는 매장 관계
 CREATE TABLE store_x_coupon (
@@ -225,8 +241,6 @@ CREATE TABLE store_x_coupon (
   --
   PRIMARY KEY (store_id, coupon_id)
 );
-
-DROP TABLE IF EXISTS order_x_menu;
 
 -- 주문할 때 선택한 메뉴 옵션
 -- menu_option_text는 메뉴 옵션이 '서술형'일 떄 사용
@@ -242,7 +256,6 @@ CREATE TABLE order_x_menu (
   PRIMARY KEY (order_id, menu_id)
 );
 
--- DROP TABLE IF EXISTS promotion CASCADE;
 -- CREATE TABLE promotion (
 --   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 --   creation_date timestamptz NOT NULL DEFAULT NOW(),
@@ -255,8 +268,6 @@ CREATE TABLE order_x_menu (
 --   order_id bigint REFERENCES menu ON DELETE CASCADE,
 --   store_id bigint REFERENCES store ON DELETE CASCADE
 -- );
-DROP TABLE IF EXISTS review CASCADE;
-
 CREATE TABLE review (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
@@ -274,8 +285,6 @@ CREATE TABLE review (
   desired_point_content text
 );
 
-DROP TABLE IF EXISTS post CASCADE;
-
 CREATE TABLE post (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
@@ -291,16 +300,12 @@ CREATE TABLE post (
   store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS hashtag CASCADE;
-
 CREATE TABLE hashtag (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   --
   name varchar(32) NOT NULL UNIQUE
 );
-
-DROP TABLE IF EXISTS banner_advertisement CASCADE;
 
 CREATE TABLE banner_advertisement (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -310,25 +315,26 @@ CREATE TABLE banner_advertisement (
   advertisement_start_date timestamptz NOT NULL,
   advertisement_end_date timestamptz NOT NULL CHECK (
     advertisement_start_date < advertisement_end_date
-  ),
+  )
 );
 
-DROP INDEX IF EXISTS hashtag_name CASCADE;
-
 CREATE UNIQUE INDEX hashtag_name ON hashtag (name);
-
-DROP TABLE IF EXISTS user_x_favorite_store;
 
 CREATE TABLE user_x_favorite_store (
   user_id bigint REFERENCES "user" ON DELETE CASCADE,
   store_id bigint REFERENCES store ON DELETE CASCADE,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
-  modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
   PRIMARY KEY (user_id, store_id)
 );
 
-DROP TABLE IF EXISTS user_x_regular_store;
+CREATE TABLE deleted.user_x_favorite_store (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  user_id bigint NOT NULL,
+  store_id bigint NOT NULL,
+  creation_date timestamptz NOT NULL,
+  deletion_date timestamptz NOT NULL DEFAULT NOW()
+);
 
 CREATE TABLE user_x_regular_store (
   user_id bigint REFERENCES "user" ON DELETE CASCADE,
@@ -344,18 +350,21 @@ CREATE TABLE user_x_regular_store (
   PRIMARY KEY (user_id, store_id)
 );
 
-DROP TABLE IF EXISTS user_x_favorite_menu;
-
 CREATE TABLE user_x_favorite_menu (
   user_id bigint REFERENCES "user" ON DELETE CASCADE,
   menu_id bigint REFERENCES menu ON DELETE CASCADE,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
-  modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
   PRIMARY KEY (user_id, menu_id)
 );
 
-DROP TABLE IF EXISTS user_x_hashtag;
+CREATE TABLE deleted.user_x_favorite_menu (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  user_id bigint NOT NULL,
+  menu_id bigint NOT NULL,
+  creation_date timestamptz NOT NULL,
+  deletion_date timestamptz NOT NULL DEFAULT NOW()
+);
 
 CREATE TABLE user_x_hashtag (
   user_id bigint REFERENCES "user" ON DELETE CASCADE,
@@ -366,8 +375,6 @@ CREATE TABLE user_x_hashtag (
   PRIMARY KEY (user_id, hashtag_id)
 );
 
-DROP TABLE IF EXISTS store_x_hashtag;
-
 CREATE TABLE store_x_hashtag (
   store_id bigint REFERENCES store ON DELETE CASCADE,
   hashtag_id bigint REFERENCES hashtag ON DELETE CASCADE,
@@ -376,8 +383,6 @@ CREATE TABLE store_x_hashtag (
   --
   PRIMARY KEY (store_id, hashtag_id)
 );
-
-DROP TABLE IF EXISTS menu_x_review;
 
 CREATE TABLE menu_x_review (
   menu_id bigint REFERENCES menu ON DELETE CASCADE,
@@ -388,8 +393,6 @@ CREATE TABLE menu_x_review (
   PRIMARY KEY (menu_id, review_id)
 );
 
-DROP TABLE IF EXISTS menu_x_hashtag;
-
 CREATE TABLE menu_x_hashtag (
   menu_id bigint REFERENCES menu,
   hashtag_id bigint REFERENCES hashtag,
@@ -398,8 +401,6 @@ CREATE TABLE menu_x_hashtag (
   --
   PRIMARY KEY (menu_id, hashtag_id)
 );
-
-DROP TABLE IF EXISTS menu_x_order;
 
 CREATE TABLE menu_x_order (
   menu_id bigint REFERENCES menu,
@@ -410,8 +411,6 @@ CREATE TABLE menu_x_order (
   PRIMARY KEY (menu_id, order_id)
 );
 
-DROP TABLE IF EXISTS menu_option_x_order;
-
 CREATE TABLE menu_option_x_order (
   menu_option_id bigint REFERENCES menu_option,
   order_id bigint REFERENCES "order",
@@ -421,8 +420,6 @@ CREATE TABLE menu_option_x_order (
   PRIMARY KEY (menu_option_id, order_id)
 );
 
-DROP TABLE IF EXISTS review_x_hashtag;
-
 CREATE TABLE review_x_hashtag (
   review_id bigint REFERENCES review,
   hashtag_id bigint REFERENCES hashtag,
@@ -431,8 +428,6 @@ CREATE TABLE review_x_hashtag (
   --
   PRIMARY KEY (review_id, hashtag_id)
 );
-
-DROP TABLE IF EXISTS post_x_hashtag;
 
 CREATE TABLE post_x_hashtag (
   post_id bigint REFERENCES post,
