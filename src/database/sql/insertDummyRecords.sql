@@ -9,14 +9,14 @@ INSERT INTO "user" (
     delivery_addresses
   )
 VALUES (
-    'asdf@asdf.com',
+    'asdf@google.com',
     'asdfasdf',
     'name',
     'phone_number',
     'gender',
     '2021-01-01',
     array ['image_url'],
-    array ['delivery_address'],
+    array ['delivery_address']
   );
 
 SELECT create_store (
@@ -52,7 +52,7 @@ SELECT create_store (
     10,
     19,
     ARRAY ['https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png'],
-    ARRAY ['#무난', '#인테리어', "#갬성"]
+    ARRAY ['#무난', '#인테리어', '#갬성']
   );
 
 SELECT create_store (
@@ -78,6 +78,7 @@ SELECT create_store (
     ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMTAzMDdfMjU3/MDAxNjE1MDQ0OTQwMDkz.mF-dURiMV6Pdo11mPU5v_D8C4NSHjnOM4VXH5dOe_X8g.6Atvg8SW7qUMr1Sqcadr0yPAzVQZ73xcjhylNSE_OsQg.JPEG.artforlove/SE-e19bde1b-e94c-49a3-af7a-e063cf4f157c.jpg?type=w800'],
     ARRAY ['#다양', '#개성']
   );
+
 
 SELECT create_store (
     '마얘',
