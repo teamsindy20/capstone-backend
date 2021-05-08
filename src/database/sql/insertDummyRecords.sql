@@ -16,7 +16,7 @@ VALUES (
     'gender',
     '2021-01-01',
     array ['image_url'],
-    array ['delivery_address']
+    array ['delivery_address'],
   );
 
 SELECT create_store (
@@ -52,7 +52,7 @@ SELECT create_store (
     10,
     19,
     ARRAY ['https://upload.wikimedia.org/wikipedia/en/thumb/d/d3/Starbucks_Corporation_Logo_2011.svg/1200px-Starbucks_Corporation_Logo_2011.svg.png'],
-    ARRAY ['#무난', '#인테리어']
+    ARRAY ['#무난', '#인테리어', "#갬성"]
   );
 
 SELECT create_store (
