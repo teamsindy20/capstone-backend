@@ -127,6 +127,14 @@ SELECT create_store (
     ARRAY ['#디저트맛집', '#plate_d', '#딸기케이크', '#압구정', '#플디']
   );
 
+SELECT toggle_user_favorite_store(1, 9);
+
+SELECT toggle_user_favorite_store(1, 2);
+
+SELECT toggle_user_favorite_store(1, 3);
+
+SELECT toggle_user_favorite_store(1, 4);
+
 SELECT create_menu (
     '팥빙수',
     5900,
