@@ -130,6 +130,18 @@ export type Mutation = {
   /** 인증 토큰과 같이 요청하면 로그아웃 성공 여부를 반환한다. */
   logout: Scalars['Boolean']
   modifyMenu: Scalars['ID']
+  /**
+   * 해당 메뉴를 찜하거나 이미 찜한 메뉴를 해제한다.
+   *
+   * True: 찜 성공, False: 찜 해제
+   */
+  pickMenu: Scalars['Boolean']
+  /**
+   * 해당 매장을 찜하거나 이미 찜한 매장을 헤제한다.
+   *
+   * True: 찜 성공, False: 찜 해제
+   */
+  pickStore: Scalars['Boolean']
   /** 회원가입에 필요한 정보를 주면 성공했을 때 인증 토큰을 반환한다. */
   register: Scalars['JWT']
   searchMenuCategory?: Maybe<Array<Scalars['String']>>
@@ -173,6 +185,14 @@ export type MutationLoginArgs = {
 
 export type MutationModifyMenuArgs = {
   input: MenuModificationInput
+}
+
+export type MutationPickMenuArgs = {
+  id: Scalars['ID']
+}
+
+export type MutationPickStoreArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationRegisterArgs = {
@@ -741,6 +761,18 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationModifyMenuArgs, 'input'>
+  >
+  pickMenu?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationPickMenuArgs, 'id'>
+  >
+  pickStore?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationPickStoreArgs, 'id'>
   >
   register?: Resolver<
     ResolversTypes['JWT'],

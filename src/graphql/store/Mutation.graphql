@@ -13,4 +13,11 @@ input StoreCreationInput {
 
 type Mutation {
   createStore(input: StoreCreationInput!): ID!
+
+  """
+  해당 매장을 찜하거나 이미 찜한 매장을 헤제한다.
+
+  True: 찜 성공, False: 찜 해제
+  """
+  pickStore(id: ID!): Boolean!
 }
