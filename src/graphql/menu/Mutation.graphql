@@ -50,4 +50,11 @@ type Mutation {
   searchMenuCategory(searchTerm: String!): [String!]
 
   modifyMenu(input: MenuModificationInput!): ID!
+
+  """
+  해당 메뉴를 찜하거나 이미 찜한 메뉴를 해제한다.
+
+  `true`: 찜 성공, `false`: 찜 해제
+  """
+  pickMenu(id: ID!): Boolean!
 }

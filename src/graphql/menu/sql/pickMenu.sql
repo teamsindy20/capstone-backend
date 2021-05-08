@@ -1,0 +1,1 @@
+SELECT toggle_user_favorite_menu($1, $2);

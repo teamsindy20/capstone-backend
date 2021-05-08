@@ -142,6 +142,74 @@ FROM inserted_menu;
 
 $$;
 
+DROP FUNCTION IF EXISTS toggle_user_favorite_menu;
+
+CREATE OR REPLACE FUNCTION toggle_user_favorite_menu(_user_id bigint, _menu_id bigint) RETURNS boolean LANGUAGE plpgsql AS $$ BEGIN perform
+FROM user_x_favorite_menu
+WHERE user_id = _user_id
+  AND menu_id = _menu_id;
+
+IF NOT FOUND THEN
+INSERT INTO user_x_favorite_menu(user_id, menu_id)
+VALUES(_user_id, _menu_id);
+
+RETURN TRUE;
+
+ELSE
+INSERT INTO deleted.user_x_favorite_menu(user_id, menu_id, creation_date)
+SELECT user_id,
+  menu_id,
+  creation_date
+FROM user_x_favorite_menu
+WHERE user_id = _user_id
+  AND menu_id = _menu_id;
+
+DELETE FROM user_x_favorite_menu
+WHERE user_id = _user_id
+  AND menu_id = _menu_id;
+
+RETURN FALSE;
+
+END IF;
+
+END;
+
+$$;
+
+DROP FUNCTION IF EXISTS toggle_user_favorite_store;
+
+CREATE OR REPLACE FUNCTION toggle_user_favorite_store(_user_id bigint, _store_id bigint) RETURNS boolean LANGUAGE plpgsql AS $$ BEGIN perform
+FROM user_x_favorite_store
+WHERE user_id = _user_id
+  AND store_id = _store_id;
+
+IF NOT FOUND THEN
+INSERT INTO user_x_favorite_store(user_id, store_id)
+VALUES(_user_id, _store_id);
+
+RETURN TRUE;
+
+ELSE
+INSERT INTO deleted.user_x_favorite_store(user_id, store_id, creation_date)
+SELECT user_id,
+  store_id,
+  creation_date
+FROM user_x_favorite_store
+WHERE user_id = _user_id
+  AND store_id = _store_id;
+
+DELETE FROM user_x_favorite_store
+WHERE user_id = _user_id
+  AND store_id = _store_id;
+
+RETURN FALSE;
+
+END IF;
+
+END;
+
+$$;
+
 DROP FUNCTION IF EXISTS get_total_price_from;
 
 CREATE OR REPLACE FUNCTION get_total_price_from(
