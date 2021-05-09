@@ -1,13 +1,32 @@
+import format from 'pg-format'
 import { UserResolvers } from 'src/graphql/generated/graphql'
-import { pool } from '../../database/postgres'
+import { importSQL } from '../../utils/commons'
+import { selectColumnFromField } from '../../utils/ORM'
+import { poolQuery } from '../../database/postgres'
+import { menuFieldColumnMapping, menuORM } from '../menu/ORM'
+import { storeFieldColumnMapping, storeORM } from '../store/ORM'
+
+const userFavoriteMenus = importSQL(__dirname, 'sql/userFavoriteMenus.sql')
+const userFavoriteStores = importSQL(__dirname, 'sql/userFavoriteStores.sql')
+const userRegularStores = importSQL(__dirname, 'sql/userRegularStores.sql')
 
 export const User: UserResolvers = {
-  favoriteMenus: async () => {
-    return null
+  favoriteMenus: async ({ id }, _, __, info) => {
+    const columns = selectColumnFromField(info, menuFieldColumnMapping)
+
+    const { rows } = await poolQuery(format(await userFavoriteMenus, columns), [id])
+
+    return rows.map((row) => menuORM(row))
   },
 
-  favoriteStores: async () => {
-    return null
+  favoriteStores: async ({ id }, _, __, info) => {
+    const columns = selectColumnFromField(info, storeFieldColumnMapping).map((column) =>
+      column === 'user_id' ? 'store.user_id' : column
+    )
+
+    const { rows } = await poolQuery(format(await userFavoriteStores, columns), [id])
+
+    return rows.map((row) => storeORM(row))
   },
 
   orders: async () => {
@@ -19,7 +38,13 @@ export const User: UserResolvers = {
     return ['#a', '#b', '#c']
   },
 
-  regularStores: async () => {
-    return null
+  regularStores: async ({ id }, _, __, info) => {
+    const columns = selectColumnFromField(info, storeFieldColumnMapping).map((column) =>
+      column === 'user_id' ? 'store.user_id' : column
+    )
+
+    const { rows } = await poolQuery(format(await userRegularStores, columns), [id])
+
+    return rows.map((row) => storeORM(row))
   },
 }

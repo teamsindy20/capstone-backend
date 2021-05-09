@@ -33,6 +33,8 @@ export function userORM(user: any): User {
 // __typename -> ''
 export function userFieldColumnMapping(userField: keyof User) {
   switch (userField) {
+    case 'representativeDeliveryAddress':
+      return ['representative_delivery_address', 'delivery_addresses']
     case 'favoriteMenus':
       return ''
     case 'favoriteStores':
