@@ -297,7 +297,37 @@ CREATE TABLE post (
   --
   image_urls text ARRAY,
   --
-  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE
+  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
+  post_category_id bigint NOT NULL REFERENCES post_category ON DELETE CASCADE
+);
+
+CREATE TABLE user_x_liked_post (
+  user_id bigint REFERENCES "user" ON DELETE CASCADE,
+  post_id bigint REFERENCES post ON DELETE CASCADE,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  PRIMARY KEY (user_id, post_id)
+);
+
+CREATE TABLE post_category (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  name varchar(64) NOT NULL
+);
+
+CREATE TABLE "comment" (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  content varchar(256) NOT NULL,
+  --
+  user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
+  post_id bigint NOT NULL REFERENCES post ON DELETE CASCADE,
+  --
+  comment_id bigint REFERENCES "comment" ON DELETE CASCADE,
 );
 
 CREATE TABLE hashtag (
