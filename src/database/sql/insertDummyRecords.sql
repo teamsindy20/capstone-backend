@@ -376,6 +376,15 @@ SELECT toggle_user_favorite_store(1, 3);
 SELECT toggle_user_favorite_store(1, 4);
 
 SELECT create_menu (
+    '말차달고나스콘',
+    3500,
+    '스콘',
+    1,
+    ARRAY ['https://i.pinimg.com/564x/e5/41/d1/e541d1856ab5061172c250225d247ae5.jpg'],
+    ARRAY ['#녹차', '#말차','#달고나','#비건', '#비건스콘','#다이어트']
+  );
+
+SELECT create_menu (
     '팥빙수',
     5900,
     '아이스크림',
