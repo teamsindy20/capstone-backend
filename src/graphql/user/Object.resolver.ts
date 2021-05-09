@@ -1,6 +1,6 @@
 import format from 'pg-format'
 import { UserResolvers } from 'src/graphql/generated/graphql'
-import { importSQL } from '../../utils/commons'
+import { importSQL, removeDoubleQuotesAround } from '../../utils/commons'
 import { selectColumnFromField } from '../../utils/ORM'
 import { poolQuery } from '../../database/postgres'
 import { menuFieldColumnMapping, menuORM } from '../menu/ORM'
@@ -24,7 +24,14 @@ export const User: UserResolvers = {
       column === 'user_id' ? 'store.user_id' : column
     )
 
-    const { rows } = await poolQuery(format(await userFavoriteStores, columns), [id])
+    const formattedSQL = removeDoubleQuotesAround(
+      ['store.user_id'],
+      format(await userFavoriteStores, columns)
+    )
+
+    const { rows } = await poolQuery(formattedSQL, [id])
+
+    console.log(rows[0])
 
     return rows.map((row) => storeORM(row))
   },
@@ -43,7 +50,12 @@ export const User: UserResolvers = {
       column === 'user_id' ? 'store.user_id' : column
     )
 
-    const { rows } = await poolQuery(format(await userRegularStores, columns), [id])
+    const formattedSQL = removeDoubleQuotesAround(
+      ['store.user_id'],
+      format(await userRegularStores, columns)
+    )
+
+    const { rows } = await poolQuery(formattedSQL, [id])
 
     return rows.map((row) => storeORM(row))
   },
