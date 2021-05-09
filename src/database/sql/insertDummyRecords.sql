@@ -39,8 +39,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA4MDlfNCAg/MDAxNTk2OTQ5Njc3OTc3.3zFvcpUO_CcP09zL4yRd6GRP2V0sgyFjkMNgVHlwinsg.yaEiCjPejdDhbjze1TG-WREiO6zXugTQj4F4YCuWBREg.JPEG.jwani84/1596949677506.jpg?type=w800'],
-    ARRAY ['#빵돌이빵순이', '#달달한케이크']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.fiev22-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C68942085_2078724385769327_6993920587278057472_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.fiev22-2.fna.fbcdn.net%26_nc_ohc%3D421zzR11zF0AX9bM85r%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3Df371f0534b2ab26c76f633d325e73581%26oe%3D60BBFEF4%26_nc_sid%3D7bff83'],
+    ARRAY ['#블루리본맛집', '#빵맛집', '#흑석동빵집', '#100%유기농밀가루']
   );
 
 SELECT create_store (
@@ -63,8 +63,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.fiev22-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C133784715_672813013398326_5083752991447256061_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.fiev22-2.fna.fbcdn.net%26_nc_ohc%3DkKzoh7bNOMsAX_yPtQp%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3Dd3276fb2af511a2070378be742c0d0aa%26oe%3D60BCEDE6%26_nc_sid%3D7bff83'],
+    ARRAY ['#디저트맛집', '#딸기프레지에', '#마카롱', '#스콘맛집', '디저트전문점']
   );
 
 SELECT create_store (
@@ -75,8 +75,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.flwo4-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C42004074_177135123188065_7686061194162995200_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.flwo4-2.fna.fbcdn.net%26_nc_ohc%3DLdSWx0FNwwIAX_BKYEx%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3Daedda2bcb382c58edcc7197359ce522c%26oe%3D60BB6B74%26_nc_sid%3D7bff83'],
+    ARRAY ['#마카롱', '#돼지바마카롱', '#흑석마카롱','#중앙대마카롱']
   );
 
 SELECT create_store (
@@ -87,8 +87,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.flwo4-1.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-15%7C%7Csh0.08%7C%7Ce35%7C%7Cs640x640%7C%7C78938102_525987777998121_4789919033269535958_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.flwo4-1.fna.fbcdn.net%26_nc_cat%3D109%26_nc_ohc%3DImwtEl48_ecAX9YnL83%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3D2db8d2f1332cca15e66c7571e135de29%26oe%3D60BE5D32%26_nc_sid%3D7bff83'],
+    ARRAY ['#마카롱', '#중앙대마카롱', '#꼬끄쫀득']
   );
 
 SELECT create_store (
@@ -99,8 +99,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.flwo4-1.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C139738853_899770377434330_7020595757327953624_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.flwo4-1.fna.fbcdn.net%26_nc_ohc%3D9OhzIGgsbzgAX_61RcG%26edm%3DAHG7ALcBAAAA%26ccb%3D7-4%26oh%3Dd12a9c3256f52569a3a93c144eb87ecc%26oe%3D60BEA86A%26_nc_sid%3D5cbaad'],
+    ARRAY ['#fave', '#베이커리']
   );
 
 SELECT create_store (
@@ -111,8 +111,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.flwo4-1.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C116604105_293630558532301_5586921821807191993_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.flwo4-1.fna.fbcdn.net%26_nc_ohc%3DIYmRJ8bzBQYAX_AL2kr%26edm%3DAHG7ALcBAAAA%26ccb%3D7-4%26oh%3Dbd66b18bd02800fbe601a7d1779bd842%26oe%3D60BBB6DE%26_nc_sid%3D5cbaad'],
+    ARRAY ['#샌드위치', '#커피']
   );
 
 SELECT create_store (
@@ -123,8 +123,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.flwo4-1.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-15%7C%7Csh0.08%7C%7Ce35%7C%7Cc0.180.1440.1440a%7C%7Cs640x640%7C%7C153742806_786075462009418_8165076528213687573_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.flwo4-1.fna.fbcdn.net%26_nc_cat%3D110%26_nc_ohc%3Dj61nqkfEw0YAX-IZu3j%26edm%3DAA0rjkIBAAAA%26ccb%3D7-4%26oh%3De8b90111698ac9e933c2970e9cb70f1c%26oe%3D60BCB56F%26_nc_sid%3Dd997c6'],
+    ARRAY ['#스무디맛집', '#스무디탑', '#뷰맛집']
   );
 
 SELECT create_store (
@@ -135,8 +135,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMTAzMDdfMjU3/MDAxNjE1MDQ0OTQwMDkz.mF-dURiMV6Pdo11mPU5v_D8C4NSHjnOM4VXH5dOe_X8g.6Atvg8SW7qUMr1Sqcadr0yPAzVQZ73xcjhylNSE_OsQg.JPEG.artforlove/SE-e19bde1b-e94c-49a3-af7a-e063cf4f157c.jpg?type=w800'],
-    ARRAY ['#다양', '#개성']
+    ARRAY ['data:image/png;base64,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'],
+    ARRAY ['#콜렉티보', '#커피']
   );
 
 SELECT create_store (
@@ -147,8 +147,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.fiev22-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C100100744_384820995728409_8267646718623875072_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.fiev22-2.fna.fbcdn.net%26_nc_ohc%3D6vmc9yIXLdoAX-X3vvU%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3Da2675129f9ba956b094ea7b758941aca%26oe%3D60BDA0E5%26_nc_sid%3D7bff83'],
+    ARRAY ['#강아지고양이동반환영', '#갬성힙합', '#단호박크림치즈케이크']
   );
 
 SELECT create_store (
@@ -159,8 +159,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.flwo4-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C89612254_2482370515424880_1547784446860591104_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.flwo4-2.fna.fbcdn.net%26_nc_ohc%3D4fQFRGCyI40AX_b7Zwm%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3D84dc5a54aebd24d4f153011023a054c7%26oe%3D60BCD641%26_nc_sid%3D7bff83'],
+    ARRAY ['#인테리어맛집', '#사진찍기좋은', '#공부카페']
   );
 
 SELECT create_store (
@@ -171,20 +171,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
-  );
-
-SELECT create_store (
-    '브런치로뎀',
-    '동작구 흑석동',
-    1,
-    '',
-    '',
-    10,
-    19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.fiev22-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C74670575_2232053477086306_7828407066166296576_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.fiev22-2.fna.fbcdn.net%26_nc_ohc%3D8TE39iEHdxIAX9Wx0yx%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3D13594cd6c1ad34e1912000fd56f6f166%26oe%3D60BC4BFB%26_nc_sid%3D7bff83'],
+    ARRAY ['#뽀로야우', '#오후홍콩', '#밀크티']
   );
 
 SELECT create_store (
@@ -195,8 +183,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.flwo4-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C37403094_234544373846843_3166643782061916160_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.flwo4-2.fna.fbcdn.net%26_nc_ohc%3D9llHimL9O6AAX92Sq8b%26edm%3DAHG7ALcBAAAA%26ccb%3D7-4%26oh%3Dcc1b0bb6bddf96865e47971ef60a308b%26oe%3D60BDA5E1%26_nc_sid%3D5cbaad'],
+    ARRAY ['#와플', '#벨기에와플']
   );
 
 SELECT create_store (
@@ -207,8 +195,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTo8Bu6YsXXPkYxgkCG5zQQRFPx6lQ9Um3XxQ&usqp=CAU'],
+    ARRAY ['#학교앞와플', '#가성비']
   );
 
 SELECT create_store (
@@ -219,32 +207,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
-  );
-
-SELECT create_store (
-    '베브릿지',
-    '동작구 흑석동',
-    1,
-    '',
-    '',
-    10,
-    19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
-  );
-
-SELECT create_store (
-    '다카페',
-    '동작구 흑석동',
-    1,
-    '',
-    '',
-    10,
-    19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.flwo4-1.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C66715537_1068274296704508_6882066204232515584_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.flwo4-1.fna.fbcdn.net%26_nc_ohc%3DRYXE-2ZCAqAAX9QE6Lj%26edm%3DAHG7ALcBAAAA%26ccb%3D7-4%26oh%3D1c1e5937a8349c74bbb85741ee9c4ce2%26oe%3D60BC8AFA%26_nc_sid%3D5cbaad'],
+    ARRAY ['#커피맛집', '#브런치']
   );
 
 SELECT create_store (
@@ -272,30 +236,6 @@ SELECT create_store (
   );
 
 SELECT create_store (
-    '카페그리지',
-    '동작구 흑석동',
-    1,
-    '',
-    '',
-    10,
-    19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
-  );
-
-SELECT create_store (
-    '카페출국',
-    '동작구 흑석동',
-    1,
-    '',
-    '',
-    10,
-    19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
-  );
-
-SELECT create_store (
     '언니네식빵',
     '동작구 흑석동',
     1,
@@ -303,8 +243,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmU2cntJrUQ_l08OhpSE2aB18P6m76BmgSiA&usqp=CAU'],
+    ARRAY ['#언니네', '#식빵가게']
   );
 
 SELECT create_store (
@@ -315,8 +255,8 @@ SELECT create_store (
     '',
     10,
     19,
-    ARRAY ['https://mblogthumb-phinf.pstatic.net/MjAyMDA3MjlfMjQy/MDAxNTk1OTg1ODAwNzUx.wtdCVsi3ovwvKe2Hsd6Spdillfz1ft_4vZ_gtG3lPtcg.jGfhSclKGmI0thYN3hOlE4NYDBUcKCObL-diY0EKBccg.JPEG.hyeminsecond/IMG_8474.JPG?type=w800'],
-    ARRAY ['#갓성비', '#마카마카']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.flwo4-1.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-19%7C%7Cs150x150%7C%7C65596671_1329984990503210_532379359755894784_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.flwo4-1.fna.fbcdn.net%26_nc_ohc%3DV6zWQ4X7PJ8AX9AgGwF%26edm%3DAHG7ALcBAAAA%26ccb%3D7-4%26oh%3D0f13414efe3dcfac166eaee25d225835%26oe%3D60BE54A5%26_nc_sid%3D5cbaad'],
+    ARRAY ['#베이커리', '#브런치', '#카페']
   );
 
 SELECT create_store (
@@ -388,19 +328,10 @@ SELECT toggle_user_favorite_store(1, 3);
 SELECT toggle_user_favorite_store(1, 4);
 
 SELECT create_menu (
-    '말차달고나스콘',
-    3500,
-    '스콘',
-    1,
-    ARRAY ['https://i.pinimg.com/564x/e5/41/d1/e541d1856ab5061172c250225d247ae5.jpg'],
-    ARRAY ['#녹차', '#말차','#달고나','#비건', '#비건스콘','#다이어트']
-  );
-
-SELECT create_menu (
     '말차초코맘모스빵',
     4000,
-    '스콘',
-    30,
+    '빵',
+    25,
     ARRAY ['https://t1.daumcdn.net/cfile/tistory/9956113D5E3F830718'],
     ARRAY ['#녹차', '#말차','#초코','#맘모스빵']
   );
@@ -408,19 +339,28 @@ SELECT create_menu (
 SELECT create_menu (
     '딸기초코마카롱',
     2500,
-    '스콘',
+    '마카롱',
     1,
     ARRAY ['https://img.insight.co.kr/static/2019/12/12/700/6490208yeeh514wh4t0l.jpg'],
     ARRAY ['#딸기', '#초코','#마카롱','#봄', '#달콤']
   );
 
 SELECT create_menu (
-    '바질 크림치즈 쌀스콘',
-    3500,
-    '빵',
+    '딸기프레지에',
+    4500,
+    '케이크',
     4,
-    ARRAY ['https://postfiles.pstatic.net/MjAyMTAzMDZfMjA3/MDAxNjE1MDMzMDcxMjU4.jsLW4PCR04SnvzxPS55P1J9us3XcQOpJEaM-cQKuPIUg.gdOW0njAObQ2Aq9nu73IytCKLVWQX6w-wIDgOxPywGMg.JPEG.luckygirl1004/SE-dff220a3-229b-45e3-a5c5-0d2d47ef2075.jpg?type=w966'],
-    ARRAY ['#바질', '#크림치즈', '#쌀', '#스콘', '#건강']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.fiev22-1.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-15%7C%7Csh0.08%7C%7Ce35%7C%7Cc240.0.960.960a%7C%7Cs640x640%7C%7C158946380_111122944270713_4300751701509533037_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.fiev22-1.fna.fbcdn.net%26_nc_cat%3D109%26_nc_ohc%3DrkCtrjyJxyUAX9Jfowu%26edm%3DABfd0MgBAAAA%26ccb%3D7-4%26oh%3Dc77a4ca2297f632f9d9899e23863f216%26oe%3D60BB3A7D%26_nc_sid%3D7bff83'],
+    ARRAY ['#딸기', '#프레지에', '#케이크']
+  );
+
+SELECT create_menu (
+    '말차달고나스콘',
+    3500,
+    '스콘',
+    1,
+    ARRAY ['https://i.pinimg.com/564x/e5/41/d1/e541d1856ab5061172c250225d247ae5.jpg'],
+    ARRAY ['#녹차', '#말차','#달고나','#비건', '#비건스콘','#다이어트']
   );
 
 SELECT create_menu (
@@ -447,7 +387,7 @@ SELECT create_menu (
     '빵',
     4,
     ARRAY ['https://shop3.daumcdn.net/thumb/R500x500/?fname=http%3A%2F%2Fshop3.daumcdn.net%2Fshophow%2Fp%2FZ12777260102.jpg%3Fut%3D20210329180551'],
-    ARRAY ['#춘천', '#감자빵', '#고소']
+    ARRAY ['#춘천', '#감자빵', '#고소', '#으른입맛']
   );
 
 SELECT create_menu (
@@ -456,7 +396,7 @@ SELECT create_menu (
     '아이스크림',
     1,
     ARRAY ['https://cdn.crowdpic.net/list-thumb/thumb_l_F22044335599802DDF4A7ABF5778ACE5.jpg'],
-    ARRAY ['#달달', '#비건', '#다이어트']
+    ARRAY ['#달달', '#시원', '#팥']
   );
 
 SELECT create_menu (
@@ -494,8 +434,6 @@ SELECT create_menu (
     ARRAY ['https://cgeimage.commutil.kr/phpwas/restmb_allidxmake.php?idx=3&simg=2021021514073200118b45d942afb10624586229.jpg'],
     ARRAY ['#슈크림', '#달달', '#봄음료', '#달콤']
   );
-
-
 
 SELECT create_post (
     '오늘은 다음 주 준비 중인 온라인 행사를 위한 외부 촬영으로, 흑석동 오프라인 스토어는 운영하지 않습니다. 멋진 공간에서 촬영 중입니다. #결과물이 #두근두근 💛🤓💛',
