@@ -9,6 +9,7 @@ import { storeFieldColumnMapping, storeORM } from '../store/ORM'
 const userFavoriteMenus = importSQL(__dirname, 'sql/userFavoriteMenus.sql')
 const userFavoriteStores = importSQL(__dirname, 'sql/userFavoriteStores.sql')
 const userRegularStores = importSQL(__dirname, 'sql/userRegularStores.sql')
+const userPreferences = importSQL(__dirname, 'sql/userPreferences.sql')
 
 export const User: UserResolvers = {
   favoriteMenus: async ({ id }, _, __, info) => {
@@ -31,8 +32,6 @@ export const User: UserResolvers = {
 
     const { rows } = await poolQuery(formattedSQL, [id])
 
-    console.log(rows[0])
-
     return rows.map((row) => storeORM(row))
   },
 
@@ -40,9 +39,10 @@ export const User: UserResolvers = {
     return null
   },
 
-  preference: async (p) => {
-    console.log('favoriteMenu', new Date())
-    return ['#a', '#b', '#c']
+  preferences: async ({ id }) => {
+    const { rows } = await poolQuery(await userPreferences, [id])
+
+    return rows
   },
 
   regularStores: async ({ id }, _, __, info) => {

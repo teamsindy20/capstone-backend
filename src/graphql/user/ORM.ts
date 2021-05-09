@@ -42,7 +42,7 @@ export function userFieldColumnMapping(userField: keyof User) {
       return ''
     case 'orders':
       return ''
-    case 'preference':
+    case 'preferences':
       return ''
     case 'regularStores':
       return ''

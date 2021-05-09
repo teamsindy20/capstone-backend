@@ -133,7 +133,7 @@ export type Mutation = {
   /**
    * 해당 메뉴를 찜하거나 이미 찜한 메뉴를 해제한다.
    *
-   * True: 찜 성공, False: 찜 해제
+   * `true`: 찜 성공, `false`: 찜 해제
    */
   pickMenu: Scalars['Boolean']
   /**
@@ -482,7 +482,7 @@ export type User = {
   favoriteMenus?: Maybe<Array<Menu>>
   favoriteStores?: Maybe<Array<Store>>
   orders?: Maybe<Array<Order>>
-  preference?: Maybe<Array<Scalars['NonEmptyString']>>
+  preferences?: Maybe<Array<Scalars['NonEmptyString']>>
   regularStores?: Maybe<Array<Store>>
 }
 
@@ -1028,7 +1028,7 @@ export type UserResolvers<
   favoriteMenus?: Resolver<Maybe<Array<ResolversTypes['Menu']>>, ParentType, ContextType>
   favoriteStores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>
   orders?: Resolver<Maybe<Array<ResolversTypes['Order']>>, ParentType, ContextType>
-  preference?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
+  preferences?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
   regularStores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
