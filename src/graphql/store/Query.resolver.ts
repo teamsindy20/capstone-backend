@@ -1,6 +1,6 @@
 import { QueryResolvers } from 'src/graphql/generated/graphql'
 import { importSQL } from '../../utils/commons'
-import { pool } from '../../database/postgres'
+import { poolQuery } from '../../database/postgres'
 import { storeFieldColumnMapping, storeORM } from './ORM'
 import { selectColumnFromField } from '../../utils/ORM'
 import format from 'pg-format'
@@ -12,7 +12,7 @@ export const Query: QueryResolvers = {
   stores: async (_, __, ___, info) => {
     const columns = selectColumnFromField(info, storeFieldColumnMapping)
 
-    const { rows } = await pool.query(format(await storesSQL, columns))
+    const { rows } = await poolQuery(format(await storesSQL, columns))
 
     return rows.map((row) => storeORM(row))
   },
@@ -20,7 +20,7 @@ export const Query: QueryResolvers = {
   store: async (_, { id }, __, info) => {
     const columns = selectColumnFromField(info, storeFieldColumnMapping)
 
-    const { rows } = await pool.query(format(await storeSQL, columns), [id])
+    const { rows } = await poolQuery(format(await storeSQL, columns), [id])
 
     return storeORM(rows[0])
   },
