@@ -436,31 +436,31 @@ SELECT create_menu (
   );
 
 SELECT create_post (
-    '오늘은 다음 주 준비 중인 온라인 행사를 위한 외부 촬영으로, 흑석동 오프라인 스토어는 운영하지 않습니다. 멋진 공간에서 촬영 중입니다. #결과물이 #두근두근 💛🤓💛',
-    2,
-    ARRAY ['https://post-phinf.pstatic.net/MjAxNzAzMDJfMzIg/MDAxNDg4NDQwNzg5NjQz.PjCwCa-LsK0JhSj-YWuoMMQlhxNfOg5_fgzyCYHCPysg.aTQVrQ5QFduqEfsKc8BCh0CblDOf_vfezzM-dp7Qo3Ig.JPEG/image_4562399321488440004463.jpg?type=w1200'],
-    ARRAY ['#결과물이', '#두근두근', '#일정']
-  );
-
-SELECT create_post (
-    '재판매 요청이 많아서 딸기 프레지에 소량 준비해뒀어요!\n금,토,일 3 일간 프레지에 홀케이크 미니사이즈로 판매합니다😁\n예쁜 하트초 같이 넣어드릴게요❤️\n\n오늘의 라인업 입니다!\n\n딸기요거생크림케이크, 딸기미니우유케이크, 초코크런치케이크, 다쿠아즈(앙버터, 초코, 그린티, 핑크소금), 바닐라마카롱, 솔티카라멜마카롱, 스모어쿠키, 클래식월넛, 피넛버터, 말차초코볼, 흑임자마카롱, 크림브륄레마카롱',
+    '딸기요거생크림케이크, 딸기미니우유케이크, 초코크런치케이크, 다쿠아즈(앙버터, 초코, 그린티, 핑크소금), 바닐라마카롱, 솔티카라멜마카롱, 스모어쿠키, 클래식월넛, 피넛버터, 말차초코볼, 흑임자마카롱, 크림브륄레마카롱',
     4,
     ARRAY ['https://search.pstatic.net/common/?src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200726_219%2F1595757353365bKuBp_JPEG%2FiT6243NPDzm9e0aPxell_Nsj.jpg&type=sc960_832'],
     ARRAY ['#라인업', '#디저트정']
   );
 
 SELECT create_post (
-    '오늘의 마카롱&디저트 라인업이에요!💛\n파베생초코, 레드벨벳, 크림브륄레, 투게더바닐라, 피넛버터크런치,오레오, 찰떡인절미, 바나나누텔라, 블루베리크림치즈, 치즈케이크, 황치즈샌드, 뽀또황치즈, 쏠티드카라멜, 생딸기요거트\n\n나미네양과점은 전 제품에 프랑스산 최고급 천연발효 버터만을 사용하고 있어요 😊',
-    7,
-    ARRAY ['https://postfiles.pstatic.net/MjAyMTAzMDZfMjk0/MDAxNjE1MDMzMDQyNzA4.jPJOE8sRiVbwwjWyPOjXp50sHg2MX77adLnTU4IsqMcg.UK5yXB6p44sIB00sUzsrMJ7-oEnitai16uMwWwjvpW4g.JPEG.luckygirl1004/SE-86ed3f06-c723-449b-966b-4985cd3a10da.jpg?type=w966'],
-    ARRAY ['#라인업', '#나미네양과점']
+    '크로플이랑 디저트소진으로 조금 이른 마감합니다 내일도 찰지게 준비해서 문활짝열겠습니다 주말저녁도 편안하게 푹 쉬세요 ~^^',
+    2,
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.flwo4-1.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-15%7C%7Csh0.08%7C%7Ce35%7C%7Cc0.180.1440.1440a%7C%7Cs640x640%7C%7C170041290_1952282018257270_7366211878204213252_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.flwo4-1.fna.fbcdn.net%26_nc_cat%3D110%26_nc_ohc%3Dmswi8zwKupkAX_CdsFm%26edm%3DAA0rjkIBAAAA%26ccb%3D7-4%26oh%3D671aa3eeb12e57963e4b9931c2d20d40%26oe%3D60BD8134%26_nc_sid%3Dd997c6'],
+    ARRAY ['#결과물이', '#두근두근', '#일정']
   );
 
 SELECT create_post (
-    '오늘의 스콘이 모두 소진되었습니당!😅\n고메플레인, 옥수수, 얼그레이, 체다치즈파슬리, 오레오, 로투스, 녹차\n\n넘나 빠른 소진,,🤣\n여러분들의 성원에 힘입어 스콘이 모두 소진되었습니다..\n이 공지 꼭 보시고 헛된 발걸음 하시지 않길 바라요 🙏🏻\n내일 더 맛있는 스콘으로 찾아뵐게요! 오늘도 좋은 하루 보내세요 :)',
+    '이달의 쉬어가는 일정입니다! 신메뉴 개발 및 출장등으로 임시휴일이 좀 많습니다. 더 맛있고, 더 건강한 식사빵을 위해 더 노력하고 더 준비하겠습니다. 항상 감사드립니다^^',
+    7,
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.flwo4-2.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-15%7C%7Ce35%7C%7Cc0.74.594.594a%7C%7C169166100_931390371024543_4958946834384681499_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.flwo4-2.fna.fbcdn.net%26_nc_cat%3D103%26_nc_ohc%3DOzTaZL5COEMAX8OPpFD%26edm%3DAA0rjkIBAAAA%26ccb%3D7-4%26oh%3Dbe668239e9b60ee1636b3bec149d1d5e%26oe%3D60BDCF46%26_nc_sid%3Dd997c6'],
+    ARRAY ['#심베이커리','#휴무일정','#맛있는빵','#건강한빵','#깜빠뉴맛집','#바게트맛집','#삼전동빵집','#신메뉴준비중']
+  );
+
+SELECT create_post (
+    '🥨 빵긋 :D 행복공작소 🥨\n🕘 9:00 소프트갈릭, 단호박카스테라, 버터스콘, 초코스콘\n🕤 9:30 크로와상,에그타르트.\n🕙10:00 올리브치즈치아바타.\n🕥 10:30 식빵 5종(우유, 밤, 무화과, 올리브, 치즈)\n🍰 보틀케익 3종 (딸기/망고/ 청포도)\n🕥 10:40 홀그레인후랑크,통밀치즈\n🕚 11:00 초코크로와상,누아레장',
     8,
-    ARRAY ['https://postfiles.pstatic.net/MjAyMDAyMjNfMSAg/MDAxNTgyNDUxNTAyNjg0.YRIRqMCLjopSGmTimCWEBs56u_G8MzIpQxFbXNm18dkg.gkD4Gkt1frAPAwWpKp9AOkaYkxppHYDaxri5q2UTN9kg.JPEG.lisagracie7762/SE-250bf5e3-3e63-45c1-8cdd-9b90ed3a5b85.jpg?type=w966'],
-    ARRAY ['#공지', '#품절', '#브릿지엣지']
+    ARRAY ['https://gramho.com/hosted-by-instagram/url=https%3A%7C%7C%7C%7Cinstagram.fiev22-1.fna.fbcdn.net%7C%7Cv%7C%7Ct51.2885-15%7C%7Csh0.08%7C%7Ce35%7C%7Cs640x640%7C%7C182274986_242767324294449_3745014994941802741_n.jpg%3Ftp%3D1%26_nc_ht%3Dinstagram.fiev22-1.fna.fbcdn.net%26_nc_cat%3D109%26_nc_ohc%3DZ7xpqBZAmN8AX-Y5VzP%26edm%3DAA0rjkIBAAAA%26ccb%3D7-4%26oh%3Dd42ec7b8546eebfa1bdc947028774ae6%26oe%3D60BBE316%26_nc_sid%3Dd997c6'],
+    ARRAY ['#유기농밀가루','#천연발효종','#동물성생크림','#과일생크림케익','#식빵']
   );
 
 SELECT create_post (
