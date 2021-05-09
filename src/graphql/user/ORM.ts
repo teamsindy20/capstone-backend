@@ -24,7 +24,9 @@ export function userORM(user: any): User {
     birthDate: user.birth_date,
     imageUrls: user.image_urls,
     deliveryAddresses: user.delivery_addresses,
-    representativeDeliveryAddress: user.delivery_addresses[user.representative_delivery_address],
+    representativeDeliveryAddress:
+      user.representative_delivery_address &&
+      user.delivery_addresses[user.representative_delivery_address],
   }
 }
 

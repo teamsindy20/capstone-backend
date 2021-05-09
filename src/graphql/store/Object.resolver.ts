@@ -5,7 +5,8 @@ import { poolQuery } from '../../database/postgres'
 import { menuFieldColumnMapping, menuORM } from '../menu/ORM'
 import { selectColumnFromField } from '../../utils/ORM'
 import { postFieldColumnMapping, postORM } from '../post/ORM'
-import { userFieldColumnMapping } from '../user/ORM'
+import { userFieldColumnMapping, userORM } from '../user/ORM'
+import { ForbiddenError } from 'apollo-server'
 
 const storeMenus = importSQL(__dirname, 'sql/storeMenus.sql')
 const storeUser = importSQL(__dirname, 'sql/storeUser.sql')
@@ -30,15 +31,18 @@ export const Store: StoreResolvers = {
   },
 
   user: async ({ userId }, _, { user }, info) => {
-    let columns = selectColumnFromField(info, userFieldColumnMapping)
+    const columns = selectColumnFromField(info, userFieldColumnMapping)
 
-    if (!user) {
-      columns = columns.filter((column) => !privateUserColumns.includes(column))
+    if (user.id !== userId) {
+      columns.forEach((column) => {
+        if (privateUserColumns.includes(column))
+          throw new ForbiddenError('다른 사용자의 상세한 개인정보는 조회할 수 없습니다.')
+      })
     }
 
     const { rows } = await poolQuery(format(await storeUser, columns), [userId])
 
-    return rows[0].user
+    return userORM(rows[0])
   },
 
   hashtags: async ({ id }) => {
