@@ -12,4 +12,9 @@ input PostCreationInput {
 
 type Mutation {
   createPost(input: PostCreationInput!): ID!
+
+  """
+  게시글을 '좋아요' 한다.
+  """
+  likePost(id: ID!): ID!
 }
