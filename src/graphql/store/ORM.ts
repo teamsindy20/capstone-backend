@@ -139,8 +139,6 @@ export function storeFieldColumnMapping(storeField: keyof Store) {
       return ''
     case 'posts':
       return ''
-    case '__typename':
-      return ''
     default:
       return camelToSnake(storeField)
   }

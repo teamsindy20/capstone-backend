@@ -1,11 +1,11 @@
+import format from 'pg-format'
 import { QueryResolvers } from 'src/graphql/generated/graphql'
 import { importSQL } from '../../utils/commons'
 import { poolQuery } from '../../database/postgres'
 import { menuFieldColumnMapping, menuORM } from './ORM'
-import format from 'pg-format'
 import { selectColumnFromField } from '../../utils/ORM'
 
-const menusSQL = importSQL(__dirname, 'sql/menus.sql')
+const menus = importSQL(__dirname, 'sql/menus.sql')
 const menusByCategory = importSQL(__dirname, 'sql/menusByCategory.sql')
 const menusByTheme = importSQL(__dirname, 'sql/menusByTheme.sql')
 const menusByStore = importSQL(__dirname, 'sql/menusByStore.sql')
@@ -18,7 +18,7 @@ export const Query: QueryResolvers = {
 
     const columns = selectColumnFromField(info, menuFieldColumnMapping)
 
-    const { rows } = await poolQuery(format(await menusSQL, columns))
+    const { rows } = await poolQuery(format(await menus, columns))
 
     return rows.map((row) => menuORM(row))
   },

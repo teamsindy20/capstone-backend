@@ -140,8 +140,6 @@ export function menuFieldColumnMapping(menuField: keyof Menu) {
       return ''
     case 'theme':
       return 'theme_id'
-    case '__typename':
-      return ''
     default:
       return camelToSnake(menuField)
   }

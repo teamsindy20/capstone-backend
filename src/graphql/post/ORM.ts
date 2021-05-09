@@ -35,8 +35,6 @@ export function postFieldColumnMapping(postField: keyof Post) {
       return 'store_id'
     case 'hashtags':
       return ''
-    case '__typename':
-      return ''
     default:
       return camelToSnake(postField)
   }

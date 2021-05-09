@@ -29,8 +29,7 @@ export function userORM(user: any): User {
 }
 
 // All GraphQL fields -> All database columns
-// GraphQL fields that must fetch from other table -> 'table_id' | ''
-// __typename -> ''
+// GraphQL fields that must fetch from other table -> '${table}_id' | ''
 export function userFieldColumnMapping(userField: keyof User) {
   switch (userField) {
     case 'representativeDeliveryAddress':
@@ -44,8 +43,6 @@ export function userFieldColumnMapping(userField: keyof User) {
     case 'preference':
       return ''
     case 'regularStores':
-      return ''
-    case '__typename':
       return ''
     default:
       return camelToSnake(userField)
