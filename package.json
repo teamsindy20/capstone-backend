@@ -13,7 +13,7 @@
   "scripts": {
     "dev": "nodemon src/index.ts",
     "build": "rm -rf dist && tsc && copyfiles --up 1 src/graphql/**/*.{graphql,sql} dist/",
-    "start": "node dist/index.js",
+    "start": "NODE_ENV=production node dist/index.js",
     "format": "prettier . --write --ignore-path .gitignore",
     "lint": "eslint . --fix --ignore-path .gitignore",
     "type": "tsc --pretty --noEmit",
@@ -28,7 +28,7 @@
     "@graphql-tools/schema": "^7.1.5",
     "apollo-server": "^2.24.0",
     "bcryptjs": "^2.4.3",
-    "dotenv": "^8.2.0",
+    "dotenv": "^9.0.1",
     "graphql": "^15.5.0",
     "graphql-fields": "^2.0.3",
     "graphql-scalars": "^1.9.3",

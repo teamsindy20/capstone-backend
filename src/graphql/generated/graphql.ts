@@ -125,6 +125,8 @@ export type Mutation = {
   createPost: Scalars['ID']
   createReview: Scalars['ID']
   createStore: Scalars['ID']
+  /** 게시글을 '좋아요' 한다. */
+  likePost: Scalars['ID']
   /** 이메일과 1번 해싱한 비밀번호를 전송하면 인증 토큰을 반환한다. */
   login: Scalars['JWT']
   /** 인증 토큰과 같이 요청하면 로그아웃 성공 여부를 반환한다. */
@@ -176,6 +178,10 @@ export type MutationCreateReviewArgs = {
 
 export type MutationCreateStoreArgs = {
   input: StoreCreationInput
+}
+
+export type MutationLikePostArgs = {
+  id: Scalars['ID']
 }
 
 export type MutationLoginArgs = {
@@ -748,6 +754,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationCreateStoreArgs, 'input'>
+  >
+  likePost?: Resolver<
+    ResolversTypes['ID'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationLikePostArgs, 'id'>
   >
   login?: Resolver<
     ResolversTypes['JWT'],
