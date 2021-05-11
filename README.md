@@ -6,8 +6,8 @@
 
 - macOS 11.2
 - Git 2.31
-- Yarn 1.22
 - Node.js LTS
+- Yarn 1.22
 - PostgreSQL 13.2
 - Docker 20.10
 - Docker Compose 1.28
@@ -50,6 +50,8 @@ PORT=4000
 ```shell
 > yarn dev
 ```
+
+TypeScript 파일을 그대로 사용해 Nodemon으로 서비스를 실행합니다.
 
 ### 프로덕션 모드 (Local)
 

@@ -15,7 +15,7 @@ export const server = new ApolloServer({
       return null
     })
 
-    if (!result) return { user: null } // JWT가 없거나, JWT 서명이 유효하지 않거나, JWT 유효기간이 만료됐을 때
+    if (!result) return { user: null } // JWT가 아니거나, JWT 서명이 유효하지 않거나, JWT 유효기간이 만료됐을 때
 
     const { rowCount, rows } = await poolQuery(await user, [result.userId, result.lastLoginDate])
 

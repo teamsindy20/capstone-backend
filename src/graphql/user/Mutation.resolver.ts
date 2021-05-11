@@ -45,12 +45,13 @@ export const Mutation: MutationResolvers = {
 
     const { rowCount, rows } = await pool.query(await loginSQL, [email])
 
-    if (rowCount === 0) throw new AuthenticationError('Failed to log in. Please check your inputs.')
+    if (rowCount === 0)
+      throw new AuthenticationError('로그인에 실패했어요. 이메일 또는 비밀번호를 확인해주세요.')
 
     const authenticationSuceed = await compare(passwordHash, rows[0].password_hash_hash)
 
     if (!authenticationSuceed)
-      throw new AuthenticationError('Failed to log in. Please check your inputs.')
+      throw new AuthenticationError('로그인에 실패했어요. 이메일 또는 비밀번호를 확인해주세요.')
 
     return await generateJWT({ userId: rows[0].id, lastLoginDate: new Date() })
   },
