@@ -20,6 +20,13 @@ export type Scalars = {
   URL: any
 }
 
+export type Coupon = {
+  __typename?: 'Coupon'
+  id: Scalars['ID']
+  creationDate: Scalars['DateTime']
+  modificationDate: Scalars['DateTime']
+}
+
 export type Menu = {
   __typename?: 'Menu'
   id: Scalars['ID']
@@ -98,6 +105,13 @@ export type MenuModificationInput = {
    * 기존 목록을 유지하고 싶으면 기존 목록도 입력값에 포함시켜야 한다.
    */
   options?: Maybe<Array<MenuOptionInput>>
+}
+
+export type MenuOption = {
+  __typename?: 'MenuOption'
+  id: Scalars['ID']
+  creationDate: Scalars['DateTime']
+  modificationDate: Scalars['DateTime']
 }
 
 export type MenuOptionInput = {
@@ -234,11 +248,28 @@ export type Order = {
   id: Scalars['ID']
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
-  orderStatus: OrderStatus
   orderTotal: Scalars['Int']
+  menuTotal: Scalars['Int']
+  deliveryCharge: Scalars['Int']
+  paymentDate: Scalars['DateTime']
+  deliveryAddress: Scalars['String']
+  orderStatus: OrderStatus
+  pointUsed: Scalars['Int']
+  reviewReward: Scalars['Boolean']
+  regularReward: Scalars['Boolean']
+  userId: Scalars['ID']
+  paymentId: Scalars['ID']
+  storeId: Scalars['ID']
+  deliveryRequest?: Maybe<Scalars['String']>
+  storeRequest?: Maybe<Scalars['String']>
+  couponId?: Maybe<Scalars['ID']>
+  user: User
+  payment: Payment
   store: Store
-  review?: Maybe<Review>
-  menu?: Maybe<Array<Menu>>
+  menus: Array<Menu>
+  coupon?: Maybe<Coupon>
+  menuOptions?: Maybe<Array<MenuOption>>
+  review?: Maybe<Array<Review>>
 }
 
 export type OrderCreationInput = {
@@ -252,6 +283,13 @@ export enum OrderStatus {
   CookingInProgress = 'COOKING_IN_PROGRESS',
   DeliveryInProgress = 'DELIVERY_IN_PROGRESS',
   DeliveryCompletion = 'DELIVERY_COMPLETION',
+}
+
+export type Payment = {
+  __typename?: 'Payment'
+  id: Scalars['ID']
+  creationDate: Scalars['DateTime']
+  modificationDate: Scalars['DateTime']
 }
 
 export type PaymentInput = {
@@ -595,16 +633,18 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Coupon: ResolverTypeWrapper<Coupon>
+  ID: ResolverTypeWrapper<Scalars['ID']>
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>
   JWT: ResolverTypeWrapper<Scalars['JWT']>
   Menu: ResolverTypeWrapper<Menu>
-  ID: ResolverTypeWrapper<Scalars['ID']>
   String: ResolverTypeWrapper<Scalars['String']>
   Int: ResolverTypeWrapper<Scalars['Int']>
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>
   MenuCreationInput: MenuCreationInput
   MenuModificationInput: MenuModificationInput
+  MenuOption: ResolverTypeWrapper<MenuOption>
   MenuOptionInput: MenuOptionInput
   MenuOptionSelectionInput: MenuOptionSelectionInput
   MenuSelectionInput: MenuSelectionInput
@@ -613,6 +653,7 @@ export type ResolversTypes = {
   Order: ResolverTypeWrapper<Order>
   OrderCreationInput: OrderCreationInput
   OrderStatus: OrderStatus
+  Payment: ResolverTypeWrapper<Payment>
   PaymentInput: PaymentInput
   Post: ResolverTypeWrapper<Post>
   PostCreationInput: PostCreationInput
@@ -630,16 +671,18 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Coupon: Coupon
+  ID: Scalars['ID']
   DateTime: Scalars['DateTime']
   EmailAddress: Scalars['EmailAddress']
   JWT: Scalars['JWT']
   Menu: Menu
-  ID: Scalars['ID']
   String: Scalars['String']
   Int: Scalars['Int']
   Boolean: Scalars['Boolean']
   MenuCreationInput: MenuCreationInput
   MenuModificationInput: MenuModificationInput
+  MenuOption: MenuOption
   MenuOptionInput: MenuOptionInput
   MenuOptionSelectionInput: MenuOptionSelectionInput
   MenuSelectionInput: MenuSelectionInput
@@ -647,6 +690,7 @@ export type ResolversParentTypes = {
   NonEmptyString: Scalars['NonEmptyString']
   Order: Order
   OrderCreationInput: OrderCreationInput
+  Payment: Payment
   PaymentInput: PaymentInput
   Post: Post
   PostCreationInput: PostCreationInput
@@ -659,6 +703,16 @@ export type ResolversParentTypes = {
   URL: Scalars['URL']
   User: User
   UserInfoInput: UserInfoInput
+}
+
+export type CouponResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Coupon'] = ResolversParentTypes['Coupon']
+> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export interface DateTimeScalarConfig
@@ -718,6 +772,16 @@ export type MenuResolvers<
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
   hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
   theme?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
+export type MenuOptionResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['MenuOption'] = ResolversParentTypes['MenuOption']
+> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -843,11 +907,38 @@ export type OrderResolvers<
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
-  orderStatus?: Resolver<ResolversTypes['OrderStatus'], ParentType, ContextType>
   orderTotal?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  menuTotal?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  deliveryCharge?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  paymentDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  deliveryAddress?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  orderStatus?: Resolver<ResolversTypes['OrderStatus'], ParentType, ContextType>
+  pointUsed?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  reviewReward?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+  regularReward?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  paymentId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  deliveryRequest?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  storeRequest?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  couponId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>
+  payment?: Resolver<ResolversTypes['Payment'], ParentType, ContextType>
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
-  review?: Resolver<Maybe<ResolversTypes['Review']>, ParentType, ContextType>
-  menu?: Resolver<Maybe<Array<ResolversTypes['Menu']>>, ParentType, ContextType>
+  menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
+  coupon?: Resolver<Maybe<ResolversTypes['Coupon']>, ParentType, ContextType>
+  menuOptions?: Resolver<Maybe<Array<ResolversTypes['MenuOption']>>, ParentType, ContextType>
+  review?: Resolver<Maybe<Array<ResolversTypes['Review']>>, ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
+export type PaymentResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Payment'] = ResolversParentTypes['Payment']
+> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -1046,13 +1137,16 @@ export type UserResolvers<
 }
 
 export type Resolvers<ContextType = any> = {
+  Coupon?: CouponResolvers<ContextType>
   DateTime?: GraphQLScalarType
   EmailAddress?: GraphQLScalarType
   JWT?: GraphQLScalarType
   Menu?: MenuResolvers<ContextType>
+  MenuOption?: MenuOptionResolvers<ContextType>
   Mutation?: MutationResolvers<ContextType>
   NonEmptyString?: GraphQLScalarType
   Order?: OrderResolvers<ContextType>
+  Payment?: PaymentResolvers<ContextType>
   Post?: PostResolvers<ContextType>
   Query?: QueryResolvers<ContextType>
   Review?: ReviewResolvers<ContextType>

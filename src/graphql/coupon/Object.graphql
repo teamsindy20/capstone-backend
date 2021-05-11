@@ -1,0 +1,5 @@
+type Coupon {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+}

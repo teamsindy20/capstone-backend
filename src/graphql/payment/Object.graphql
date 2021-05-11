@@ -1,0 +1,5 @@
+type Payment {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+}

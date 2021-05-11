@@ -210,19 +210,20 @@ CREATE TABLE "order" (
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
-  delivery_address varchar(64) NOT NULL,
   menu_total int NOT NULL CHECK (menu_total >= 0),
   delivery_charge int NOT NULL CHECK (delivery_charge >= 0),
   payment_date timestamptz NOT NULL,
-  --
-  user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
-  payment_id bigint NOT NULL REFERENCES payment ON DELETE CASCADE,
-  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
+  delivery_address varchar(64) NOT NULL,
   --
   order_status varchar(16) NOT NULL DEFAULT '접수 대기',
   point_used int NOT NULL DEFAULT 0 CHECK (point_used >= 0),
   review_reward boolean NOT NULL DEFAULT false,
   regular_reward boolean NOT NULL DEFAULT false,
+  --
+  user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
+  payment_id bigint NOT NULL REFERENCES payment ON DELETE CASCADE,
+  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
+  --
   delivery_request varchar(256),
   store_request varchar(256),
   --

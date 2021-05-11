@@ -60,3 +60,9 @@ type Menu {
   """
   theme: String
 }
+
+type MenuOption {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+}

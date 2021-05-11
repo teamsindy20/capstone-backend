@@ -9,13 +9,34 @@ type Order {
   id: ID!
   creationDate: DateTime!
   modificationDate: DateTime!
-  orderStatus: OrderStatus!
   orderTotal: Int!
+  menuTotal: Int!
+  deliveryCharge: Int!
+  paymentDate: DateTime!
+  deliveryAddress: String!
+  orderStatus: OrderStatus!
+  pointUsed: Int!
+  reviewReward: Boolean!
+  regularReward: Boolean!
+  userId: ID!
+  paymentId: ID!
+  storeId: ID!
+
+  # nullable
+  deliveryRequest: String
+  storeRequest: String
+  couponId: ID
 
   # from other table
+  user: User!
+  payment: Payment!
   store: Store!
-  review: Review
-  menu: [Menu!]
+  menus: [Menu!]!
+
+  # from other table - nullable
+  coupon: Coupon
+  menuOptions: [MenuOption!]
+  review: [Review!]
 
   # regularOrderDate: DateTime!
   # regularOrderCount: Int!
