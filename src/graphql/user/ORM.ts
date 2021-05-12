@@ -1,7 +1,6 @@
 import { User } from '../generated/graphql'
 import { camelToSnake } from '../../utils/commons'
 
-// Only not null GraphQL fields
 export const user: User = {
   id: '',
   creationDate: '',
@@ -10,28 +9,6 @@ export const user: User = {
   point: 0,
 }
 
-// All database columns -> All GraphQL Fields except nullable fields that must fetch from other table
-export function userORM(user: any): User {
-  return {
-    id: user.id,
-    creationDate: user.creation_date,
-    modificationDate: user.modification_date,
-    email: user.email,
-    point: user.point,
-    name: user.name,
-    phoneNumber: user.phone_number,
-    gender: user.gender,
-    birthDate: user.birth_date,
-    imageUrls: user.image_urls,
-    deliveryAddresses: user.delivery_addresses,
-    representativeDeliveryAddress:
-      user.representative_delivery_address &&
-      user.delivery_addresses[user.representative_delivery_address],
-  }
-}
-
-// All GraphQL fields -> All database columns
-// GraphQL fields that must fetch from other table -> '${table}_id' | ''
 export function userFieldColumnMapping(userField: keyof User) {
   switch (userField) {
     case 'representativeDeliveryAddress':
@@ -48,5 +25,24 @@ export function userFieldColumnMapping(userField: keyof User) {
       return ''
     default:
       return camelToSnake(userField)
+  }
+}
+
+export function userORM(user: any): User {
+  return {
+    id: user.id,
+    creationDate: user.creation_date,
+    modificationDate: user.modification_date,
+    email: user.email,
+    point: user.point,
+    name: user.name,
+    phoneNumber: user.phone_number,
+    gender: user.gender,
+    birthDate: user.birth_date,
+    imageUrls: user.image_urls,
+    deliveryAddresses: user.delivery_addresses,
+    representativeDeliveryAddress:
+      user.representative_delivery_address &&
+      user.delivery_addresses[user.representative_delivery_address],
   }
 }

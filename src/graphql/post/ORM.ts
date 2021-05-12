@@ -1,6 +1,6 @@
+import { Post } from '../generated/graphql'
 import { store } from '../store/ORM'
 import { camelToSnake } from '../../utils/commons'
-import { Post } from '../generated/graphql'
 
 export const post: Post = {
   id: '',
@@ -11,6 +11,19 @@ export const post: Post = {
   likeCount: 0,
   storeId: '',
   store: store,
+}
+
+export function postFieldColumnMapping(postField: keyof Post) {
+  switch (postField) {
+    case 'contents':
+      return 'content'
+    case 'store':
+      return 'store_id'
+    case 'hashtags':
+      return ''
+    default:
+      return camelToSnake(postField)
+  }
 }
 
 export function postORM(post: any): Post {
@@ -24,18 +37,5 @@ export function postORM(post: any): Post {
     imageUrls: post.image_urls,
     storeId: post.store_id,
     store: store,
-  }
-}
-
-export function postFieldColumnMapping(postField: keyof Post) {
-  switch (postField) {
-    case 'contents':
-      return 'content'
-    case 'store':
-      return 'store_id'
-    case 'hashtags':
-      return ''
-    default:
-      return camelToSnake(postField)
   }
 }

@@ -28,7 +28,29 @@ export const order: Order = {
   menus: [menu],
 }
 
-// All database columns -> All GraphQL Fields except nullable fields that must fetch from other table
+export function orderFieldColumnMapping(orderField: keyof Order) {
+  switch (orderField) {
+    case 'orderTotal':
+      return ['menu_total', 'delivery_charge']
+    case 'user':
+      return 'user_id'
+    case 'payment':
+      return 'payment_id'
+    case 'store':
+      return 'store_id'
+    case 'menus':
+      return ''
+    case 'coupon':
+      return 'coupon_id'
+    case 'menuOptions':
+      return ''
+    case 'review':
+      return ''
+    default:
+      return camelToSnake(orderField)
+  }
+}
+
 export function orderORM(order: any): Order {
   return {
     id: order.id,
@@ -53,30 +75,5 @@ export function orderORM(order: any): Order {
     payment: payment,
     store: store,
     menus: [menu],
-  }
-}
-
-// All GraphQL fields -> All database columns
-// GraphQL fields that must fetch from other table -> '${table}_id' | ''
-export function orderFieldColumnMapping(orderField: keyof Order) {
-  switch (orderField) {
-    case 'orderTotal':
-      return ['menu_total', 'delivery_charge']
-    case 'user':
-      return 'user_id'
-    case 'payment':
-      return 'payment_id'
-    case 'store':
-      return 'store_id'
-    case 'menus':
-      return ''
-    case 'coupon':
-      return 'coupon_id'
-    case 'menuOptions':
-      return ''
-    case 'review':
-      return ''
-    default:
-      return camelToSnake(orderField)
   }
 }

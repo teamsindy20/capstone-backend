@@ -40,6 +40,45 @@ export const menu: Menu = {
   store: store,
 }
 
+export function menuFieldColumnMapping(menuField: keyof Menu) {
+  switch (menuField) {
+    case 'deliciousReviewRatio':
+      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
+    case 'fineReviewRatio':
+      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
+    case 'positiveReviewRatio':
+      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
+    case 'badReviewRatio':
+      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
+    case 'totalReviewCount':
+      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
+    case 'newOrderRatio':
+      return ['reorder_count', 'new_order_count']
+    case 'reorderRatio':
+      return ['reorder_count', 'new_order_count']
+    case 'totalOrderCount':
+      return ['reorder_count', 'new_order_count']
+    case 'newCustomerRatio':
+      return ['new_customer_count', 'regular_customer_count']
+    case 'regularCustomerRatio':
+      return ['new_customer_count', 'regular_customer_count']
+    case 'totalCustomerCount':
+      return ['new_customer_count', 'regular_customer_count']
+    case 'category':
+      return 'category_id'
+    case 'favorite':
+      return ''
+    case 'store':
+      return 'store_id'
+    case 'hashtags':
+      return ''
+    case 'theme':
+      return 'theme_id'
+    default:
+      return camelToSnake(menuField)
+  }
+}
+
 export function menuORM(menu: any): Menu {
   return {
     id: menu.id,
@@ -103,44 +142,5 @@ export function menuORM(menu: any): Menu {
     category: '',
     favorite: false,
     store: store,
-  }
-}
-
-export function menuFieldColumnMapping(menuField: keyof Menu) {
-  switch (menuField) {
-    case 'deliciousReviewRatio':
-      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
-    case 'fineReviewRatio':
-      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
-    case 'positiveReviewRatio':
-      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
-    case 'badReviewRatio':
-      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
-    case 'totalReviewCount':
-      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
-    case 'newOrderRatio':
-      return ['reorder_count', 'new_order_count']
-    case 'reorderRatio':
-      return ['reorder_count', 'new_order_count']
-    case 'totalOrderCount':
-      return ['reorder_count', 'new_order_count']
-    case 'newCustomerRatio':
-      return ['new_customer_count', 'regular_customer_count']
-    case 'regularCustomerRatio':
-      return ['new_customer_count', 'regular_customer_count']
-    case 'totalCustomerCount':
-      return ['new_customer_count', 'regular_customer_count']
-    case 'category':
-      return 'category_id'
-    case 'favorite':
-      return ''
-    case 'store':
-      return 'store_id'
-    case 'hashtags':
-      return ''
-    case 'theme':
-      return 'theme_id'
-    default:
-      return camelToSnake(menuField)
   }
 }

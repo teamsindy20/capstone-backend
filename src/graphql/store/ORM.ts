@@ -42,6 +42,37 @@ export const store: Store = {
   user: user,
 }
 
+export function storeFieldColumnMapping(storeField: keyof Store) {
+  switch (storeField) {
+    case 'deliciousReviewRatio':
+      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
+    case 'fineReviewRatio':
+      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
+    case 'positiveReviewRatio':
+      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
+    case 'badReviewRatio':
+      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
+    case 'newOrderRatio':
+      return ['reorder_count', 'new_order_count']
+    case 'reorderRatio':
+      return ['reorder_count', 'new_order_count']
+    case 'newCustomerRatio':
+      return ['new_customer_count', 'regular_customer_count']
+    case 'regularCustomerRatio':
+      return ['new_customer_count', 'regular_customer_count']
+    case 'menus':
+      return ''
+    case 'user':
+      return 'user_id'
+    case 'hashtags':
+      return ''
+    case 'posts':
+      return ''
+    default:
+      return camelToSnake(storeField)
+  }
+}
+
 export function storeORM(store: any): Store {
   return {
     id: store.id,
@@ -110,36 +141,5 @@ export function storeORM(store: any): Store {
     menus: [menu],
     userId: store.user_id,
     user: user,
-  }
-}
-
-export function storeFieldColumnMapping(storeField: keyof Store) {
-  switch (storeField) {
-    case 'deliciousReviewRatio':
-      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
-    case 'fineReviewRatio':
-      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
-    case 'positiveReviewRatio':
-      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
-    case 'badReviewRatio':
-      return ['delicious_review_count', 'fine_review_count', 'bad_review_count']
-    case 'newOrderRatio':
-      return ['reorder_count', 'new_order_count']
-    case 'reorderRatio':
-      return ['reorder_count', 'new_order_count']
-    case 'newCustomerRatio':
-      return ['new_customer_count', 'regular_customer_count']
-    case 'regularCustomerRatio':
-      return ['new_customer_count', 'regular_customer_count']
-    case 'menus':
-      return ''
-    case 'user':
-      return 'user_id'
-    case 'hashtags':
-      return ''
-    case 'posts':
-      return ''
-    default:
-      return camelToSnake(storeField)
   }
 }
