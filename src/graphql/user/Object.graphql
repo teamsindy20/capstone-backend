@@ -15,6 +15,7 @@ type User {
   representativeDeliveryAddress: String
 
   # from other table - nullable
+  coupons: [Coupon!]
   favoriteMenus: [Menu!]
   favoriteStores: [Store!]
   orders: [Order!]

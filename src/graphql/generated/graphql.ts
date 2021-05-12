@@ -523,6 +523,7 @@ export type User = {
   imageUrls?: Maybe<Array<Scalars['URL']>>
   deliveryAddresses?: Maybe<Scalars['String']>
   representativeDeliveryAddress?: Maybe<Scalars['String']>
+  coupons?: Maybe<Array<Coupon>>
   favoriteMenus?: Maybe<Array<Menu>>
   favoriteStores?: Maybe<Array<Store>>
   orders?: Maybe<Array<Order>>
@@ -1128,6 +1129,7 @@ export type UserResolvers<
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
   deliveryAddresses?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   representativeDeliveryAddress?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  coupons?: Resolver<Maybe<Array<ResolversTypes['Coupon']>>, ParentType, ContextType>
   favoriteMenus?: Resolver<Maybe<Array<ResolversTypes['Menu']>>, ParentType, ContextType>
   favoriteStores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>
   orders?: Resolver<Maybe<Array<ResolversTypes['Order']>>, ParentType, ContextType>
