@@ -2,4 +2,21 @@ type Coupon {
   id: ID!
   creationDate: DateTime!
   modificationDate: DateTime!
+  name: String!
+  type: String!
+  discountAmount: Int!
+  minimumOrderAmount: Int!
+  expirationStartDate: DateTime!
+  expirationEndDate: DateTime!
+  isUsed: Boolean!
+
+  # nullable
+  orderId: ID
+  storeId: ID
+  userId: ID
+
+  # from other table - nullable
+  order: Order
+  store: Store
+  user: User
 }
