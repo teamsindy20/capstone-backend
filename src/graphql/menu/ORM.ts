@@ -79,7 +79,7 @@ export function menuFieldColumnMapping(menuField: keyof Menu) {
   }
 }
 
-export function menuORM(menu: any): Menu {
+export function menuORM(menu: Record<string, any>): Menu {
   return {
     id: menu.id,
     creationDate: menu.creation_date,

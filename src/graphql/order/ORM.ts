@@ -51,7 +51,7 @@ export function orderFieldColumnMapping(orderField: keyof Order) {
   }
 }
 
-export function orderORM(order: any): Order {
+export function orderORM(order: Record<string, any>): Order {
   return {
     id: order.id,
     creationDate: order.creation_date,

@@ -28,7 +28,7 @@ export function userFieldColumnMapping(userField: keyof User) {
   }
 }
 
-export function userORM(user: any): User {
+export function userORM(user: Record<string, any>): User {
   return {
     id: user.id,
     creationDate: user.creation_date,

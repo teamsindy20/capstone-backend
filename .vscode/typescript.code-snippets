@@ -13,7 +13,7 @@
       "}",
       "",
       "// All GraphQL fields -> All database columns",
-      "// GraphQL fields that must fetch from other table -> '${table}_id' | ''",
+      "// GraphQL fields that must fetch from other table -> '{table}_id' | ''",
       "export function $1FieldColumnMapping($1Field: keyof $2) {",
       "  switch ($1Field) {",
       "    default:",

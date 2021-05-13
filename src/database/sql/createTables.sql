@@ -164,7 +164,6 @@ CREATE TABLE menu_option (
   name varchar(32) NOT NULL,
   price int NOT NULL DEFAULT 0,
   --
-  category_id bigint NOT NULL REFERENCES menu_option_category ON DELETE CASCADE,
   menu_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE
 );
 
@@ -198,9 +197,9 @@ CREATE TABLE coupon (
   --
   is_used boolean NOT NULL DEFAULT false,
   --
+  order_id bigint REFERENCES "order" ON DELETE CASCADE,
   store_id bigint REFERENCES store ON DELETE CASCADE,
-  user_id bigint REFERENCES "user" ON DELETE CASCADE,
-  order_id bigint REFERENCES "order" ON DELETE CASCADE
+  user_id bigint REFERENCES "user" ON DELETE CASCADE
 );
 
 DROP TABLE "order" CASCADE;

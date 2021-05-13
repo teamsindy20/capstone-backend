@@ -26,7 +26,7 @@ export function postFieldColumnMapping(postField: keyof Post) {
   }
 }
 
-export function postORM(post: any): Post {
+export function postORM(post: Record<string, any>): Post {
   return {
     id: post.id,
     creationDate: post.creation_date,

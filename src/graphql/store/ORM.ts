@@ -73,7 +73,7 @@ export function storeFieldColumnMapping(storeField: keyof Store) {
   }
 }
 
-export function storeORM(store: any): Store {
+export function storeORM(store: Record<string, any>): Store {
   return {
     id: store.id,
     creationDate: store.creation_date,
