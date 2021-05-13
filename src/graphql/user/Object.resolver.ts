@@ -1,5 +1,5 @@
 import format from 'pg-format'
-import { poolQuery } from 'src/database/postgres'
+import { poolQuery } from '../../database/postgres'
 import { couponFieldColumnMapping, couponORM } from '../coupon/ORM'
 import { UserResolvers } from '../generated/graphql'
 import { menuFieldColumnMapping, menuORM } from '../menu/ORM'
