@@ -34,6 +34,7 @@ type Menu {
 
   # nullable
   imageUrls: [URL!]
+  options: [MenuOption!]
   themeId: ID
 
   # from other table
@@ -59,10 +60,4 @@ type Menu {
   해당 메뉴가 속한 테마를 반환한다.
   """
   theme: String
-}
-
-type MenuOption {
-  id: ID!
-  creationDate: DateTime!
-  modificationDate: DateTime!
 }

@@ -1,0 +1,11 @@
+type MenuOption {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+  name: String!
+  price: Int!
+  menuId: ID!
+
+  # from other table
+  menu: Menu!
+}

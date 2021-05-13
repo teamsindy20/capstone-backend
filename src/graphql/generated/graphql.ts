@@ -25,6 +25,19 @@ export type Coupon = {
   id: Scalars['ID']
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
+  name: Scalars['String']
+  type: Scalars['String']
+  discountAmount: Scalars['Int']
+  minimumOrderAmount: Scalars['Int']
+  expirationStartDate: Scalars['DateTime']
+  expirationEndDate: Scalars['DateTime']
+  isUsed: Scalars['Boolean']
+  orderId?: Maybe<Scalars['ID']>
+  storeId?: Maybe<Scalars['ID']>
+  userId?: Maybe<Scalars['ID']>
+  order?: Maybe<Order>
+  store?: Maybe<Store>
+  user?: Maybe<User>
 }
 
 export type Menu = {
@@ -62,6 +75,7 @@ export type Menu = {
   categoryId: Scalars['ID']
   storeId: Scalars['ID']
   imageUrls?: Maybe<Array<Scalars['URL']>>
+  options?: Maybe<Array<MenuOption>>
   themeId?: Maybe<Scalars['ID']>
   /** 해당 메뉴의 카테고리를 반환한다. */
   category: Scalars['String']
@@ -112,6 +126,10 @@ export type MenuOption = {
   id: Scalars['ID']
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
+  name: Scalars['String']
+  price: Scalars['Int']
+  menuId: Scalars['ID']
+  menu: Menu
 }
 
 export type MenuOptionInput = {
@@ -636,13 +654,13 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Coupon: ResolverTypeWrapper<Coupon>
   ID: ResolverTypeWrapper<Scalars['ID']>
+  String: ResolverTypeWrapper<Scalars['String']>
+  Int: ResolverTypeWrapper<Scalars['Int']>
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>
   EmailAddress: ResolverTypeWrapper<Scalars['EmailAddress']>
   JWT: ResolverTypeWrapper<Scalars['JWT']>
   Menu: ResolverTypeWrapper<Menu>
-  String: ResolverTypeWrapper<Scalars['String']>
-  Int: ResolverTypeWrapper<Scalars['Int']>
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>
   MenuCreationInput: MenuCreationInput
   MenuModificationInput: MenuModificationInput
   MenuOption: ResolverTypeWrapper<MenuOption>
@@ -674,13 +692,13 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Coupon: Coupon
   ID: Scalars['ID']
+  String: Scalars['String']
+  Int: Scalars['Int']
+  Boolean: Scalars['Boolean']
   DateTime: Scalars['DateTime']
   EmailAddress: Scalars['EmailAddress']
   JWT: Scalars['JWT']
   Menu: Menu
-  String: Scalars['String']
-  Int: Scalars['Int']
-  Boolean: Scalars['Boolean']
   MenuCreationInput: MenuCreationInput
   MenuModificationInput: MenuModificationInput
   MenuOption: MenuOption
@@ -713,6 +731,19 @@ export type CouponResolvers<
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  type?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  discountAmount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  minimumOrderAmount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  expirationStartDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  expirationEndDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  isUsed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+  orderId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
+  storeId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
+  userId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
+  order?: Resolver<Maybe<ResolversTypes['Order']>, ParentType, ContextType>
+  store?: Resolver<Maybe<ResolversTypes['Store']>, ParentType, ContextType>
+  user?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -767,6 +798,7 @@ export type MenuResolvers<
   categoryId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
+  options?: Resolver<Maybe<Array<ResolversTypes['MenuOption']>>, ParentType, ContextType>
   themeId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
@@ -783,6 +815,10 @@ export type MenuOptionResolvers<
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  menuId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  menu?: Resolver<ResolversTypes['Menu'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
