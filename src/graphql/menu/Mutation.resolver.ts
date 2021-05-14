@@ -1,4 +1,4 @@
-import { AuthenticationError, ForbiddenError } from 'apollo-server'
+import { AuthenticationError, ForbiddenError } from 'apollo-server-express'
 import { poolQuery } from '../../database/postgres'
 import { importSQL } from '../../utils/commons'
 import { MutationResolvers } from '../generated/graphql'

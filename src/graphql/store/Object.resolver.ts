@@ -6,7 +6,7 @@ import { menuFieldColumnMapping, menuORM } from '../menu/ORM'
 import { selectColumnFromField } from '../../utils/ORM'
 import { postFieldColumnMapping, postORM } from '../post/ORM'
 import { userFieldColumnMapping, userORM } from '../user/ORM'
-import { ForbiddenError } from 'apollo-server'
+import { ForbiddenError } from 'apollo-server-express'
 
 const storeMenus = importSQL(__dirname, 'sql/storeMenus.sql')
 const storeUser = importSQL(__dirname, 'sql/storeUser.sql')

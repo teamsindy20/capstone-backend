@@ -1,4 +1,4 @@
-import { AuthenticationError } from 'apollo-server'
+import { AuthenticationError } from 'apollo-server-express'
 import { pool } from '../../database/postgres'
 import { importSQL } from '../../utils/commons'
 import { MutationResolvers } from '../generated/graphql'

@@ -1,4 +1,4 @@
-import { ApolloServer } from 'apollo-server'
+import { ApolloServer } from 'apollo-server-express'
 import schema from '../graphql/schema'
 import { userORM } from '../graphql/user/ORM'
 import { poolQuery } from '../database/postgres'
@@ -7,7 +7,7 @@ import { importSQL } from '../utils/commons'
 
 const user = importSQL(__dirname, '/../graphql/user/sql/user.sql')
 
-export const server = new ApolloServer({
+export const apolloServer = new ApolloServer({
   context: async ({ req }) => {
     const token = req.headers.authorization || ''
 

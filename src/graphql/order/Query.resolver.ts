@@ -1,4 +1,4 @@
-import { AuthenticationError } from 'apollo-server'
+import { AuthenticationError } from 'apollo-server-express'
 import format from 'pg-format'
 import { importSQL } from '../../utils/commons'
 import { poolQuery } from '../../database/postgres'

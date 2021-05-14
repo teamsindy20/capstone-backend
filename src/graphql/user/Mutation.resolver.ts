@@ -1,4 +1,4 @@
-import { AuthenticationError, ForbiddenError } from 'apollo-server'
+import { AuthenticationError, ForbiddenError } from 'apollo-server-express'
 import { compare, genSalt, hash } from 'bcryptjs'
 import { MutationResolvers } from 'src/graphql/generated/graphql'
 import { generateJWT } from '../../utils/jwt'

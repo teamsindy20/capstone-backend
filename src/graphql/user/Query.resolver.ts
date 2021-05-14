@@ -1,4 +1,4 @@
-import { AuthenticationError } from 'apollo-server'
+import { AuthenticationError } from 'apollo-server-express'
 import { QueryResolvers } from 'src/graphql/generated/graphql'
 
 export const Query: QueryResolvers = {
