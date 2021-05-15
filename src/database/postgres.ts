@@ -15,6 +15,8 @@ export async function poolQuery(query: string, values?: unknown[]) {
   })
 }
 
+dddd
+
 export async function connectDatabase() {
   while (true) {
     try {
