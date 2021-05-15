@@ -1,4 +1,4 @@
-# 2021-1 Capstone Back-End (Node.js)
+# 2021-1 Capstone Back-end (Node.js)
 
 ## 실행 방법
 
@@ -16,9 +16,9 @@
 ### 프로젝트 다운로드
 
 ```bash
-> git clone https://github.com/capstone-2021-1/capstone-backend-node.git
-> cd capstone-frontend
-> git checkout (브랜치 이름)
+> git clone 프로젝트-주소
+> cd 프로젝트-폴더
+> git checkout 브랜치-이름
 > yarn
 ```
 

@@ -41,12 +41,7 @@ type Mutation {
   updatePrimaryDeliveryAddress(deliveryAddress: String!): Boolean!
 
   """
-  사용자의 메뉴 찜 목록을 업데이트한다. 해당 메뉴가 기존 찜 목록에 있으면 제거하고, 없으면 추가한다.
+  사용자 선호 해시태그를 입력값 그대로 설정한다.
   """
-  updateFavoriteMenus(menuIds: [ID!]!): [ID!]
-
-  """
-  사용자의 매장 찜 목록을 업데이트한다. 해당 매장이 기존 찜 목록에 있으면 제거하고, 없으면 추가한다.
-  """
-  updateFavoriteStores(storeIds: [ID!]!): [ID!]
+  updatePreferences(preferences: [NonEmptyString!]!): [NonEmptyString!]!
 }
