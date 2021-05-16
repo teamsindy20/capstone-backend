@@ -167,7 +167,9 @@ export type Mutation = {
   /**
    * 해당 메뉴를 찜하거나 이미 찜한 메뉴를 해제한다.
    *
-   * `true`: 찜 성공, `false`: 찜 해제
+   * `True`: 찜 성공
+   *
+   * `False`: 찜 해제
    */
   pickMenu: Scalars['Boolean']
   /**
@@ -183,12 +185,10 @@ export type Mutation = {
   unregister: Scalars['Boolean']
   /** 사용자 배달 주소를 업데이트한다. */
   updateDeliveryAddress: Scalars['Boolean']
-  /** 사용자의 메뉴 찜 목록을 업데이트한다. 해당 메뉴가 기존 찜 목록에 있으면 제거하고, 없으면 추가한다. */
-  updateFavoriteMenus?: Maybe<Array<Scalars['ID']>>
-  /** 사용자의 매장 찜 목록을 업데이트한다. 해당 매장이 기존 찜 목록에 있으면 제거하고, 없으면 추가한다. */
-  updateFavoriteStores?: Maybe<Array<Scalars['ID']>>
   /** 주문 상태 변경에 대한 적절한 권한이 있으면 주문 상태를 업데이트한다. */
   updateOrderStatus: Scalars['ID']
+  /** 사용자 선호 해시태그를 입력값 그대로 설정한다. */
+  updatePreferences: Array<Scalars['NonEmptyString']>
   updatePrimaryDeliveryAddress: Scalars['Boolean']
 }
 
@@ -245,16 +245,12 @@ export type MutationUpdateDeliveryAddressArgs = {
   input: Scalars['String']
 }
 
-export type MutationUpdateFavoriteMenusArgs = {
-  menuIds: Array<Scalars['ID']>
-}
-
-export type MutationUpdateFavoriteStoresArgs = {
-  storeIds: Array<Scalars['ID']>
-}
-
 export type MutationUpdateOrderStatusArgs = {
   orderStatus: OrderStatus
+}
+
+export type MutationUpdatePreferencesArgs = {
+  preferences: Array<Scalars['NonEmptyString']>
 }
 
 export type MutationUpdatePrimaryDeliveryAddressArgs = {
@@ -374,10 +370,22 @@ export type Query = {
   reviewsByMenu?: Maybe<Array<Post>>
   /** 특정 매장의 리뷰 목록을 반환한다. */
   reviewsByStore?: Maybe<Array<Post>>
+  searchMenus?: Maybe<Array<Menu>>
+  searchPosts?: Maybe<Array<Post>>
+  searchReviews?: Maybe<Array<Review>>
+  searchStores?: Maybe<Array<Store>>
   /** 특정 매장을 반환한다. */
   store?: Maybe<Store>
   /** 매장 목록을 반환한다. */
   stores?: Maybe<Array<Store>>
+  /**
+   * 이메일 중복 여부를 검사한다.
+   *
+   * `True`: 중복되지 않은 이메일
+   *
+   * `False`: 중복된 이메일
+   */
+  verifyUniqueEmail: Scalars['Boolean']
 }
 
 export type QueryMenuArgs = {
@@ -424,8 +432,28 @@ export type QueryReviewsByStoreArgs = {
   storeId: Scalars['ID']
 }
 
+export type QuerySearchMenusArgs = {
+  hashtag: Scalars['NonEmptyString']
+}
+
+export type QuerySearchPostsArgs = {
+  hashtag: Scalars['NonEmptyString']
+}
+
+export type QuerySearchReviewsArgs = {
+  hashtag: Scalars['NonEmptyString']
+}
+
+export type QuerySearchStoresArgs = {
+  hashtag: Scalars['NonEmptyString']
+}
+
 export type QueryStoreArgs = {
   id: Scalars['ID']
+}
+
+export type QueryVerifyUniqueEmailArgs = {
+  email: Scalars['EmailAddress']
 }
 
 export enum Rating {
@@ -906,23 +934,17 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationUpdateDeliveryAddressArgs, 'input'>
   >
-  updateFavoriteMenus?: Resolver<
-    Maybe<Array<ResolversTypes['ID']>>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationUpdateFavoriteMenusArgs, 'menuIds'>
-  >
-  updateFavoriteStores?: Resolver<
-    Maybe<Array<ResolversTypes['ID']>>,
-    ParentType,
-    ContextType,
-    RequireFields<MutationUpdateFavoriteStoresArgs, 'storeIds'>
-  >
   updateOrderStatus?: Resolver<
     ResolversTypes['ID'],
     ParentType,
     ContextType,
     RequireFields<MutationUpdateOrderStatusArgs, 'orderStatus'>
+  >
+  updatePreferences?: Resolver<
+    Array<ResolversTypes['NonEmptyString']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdatePreferencesArgs, 'preferences'>
   >
   updatePrimaryDeliveryAddress?: Resolver<
     ResolversTypes['Boolean'],
@@ -1072,6 +1094,30 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryReviewsByStoreArgs, 'storeId'>
   >
+  searchMenus?: Resolver<
+    Maybe<Array<ResolversTypes['Menu']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QuerySearchMenusArgs, 'hashtag'>
+  >
+  searchPosts?: Resolver<
+    Maybe<Array<ResolversTypes['Post']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QuerySearchPostsArgs, 'hashtag'>
+  >
+  searchReviews?: Resolver<
+    Maybe<Array<ResolversTypes['Review']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QuerySearchReviewsArgs, 'hashtag'>
+  >
+  searchStores?: Resolver<
+    Maybe<Array<ResolversTypes['Store']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QuerySearchStoresArgs, 'hashtag'>
+  >
   store?: Resolver<
     Maybe<ResolversTypes['Store']>,
     ParentType,
@@ -1079,6 +1125,12 @@ export type QueryResolvers<
     RequireFields<QueryStoreArgs, 'id'>
   >
   stores?: Resolver<Maybe<Array<ResolversTypes['Store']>>, ParentType, ContextType>
+  verifyUniqueEmail?: Resolver<
+    ResolversTypes['Boolean'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryVerifyUniqueEmailArgs, 'email'>
+  >
 }
 
 export type ReviewResolvers<

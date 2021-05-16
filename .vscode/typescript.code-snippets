@@ -32,5 +32,29 @@
       ""
     ],
     "description": "GraphQL Object Relation Mapping"
+  },
+  "Query": {
+    "prefix": "query",
+    "body": [
+      "import format from 'pg-format'",
+      "import { QueryResolvers } from 'src/graphql/generated/graphql'",
+      "import { importSQL } from '../../utils/commons'",
+      "import { poolQuery } from '../../database/postgres'",
+      "import { selectColumnFromField } from '../../utils/ORM'",
+      "",
+      "const $1 = importSQL(__dirname, 'sql/$1.sql')",
+      "",
+      "export const Query: QueryResolvers = {",
+      "  $1: async (_, __, { user }, info) => {",
+      "    const columns = selectColumnFromField(info, menuFieldColumnMapping)",
+      "    ",
+      "    const { rows } = await poolQuery(format(await $1, columns))",
+      "    ",
+      "    return rows.map((row) => menuORM(row))",
+      "  },",
+      "}",
+      ""
+    ],
+    "description": "GraphQL Query Resolver"
   }
 }
