@@ -1,0 +1,9 @@
+type Query {
+  searchMenus(hashtag: NonEmptyString!): [Menu!]
+
+  searchStores(hashtag: NonEmptyString!): [Store!]
+
+  searchPosts(hashtag: NonEmptyString!): [Post!]
+
+  searchReviews(hashtag: NonEmptyString!): [Review!]
+}
