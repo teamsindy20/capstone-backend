@@ -130,6 +130,7 @@ CREATE TABLE menu (
   store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
   --
   image_urls text ARRAY,
+  content text,
   --
   theme_id bigint REFERENCES menu_theme ON DELETE CASCADE
 );

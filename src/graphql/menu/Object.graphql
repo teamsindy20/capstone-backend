@@ -33,6 +33,7 @@ type Menu {
   storeId: ID!
 
   # nullable
+  content: String
   imageUrls: [URL!]
   options: [MenuOption!]
   themeId: ID
@@ -56,6 +57,10 @@ type Menu {
   해당 메뉴가 가진 해시태그 목록을 반환한다.
   """
   hashtags: [NonEmptyString!]
+  """
+  메뉴에 달린 옵션을 반환한다.
+  """
+  menuOptions: [MenuOption!]
   """
   해당 메뉴가 속한 테마를 반환한다.
   """

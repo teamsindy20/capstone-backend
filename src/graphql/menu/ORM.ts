@@ -137,6 +137,7 @@ export function menuORM(menu: Record<string, any>): Menu {
     canBeReserved: menu.can_be_reserved,
     categoryId: menu.category_id,
     storeId: menu.store_id,
+    content: menu.content,
     imageUrls: menu.image_urls,
     themeId: menu.theme_id,
     category: '',
