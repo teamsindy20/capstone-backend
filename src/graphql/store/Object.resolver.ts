@@ -8,6 +8,7 @@ import { postFieldColumnMapping, postORM } from '../post/ORM'
 import { userFieldColumnMapping, userORM } from '../user/ORM'
 import { ForbiddenError } from 'apollo-server-express'
 
+const storeFavorite = importSQL(__dirname, 'sql/storeFavorite.sql')
 const storeMenus = importSQL(__dirname, 'sql/storeMenus.sql')
 const storeUser = importSQL(__dirname, 'sql/storeUser.sql')
 const storeHashtags = importSQL(__dirname, 'sql/storeHashtags.sql')
@@ -22,6 +23,14 @@ const privateUserColumns = [
 ]
 
 export const Store: StoreResolvers = {
+  favorite: async ({ id }, _, { user }) => {
+    if (!user) return false
+
+    const { rowCount } = await poolQuery(await storeFavorite, [user.id, id])
+
+    return !!rowCount
+  },
+
   menus: async ({ id }, _, __, info) => {
     const columns = selectColumnFromField(info, menuFieldColumnMapping)
 

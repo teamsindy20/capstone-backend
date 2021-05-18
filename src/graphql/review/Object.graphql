@@ -10,6 +10,16 @@ type Review {
   modificationDate: DateTime!
   helpingOthersCount: Int!
   rating: Rating!
+  isReviewEvent: Boolean!
+  userId: ID!
+
+  # nullable
   goodPointContent: String
   desiredPointContent: String
+
+  # from other table
+  menus: [Menu!]!
+  order: Order!
+  store: Store!
+  user: User!
 }

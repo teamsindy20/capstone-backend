@@ -37,6 +37,7 @@ export const store: Store = {
   favoriteCount: 0,
   clickCount: 0,
   postCount: 0,
+  favorite: false,
   menus: [menu],
   userId: '',
   user: user,
@@ -133,13 +134,14 @@ export function storeORM(store: Record<string, any>): Store {
     favoriteCount: store.favorite_count,
     clickCount: store.click_count,
     postCount: store.post_count,
+    userId: store.user_id,
     reviewEventContent: store.review_event_content,
     regularCustomerEventContent: store.regular_customer_event_content,
     minimumDeliveryTime: store.minimum_delivery_time,
     maximumDeliveryTime: store.maximum_delivery_time,
     imageUrls: store.image_urls,
+    favorite: false,
     menus: [menu],
-    userId: store.user_id,
     user: user,
   }
 }

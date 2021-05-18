@@ -74,6 +74,7 @@ export type Menu = {
   canBeReserved: Scalars['Boolean']
   categoryId: Scalars['ID']
   storeId: Scalars['ID']
+  content?: Maybe<Scalars['String']>
   imageUrls?: Maybe<Array<Scalars['URL']>>
   options?: Maybe<Array<MenuOption>>
   themeId?: Maybe<Scalars['ID']>
@@ -85,6 +86,7 @@ export type Menu = {
   store: Store
   /** 해당 메뉴가 가진 해시태그 목록을 반환한다. */
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+  menuOptions?: Maybe<Array<MenuOption>>
   /** 해당 메뉴가 속한 테마를 반환한다. */
   theme?: Maybe<Scalars['String']>
 }
@@ -481,8 +483,14 @@ export type Review = {
   modificationDate: Scalars['DateTime']
   helpingOthersCount: Scalars['Int']
   rating: Rating
+  isReviewEvent: Scalars['Boolean']
+  userId: Scalars['ID']
   goodPointContent?: Maybe<Scalars['String']>
   desiredPointContent?: Maybe<Scalars['String']>
+  menus: Array<Menu>
+  order: Order
+  store: Store
+  user: User
 }
 
 export type ReviewCreationInput = {
@@ -536,6 +544,8 @@ export type Store = {
   minimumDeliveryTime?: Maybe<Scalars['Int']>
   maximumDeliveryTime?: Maybe<Scalars['Int']>
   imageUrls?: Maybe<Array<Scalars['URL']>>
+  /** 로그인 상태일 때 요청하면 사용자가 해당 매장을 찜한 여부를 반환한다. */
+  favorite: Scalars['Boolean']
   /** 해당 매장에서 판매 중인 메뉴 목록을 반환한다. */
   menus: Array<Menu>
   /** 해당 매장을 소유한 사용자 정보를 반환한다. */
@@ -825,6 +835,7 @@ export type MenuResolvers<
   canBeReserved?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   categoryId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
   options?: Resolver<Maybe<Array<ResolversTypes['MenuOption']>>, ParentType, ContextType>
   themeId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
@@ -832,6 +843,7 @@ export type MenuResolvers<
   favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
   hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
+  menuOptions?: Resolver<Maybe<Array<ResolversTypes['MenuOption']>>, ParentType, ContextType>
   theme?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
@@ -1142,8 +1154,14 @@ export type ReviewResolvers<
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   helpingOthersCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   rating?: Resolver<ResolversTypes['Rating'], ParentType, ContextType>
+  isReviewEvent?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   goodPointContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   desiredPointContent?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
+  order?: Resolver<ResolversTypes['Order'], ParentType, ContextType>
+  store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -1190,6 +1208,7 @@ export type StoreResolvers<
   minimumDeliveryTime?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
   maximumDeliveryTime?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
+  favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>
   hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
