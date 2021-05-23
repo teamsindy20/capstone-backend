@@ -26,16 +26,6 @@
       "database": "sindy",
       "username": "sindy",
       "password": ""
-    },
-    {
-      "previewLimit": 50,
-      "server": "sindy-database.civbmqxnw1on.ap-northeast-2.rds.amazonaws.com",
-      "port": 5432,
-      "driver": "PostgreSQL",
-      "name": "sindb",
-      "database": "sindy",
-      "username": "sindy",
-      "password": "sindy159!"
     }
   ],
   "[sql]": {
