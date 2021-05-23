@@ -596,8 +596,9 @@ export type User = {
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
   email: Scalars['EmailAddress']
+  providers: Array<Provider>
   point: Scalars['Int']
-  provider: Provider
+  isEmailVerified: Scalars['Boolean']
   name?: Maybe<Scalars['String']>
   phoneNumber?: Maybe<Scalars['String']>
   gender?: Maybe<Scalars['String']>
@@ -1270,8 +1271,9 @@ export type UserResolvers<
   creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   email?: Resolver<ResolversTypes['EmailAddress'], ParentType, ContextType>
+  providers?: Resolver<Array<ResolversTypes['Provider']>, ParentType, ContextType>
   point?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  provider?: Resolver<ResolversTypes['Provider'], ParentType, ContextType>
+  isEmailVerified?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   phoneNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   gender?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>

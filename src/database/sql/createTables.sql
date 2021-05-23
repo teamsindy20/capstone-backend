@@ -24,14 +24,18 @@ CREATE TABLE "user" (
   --
   email varchar(64) NOT NULL UNIQUE,
   point int NOT NULL DEFAULT 0 CHECK (point >= 0),
+  is_email_verified boolean NOT NULL DEFAULT false,
   --
   name varchar(64),
   phone_number varchar(32),
   gender varchar(16),
   birth_date timestamptz,
-  image_urls text ARRAY,
-  delivery_addresses varchar(64) ARRAY,
+  image_urls text [],
+  delivery_addresses varchar(64) [],
   representative_delivery_address int CHECK (representative_delivery_address >= 1),
+  google_oauth text UNIQUE,
+  naver_oauth text UNIQUE,
+  kakao_oauth text UNIQUE,
   --
   password_hash_hash varchar(128) NOT NULL,
   valid_authentication_date timestamptz NOT NULL DEFAULT NOW()
@@ -50,8 +54,8 @@ CREATE TABLE deleted."user" (
   phone_number varchar(32),
   gender varchar(16),
   birth_date timestamptz,
-  image_urls text ARRAY,
-  delivery_addresses varchar(64) ARRAY,
+  image_urls text [],
+  delivery_addresses varchar(64) [],
   representative_delivery_address int CHECK (representative_delivery_address >= 1)
 );
 
@@ -86,7 +90,7 @@ CREATE TABLE store (
   regular_customer_event_content text,
   minimum_delivery_time int,
   maximum_delivery_time int,
-  image_urls text ARRAY
+  image_urls text []
 );
 
 CREATE TABLE menu_category (
@@ -129,7 +133,7 @@ CREATE TABLE menu (
   category_id bigint NOT NULL REFERENCES menu_category ON DELETE CASCADE,
   store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
   --
-  image_urls text ARRAY,
+  image_urls text [],
   content text,
   --
   theme_id bigint REFERENCES menu_theme ON DELETE CASCADE
@@ -283,7 +287,7 @@ CREATE TABLE review (
   order_id bigint NOT NULL REFERENCES "order" ON DELETE CASCADE,
   --
   helping_others_count int NOT NULL DEFAULT 0,
-  image_urls text ARRAY,
+  image_urls text [],
   good_point_content text,
   desired_point_content text
 );
@@ -305,7 +309,7 @@ CREATE TABLE post (
   comment_count int NOT NULL DEFAULT 0,
   like_count int NOT NULL DEFAULT 0,
   --
-  image_urls text ARRAY,
+  image_urls text [],
   --
   store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE --,
   -- post_category_id bigint NOT NULL REFERENCES post_category ON DELETE CASCADE

@@ -371,3 +371,73 @@ SELECT id
 FROM inserted_post;
 
 $$;
+
+DROP FUNCTION IF EXISTS social_login;
+
+CREATE OR REPLACE FUNCTION social_login (
+    _email text,
+    _name text DEFAULT NULL,
+    _phone_number text DEFAULT NULL,
+    _gender text DEFAULT NULL,
+    _birth_date timestamptz DEFAULT NULL,
+    _image_urls text [] DEFAULT NULL,
+    _delivery_addresses text [] DEFAULT NULL,
+    _representative_delivery_address int DEFAULT NULL,
+    _google_oauth text DEFAULT NULL,
+    _naver_oauth text DEFAULT NULL,
+    _kakao_oauth text DEFAULT NULL,
+    out user_id bigint
+  ) language SQL AS $$ WITH new_user_id AS (
+    INSERT INTO "user" (
+        email,
+        password_hash_hash,
+        name,
+        phone_number,
+        gender,
+        birth_date,
+        image_urls,
+        delivery_addresses,
+        representative_delivery_address,
+        google_oauth,
+        naver_oauth,
+        kakao_oauth
+      )
+    VALUES (
+        _email,
+        'password_hash_hash',
+        _name,
+        _phone_number,
+        _gender,
+        _birth_date,
+        _image_urls,
+        _delivery_addresses,
+        _representative_delivery_address,
+        _google_oauth,
+        _naver_oauth,
+        _kakao_oauth
+      ) ON CONFLICT DO NOTHING
+    RETURNING id
+  )
+SELECT id
+FROM new_user_id
+UNION
+SELECT id
+FROM "user"
+WHERE (
+    _email IS NULL
+    OR email = _email
+  )
+  AND (
+    _google_oauth IS NULL
+    OR google_oauth = _google_oauth
+  )
+  AND (
+    _naver_oauth IS NULL
+    OR naver_oauth = _naver_oauth
+  )
+  AND (
+    _kakao_oauth IS NULL
+    OR kakao_oauth = _kakao_oauth
+  );
+
+$$;

@@ -1,40 +1,59 @@
-import querystring from 'querystring'
 import { Express } from 'express-serve-static-core'
 import passport from 'passport'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
-import { importSQL } from '../utils/commons'
+import querystring from 'querystring'
 import { poolQuery } from '../database/postgres'
+import { importSQL } from '../utils/commons'
+import { generateJWT } from '../utils/jwt'
 
-const registerOrLogin = importSQL(__dirname, 'sql/')
+const registerOrLogin = importSQL(__dirname, 'sql/socialLogin.sql')
 
 export function setPassportStrategies(app: Express) {
   app.use(passport.initialize())
-  app.use(passport.session())
+  app.use(passport.session()) //
 
   passport.use(
     new GoogleStrategy(
       {
         clientID: process.env.GOOGLE_CLIENT_ID ?? '',
         clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
-        callbackURL: `${process.env.SERVER_URL}:${process.env.PORT}/auth/google/callback`,
+        callbackURL: `${process.env.BACKEND_URL}:${process.env.PORT}/auth/google/callback`,
       },
       async (accessToken, refreshToken, profile, done) => {
-        if (profile.emails) {
-          const a = await poolQuery(await registerOrLogin, [profile.emails[0].value])
-        }
+        if (profile.emails && (profile.emails[0] as any).verified) {
+          const { rows } = await poolQuery(await registerOrLogin, [
+            profile.emails[0].value,
+            profile.displayName,
+            null,
+            null,
+            null,
+            profile.photos?.map((photo) => photo.value),
+            null,
+            null,
+            profile.emails[0].value,
+            null,
+            null,
+          ])
+          console.log('rows', rows)
+          done(null, { id: rows[0].user_id })
+        } else {
+          // email not verified or no email
 
-        console.log('profile', profile)
-        done(null, profile)
+          console.log('profile', profile)
+          done(null)
+        }
       }
     )
   )
 
-  passport.serializeUser((user, cb) => {
-    cb(null, user)
+  passport.serializeUser((user, done) => {
+    console.log('user', user)
+    done(null, user)
   })
 
-  passport.deserializeUser((obj, cb) => {
-    cb(null, obj as any)
+  passport.deserializeUser((obj, done) => {
+    console.log('obj', obj)
+    done(null, obj as any)
   })
 
   app.get(
@@ -47,13 +66,15 @@ export function setPassportStrategies(app: Express) {
     passport.authenticate('google', {
       failureRedirect: '/aa',
     }),
-    (req, res) => {
-      const query = querystring.stringify({
-        id: (req.user as any).id,
-      })
-      // Successful authentication, redirect home.
-      res.redirect('http://localhost:3000/auth?' + query)
-      // res.json({ a: req.user })
+    async (req, res) => {
+      if (req.user) {
+        const query = querystring.stringify({
+          token: await generateJWT({ userId: (req.user as any).id, lastLoginDate: new Date() }),
+        })
+        res.redirect(`${process.env.FRONTEND_URL}/auth?${query}`)
+      } else {
+        res.redirect(`${process.env.FRONTEND_URL}/signin`)
+      }
     }
   )
 }

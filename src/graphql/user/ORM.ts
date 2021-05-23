@@ -6,12 +6,15 @@ export const user: User = {
   creationDate: '',
   modificationDate: '',
   email: '',
+  providers: [Provider.DessertFit],
   point: 0,
-  provider: Provider.DessertFit,
+  isEmailVerified: false,
 }
 
 export function userFieldColumnMapping(userField: keyof User) {
   switch (userField) {
+    case 'providers':
+      return ['google_oauth', 'naver_oauth', 'kakao_oauth']
     case 'representativeDeliveryAddress':
       return ['representative_delivery_address', 'delivery_addresses']
     case 'favoriteMenus':
@@ -35,8 +38,9 @@ export function userORM(user: Record<string, any>): User {
     creationDate: user.creation_date,
     modificationDate: user.modification_date,
     email: user.email,
+    providers: getProviders(user),
     point: user.point,
-    provider: user.provider,
+    isEmailVerified: user.is_email_verified,
     name: user.name,
     phoneNumber: user.phone_number,
     gender: user.gender,
@@ -47,4 +51,14 @@ export function userORM(user: Record<string, any>): User {
       user.representative_delivery_address &&
       user.delivery_addresses[user.representative_delivery_address],
   }
+}
+
+function getProviders(user: Record<string, any>) {
+  const providers = []
+
+  if (user.google_oauth) providers.push(Provider.Google)
+  if (user.naver_oauth) providers.push(Provider.Naver)
+  if (user.kakao_oauth) providers.push(Provider.Kakao)
+
+  return providers
 }
