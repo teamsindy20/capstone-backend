@@ -1,3 +1,18 @@
+enum MenuOptionType {
+  BINARY_SELECTION
+  SINGLE_SELECTION
+  MULTI_SELECTION
+  TEXT
+}
+
+type MenuOptionCategory {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+  name: String!
+  type: MenuOptionType!
+}
+
 type MenuOption {
   id: ID!
   creationDate: DateTime!
