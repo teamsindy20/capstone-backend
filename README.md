@@ -13,6 +13,8 @@
 - Docker Compose 1.28
 - Visual Studio Code 1.54
 
+GCP Cloud Run이 컨테이너 기반 환경이기 때문에 Docker는 컨테이너 환경을 테스트하고 싶을 때 설치합니다.
+
 ### 프로젝트 다운로드
 
 ```bash
@@ -40,10 +42,15 @@ POSTGRES_PASSWORD=
 
 JWT_SECRET_KEY=
 
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
 PORT=4000
 ```
 
 루트 폴더에 `.env`, `.env.development` 파일을 생성하고 거기에 프로젝트에 필요한 환경 변수를 설정합니다.
+
+만약 로컬 데이터베이스를 사용하려면 `POSTGRES_HOST=localhost`로 설정하고 `localhost:5432` 주소에 PostgreSQL 데이터베이스를 실행시킵니다.
 
 ### 개발 모드 (Local)
 
