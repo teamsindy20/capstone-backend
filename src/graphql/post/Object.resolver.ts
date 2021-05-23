@@ -1,20 +1,24 @@
 import { PostResolvers } from 'src/graphql/generated/graphql'
 import { importSQL } from '../../utils/commons'
-import { pool } from '../../database/postgres'
-import { storeORM } from '../store/ORM'
+import { poolQuery } from '../../database/postgres'
+import { storeFieldColumnMapping, storeORM } from '../store/ORM'
+import format from 'pg-format'
+import { selectColumnFromField } from '../../utils/ORM'
 
 const postStore = importSQL(__dirname, 'sql/postStore.sql')
 const postHashtag = importSQL(__dirname, 'sql/postHashtag.sql')
 
 export const Post: PostResolvers = {
-  store: async ({ storeId }) => {
-    const { rows } = await pool.query(await postStore, [storeId])
+  store: async ({ storeId }, _, __, info) => {
+    const columns = selectColumnFromField(info, storeFieldColumnMapping)
+
+    const { rows } = await poolQuery(format(await postStore, columns), [storeId])
 
     return storeORM(rows[0])
   },
 
   hashtags: async ({ id }) => {
-    const { rows } = await pool.query(await postHashtag, [id])
+    const { rows } = await poolQuery(await postHashtag, [id])
 
     return rows.map((row) => row.name)
   },
