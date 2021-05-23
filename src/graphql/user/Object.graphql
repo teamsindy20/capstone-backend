@@ -1,9 +1,20 @@
+"""
+OAuth 공급자
+"""
+enum Provider {
+  DESSERT_FIT
+  GOOGLE
+  NAVER
+  KAKAO
+}
+
 type User {
   id: ID!
   creationDate: DateTime!
   modificationDate: DateTime!
   email: EmailAddress!
   point: Int!
+  provider: Provider!
 
   # nullable
   name: String

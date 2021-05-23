@@ -146,17 +146,18 @@ CREATE INDEX menu_theme_id ON menu (theme_id);
 CREATE TABLE menu_option_category (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
   --  
   name varchar(32) NOT NULL,
   "type" varchar(16) NOT NULL,
   --
-  modification_date timestamptz NOT NULL DEFAULT NOW(),
   is_necessary boolean NOT NULL DEFAULT false,
   --
   minimum_selection_count int,
   maximum_selection_count int
 );
 
+-- category_id: 이 옵션이 어떤 형태에 속하는지
 CREATE TABLE menu_option (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
@@ -165,6 +166,7 @@ CREATE TABLE menu_option (
   name varchar(32) NOT NULL,
   price int NOT NULL DEFAULT 0,
   --
+  category_id bigint NOT NULL REFERENCES menu_option_category ON DELETE CASCADE,
   menu_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE
 );
 

@@ -1,4 +1,4 @@
-import { User } from '../generated/graphql'
+import { Provider, User } from '../generated/graphql'
 import { camelToSnake } from '../../utils/commons'
 
 export const user: User = {
@@ -7,6 +7,7 @@ export const user: User = {
   modificationDate: '',
   email: '',
   point: 0,
+  provider: Provider.DessertFit,
 }
 
 export function userFieldColumnMapping(userField: keyof User) {
@@ -35,6 +36,7 @@ export function userORM(user: Record<string, any>): User {
     modificationDate: user.modification_date,
     email: user.email,
     point: user.point,
+    provider: user.provider,
     name: user.name,
     phoneNumber: user.phone_number,
     gender: user.gender,

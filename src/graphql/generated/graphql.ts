@@ -86,6 +86,7 @@ export type Menu = {
   store: Store
   /** 해당 메뉴가 가진 해시태그 목록을 반환한다. */
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+  /** 메뉴에 달린 옵션을 반환한다. */
   menuOptions?: Maybe<Array<MenuOption>>
   /** 해당 메뉴가 속한 테마를 반환한다. */
   theme?: Maybe<Scalars['String']>
@@ -134,6 +135,15 @@ export type MenuOption = {
   menu: Menu
 }
 
+export type MenuOptionCategory = {
+  __typename?: 'MenuOptionCategory'
+  id: Scalars['ID']
+  creationDate: Scalars['DateTime']
+  modificationDate: Scalars['DateTime']
+  name: Scalars['String']
+  type: MenuOptionType
+}
+
 export type MenuOptionInput = {
   name: Scalars['String']
   price: Scalars['Int']
@@ -144,6 +154,13 @@ export type MenuOptionInput = {
 export type MenuOptionSelectionInput = {
   menuOptionId: Scalars['ID']
   text?: Maybe<Scalars['String']>
+}
+
+export enum MenuOptionType {
+  BinarySelection = 'BINARY_SELECTION',
+  SingleSelection = 'SINGLE_SELECTION',
+  MultiSelection = 'MULTI_SELECTION',
+  Text = 'TEXT',
 }
 
 export type MenuSelectionInput = {
@@ -334,6 +351,14 @@ export type PostCreationInput = {
   storeId: Scalars['ID']
   imageUrls?: Maybe<Array<Scalars['URL']>>
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
+}
+
+/** OAuth 공급자 */
+export enum Provider {
+  DessertFit = 'DESSERT_FIT',
+  Google = 'GOOGLE',
+  Naver = 'NAVER',
+  Kakao = 'KAKAO',
 }
 
 export type Query = {
@@ -572,6 +597,7 @@ export type User = {
   modificationDate: Scalars['DateTime']
   email: Scalars['EmailAddress']
   point: Scalars['Int']
+  provider: Provider
   name?: Maybe<Scalars['String']>
   phoneNumber?: Maybe<Scalars['String']>
   gender?: Maybe<Scalars['String']>
@@ -702,8 +728,10 @@ export type ResolversTypes = {
   MenuCreationInput: MenuCreationInput
   MenuModificationInput: MenuModificationInput
   MenuOption: ResolverTypeWrapper<MenuOption>
+  MenuOptionCategory: ResolverTypeWrapper<MenuOptionCategory>
   MenuOptionInput: MenuOptionInput
   MenuOptionSelectionInput: MenuOptionSelectionInput
+  MenuOptionType: MenuOptionType
   MenuSelectionInput: MenuSelectionInput
   Mutation: ResolverTypeWrapper<{}>
   NonEmptyString: ResolverTypeWrapper<Scalars['NonEmptyString']>
@@ -714,6 +742,7 @@ export type ResolversTypes = {
   PaymentInput: PaymentInput
   Post: ResolverTypeWrapper<Post>
   PostCreationInput: PostCreationInput
+  Provider: Provider
   Query: ResolverTypeWrapper<{}>
   Rating: Rating
   RegisterInput: RegisterInput
@@ -740,6 +769,7 @@ export type ResolversParentTypes = {
   MenuCreationInput: MenuCreationInput
   MenuModificationInput: MenuModificationInput
   MenuOption: MenuOption
+  MenuOptionCategory: MenuOptionCategory
   MenuOptionInput: MenuOptionInput
   MenuOptionSelectionInput: MenuOptionSelectionInput
   MenuSelectionInput: MenuSelectionInput
@@ -859,6 +889,18 @@ export type MenuOptionResolvers<
   price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   menuId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   menu?: Resolver<ResolversTypes['Menu'], ParentType, ContextType>
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
+export type MenuOptionCategoryResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['MenuOptionCategory'] = ResolversParentTypes['MenuOptionCategory']
+> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  type?: Resolver<ResolversTypes['MenuOptionType'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -1229,6 +1271,7 @@ export type UserResolvers<
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   email?: Resolver<ResolversTypes['EmailAddress'], ParentType, ContextType>
   point?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  provider?: Resolver<ResolversTypes['Provider'], ParentType, ContextType>
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   phoneNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   gender?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
@@ -1252,6 +1295,7 @@ export type Resolvers<ContextType = any> = {
   JWT?: GraphQLScalarType
   Menu?: MenuResolvers<ContextType>
   MenuOption?: MenuOptionResolvers<ContextType>
+  MenuOptionCategory?: MenuOptionCategoryResolvers<ContextType>
   Mutation?: MutationResolvers<ContextType>
   NonEmptyString?: GraphQLScalarType
   Order?: OrderResolvers<ContextType>
