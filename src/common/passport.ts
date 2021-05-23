@@ -10,7 +10,6 @@ const registerOrLogin = importSQL(__dirname, 'sql/socialLogin.sql')
 
 export function setPassportStrategies(app: Express) {
   app.use(passport.initialize())
-  app.use(passport.session()) //
 
   passport.use(
     new GoogleStrategy(
@@ -34,12 +33,11 @@ export function setPassportStrategies(app: Express) {
             null,
             null,
           ])
-          console.log('rows', rows)
+
           done(null, { id: rows[0].user_id })
         } else {
           // email not verified or no email
 
-          console.log('profile', profile)
           done(null)
         }
       }

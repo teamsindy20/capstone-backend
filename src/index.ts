@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 import dotenv from 'dotenv'
 
-dotenv.config({ path: '.env.development' })
+if (process.env.NODE_ENV !== 'production') dotenv.config({ path: '.env.development' })
 dotenv.config()
 
 import { connectDatabase } from './database/postgres'
