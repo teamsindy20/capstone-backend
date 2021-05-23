@@ -6,7 +6,24 @@ INSERT INTO "user" (
     gender,
     birth_date,
     image_urls,
-    delivery_addresses
+    delivery_addresses,
+    representative_delivery_address,
+    google_oauth,
+    naver_oauth,
+    kakao_oauth
   )
-VALUES ($1, $2, $3, $4, $5, $6, array [$7], array [$8])
+VALUES (
+    $1,
+    $2,
+    $3,
+    $4,
+    $5,
+    $6,
+    array [$7],
+    array [$8],
+    $9,
+    $10,
+    $11,
+    $12
+  )
 RETURNING id;
