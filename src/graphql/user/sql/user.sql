@@ -1,4 +1,3 @@
-SELECT *
+SELECT %I
 FROM "user"
-WHERE id = $1
-  AND valid_authentication_date <= $2;
+WHERE id = $1;
