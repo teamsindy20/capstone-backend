@@ -11,7 +11,7 @@
     "node": ">=14.16.0"
   },
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "nodemon src/index.ts --trace-warnings",
     "build": "rm -rf dist && tsc && copyfiles --up 1 src/**/*.{graphql,sql} dist/",
     "start": "NODE_ENV=production node dist/index.js",
     "format": "prettier . --write --ignore-path .gitignore",

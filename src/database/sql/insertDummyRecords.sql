@@ -6,7 +6,8 @@ INSERT INTO "user" (
     gender,
     birth_date,
     image_urls,
-    delivery_addresses
+    delivery_addresses,
+    representative_delivery_address
   )
 VALUES (
     'asdf@google.com',
@@ -16,7 +17,8 @@ VALUES (
     'gender',
     '2021-01-01',
     array ['image_url'],
-    array ['delivery_address']
+    array ['delivery_address'],
+    1
   );
 
 SELECT create_store (

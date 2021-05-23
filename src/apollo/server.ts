@@ -5,7 +5,7 @@ import { poolQuery } from '../database/postgres'
 import { verifyJWT } from '../utils/jwt'
 import { importSQL } from '../utils/commons'
 
-const user = importSQL(__dirname, '/../graphql/user/sql/user.sql')
+const user = importSQL(__dirname, 'sql/user.sql')
 
 export const apolloServer = new ApolloServer({
   context: async ({ req }) => {

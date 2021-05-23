@@ -19,6 +19,6 @@ export async function startApolloExpressServer() {
   })
 
   console.log(
-    `🚀 Server ready at ${process.env.SERVER_URL}:${process.env.PORT}${apolloServer.graphqlPath}`
+    `🚀 Server ready at ${process.env.BACKEND_URL}:${process.env.PORT}${apolloServer.graphqlPath}`
   )
 }
