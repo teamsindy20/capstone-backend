@@ -18,7 +18,5 @@ export async function startApolloExpressServer() {
     app.listen(process.env.PORT || 4000, resolve as () => void)
   })
 
-  console.log(
-    `🚀 Server ready at ${process.env.BACKEND_URL}:${process.env.PORT}${apolloServer.graphqlPath}`
-  )
+  console.log(`🚀 Server ready at ${process.env.BACKEND_URL}${apolloServer.graphqlPath}`)
 }

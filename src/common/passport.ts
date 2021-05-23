@@ -16,7 +16,7 @@ export function setPassportStrategies(app: Express) {
       {
         clientID: process.env.GOOGLE_CLIENT_ID ?? '',
         clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
-        callbackURL: `${process.env.BACKEND_URL}:${process.env.PORT}/auth/google/callback`,
+        callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
       },
       async (accessToken, refreshToken, profile, done) => {
         if (profile.emails && (profile.emails[0] as any).verified) {
