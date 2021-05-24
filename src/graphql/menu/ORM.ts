@@ -72,6 +72,8 @@ export function menuFieldColumnMapping(menuField: keyof Menu) {
       return 'store_id'
     case 'hashtags':
       return ''
+    case 'menuOptions':
+      return ''
     case 'theme':
       return 'theme_id'
     default:

@@ -76,7 +76,6 @@ export type Menu = {
   storeId: Scalars['ID']
   content?: Maybe<Scalars['String']>
   imageUrls?: Maybe<Array<Scalars['URL']>>
-  options?: Maybe<Array<MenuOption>>
   themeId?: Maybe<Scalars['ID']>
   /** 해당 메뉴의 카테고리를 반환한다. */
   category: Scalars['String']
@@ -868,7 +867,6 @@ export type MenuResolvers<
   storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   content?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
-  options?: Resolver<Maybe<Array<ResolversTypes['MenuOption']>>, ParentType, ContextType>
   themeId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
   category?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>

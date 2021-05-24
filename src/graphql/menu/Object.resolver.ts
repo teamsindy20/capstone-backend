@@ -8,7 +8,7 @@ import { menuOptionFieldColumnMapping, menuOptionORM } from '../menuOption/ORM'
 
 const menuCategory = importSQL(__dirname, 'sql/menuCategory.sql')
 const menuFavorite = importSQL(__dirname, 'sql/menuFavorite.sql')
-const menuOptions = importSQL(__dirname, 'sql/menuFavorite.sql')
+const menuOptions = importSQL(__dirname, 'sql/menuOptions.sql')
 const menuStore = importSQL(__dirname, 'sql/menuStore.sql')
 const menuHashtags = importSQL(__dirname, 'sql/menuHashtags.sql')
 
@@ -27,7 +27,7 @@ export const Menu: MenuResolvers = {
     return !!rowCount
   },
 
-  options: async ({ id }, _, __, info) => {
+  menuOptions: async ({ id }, _, __, info) => {
     const columns = selectColumnFromField(info, menuOptionFieldColumnMapping)
 
     const { rows } = await poolQuery(format(await menuOptions, columns), [id])
