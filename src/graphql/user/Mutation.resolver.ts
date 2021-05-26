@@ -25,6 +25,10 @@ export const Mutation: MutationResolvers = {
       input.birthDate,
       input.imageUrl,
       input.deliveryAddress,
+      1,
+      null,
+      null,
+      null,
     ]
 
     const { rows } = await poolQuery(await register, registerValues)
