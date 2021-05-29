@@ -1,6 +1,7 @@
 import { Express } from 'express-serve-static-core'
 import passport from 'passport'
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20'
+import { Strategy as FacebookStrategy } from 'passport-facebook'
 import querystring from 'querystring'
 import { poolQuery } from '../database/postgres'
 import { importSQL } from '../utils/commons'
@@ -44,6 +45,19 @@ export function setPassportStrategies(app: Express) {
     )
   )
 
+  passport.use(
+    new FacebookStrategy(
+      {
+        clientID: process.env.FACEBOOK_APP_ID ?? '',
+        clientSecret: process.env.FACEBOOK_APP_SECRET ?? '',
+        callbackURL: `${process.env.BACKEND_URL}/auth/facebook/callback`,
+      },
+      (accessToken, refreshToken, profile, cb) => {
+        console.log(profile)
+      }
+    )
+  )
+
   passport.serializeUser((user, done) => {
     console.log('user', user)
     done(null, user)
@@ -73,6 +87,18 @@ export function setPassportStrategies(app: Express) {
       } else {
         res.redirect(`${process.env.FRONTEND_URL}/signin`)
       }
+    }
+  )
+
+  app.get('/auth/facebook', passport.authenticate('facebook'))
+
+  app.get(
+    '/auth/facebook/callback',
+    passport.authenticate('facebook', { failureRedirect: '/login' }),
+    function (req, res) {
+      console.log(req.user)
+      // Successful authentication, redirect home.
+      res.redirect('/')
     }
   )
 }

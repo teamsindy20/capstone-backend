@@ -57,11 +57,45 @@ type Menu {
   """
   hashtags: [NonEmptyString!]
   """
-  메뉴에 달린 옵션을 반환한다.
+  메뉴에 달린 옵션 카테고리을 반환한다.
   """
-  menuOptions: [MenuOption!]
+  optionCategories: [MenuOptionCategory!]
   """
   해당 메뉴가 속한 테마를 반환한다.
   """
   theme: String
+}
+
+enum MenuOptionCategoryType {
+  BINARY_SELECTION
+  SINGLE_SELECTION
+  MULTI_SELECTION
+  TEXT
+}
+
+type MenuOptionCategory {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+  name: String!
+  type: MenuOptionCategoryType!
+  menuId: ID!
+
+  # from other table
+  menu: Menu!
+
+  # from other table - nullable
+  menuOptions: [MenuOption!]
+}
+
+type MenuOption {
+  id: ID!
+  creationDate: DateTime!
+  modificationDate: DateTime!
+  name: String!
+  price: Int!
+  categoryId: ID!
+
+  # from other table
+  category: MenuOptionCategory!
 }

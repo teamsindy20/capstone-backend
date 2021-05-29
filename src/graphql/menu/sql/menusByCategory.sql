@@ -1,3 +1,8 @@
-SELECT %I
+WITH category_id AS (
+  SELECT id
+  FROM menu_category
+  WHERE name = $1
+)
+SELECT *
 FROM menu
-WHERE category_name = $1;
+  JOIN category_id ON menu.category_id = category_id.id;

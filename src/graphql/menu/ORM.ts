@@ -1,5 +1,5 @@
 import { camelToSnake, returnZeroWhenZeroDivision } from '../../utils/commons'
-import { Menu } from '../generated/graphql'
+import { Menu, MenuOption, MenuOptionCategory, MenuOptionCategoryType } from '../generated/graphql'
 import { store } from '../store/ORM'
 
 export const menu: Menu = {
@@ -40,6 +40,26 @@ export const menu: Menu = {
   store: store,
 }
 
+export const menuOptionCategory: MenuOptionCategory = {
+  id: '',
+  creationDate: '',
+  modificationDate: '',
+  name: '',
+  type: MenuOptionCategoryType.SingleSelection,
+  menuId: '',
+  menu: menu,
+}
+
+export const menuOption: MenuOption = {
+  id: '',
+  creationDate: '',
+  modificationDate: '',
+  name: '',
+  price: 0,
+  categoryId: '',
+  category: menuOptionCategory,
+}
+
 export function menuFieldColumnMapping(menuField: keyof Menu) {
   switch (menuField) {
     case 'deliciousReviewRatio':
@@ -67,17 +87,39 @@ export function menuFieldColumnMapping(menuField: keyof Menu) {
     case 'category':
       return 'category_id'
     case 'favorite':
-      return ''
+      return 'id'
+    case 'hashtags':
+      return 'id'
+    case 'optionCategories':
+      return 'id'
     case 'store':
       return 'store_id'
-    case 'hashtags':
-      return ''
-    case 'menuOptions':
-      return ''
     case 'theme':
       return 'theme_id'
     default:
       return camelToSnake(menuField)
+  }
+}
+
+export function menuOptionCategoryFieldColumnMapping(
+  menuOptionCategoryField: keyof MenuOptionCategory
+) {
+  switch (menuOptionCategoryField) {
+    case 'menu':
+      return 'menu_id'
+    case 'menuOptions':
+      return 'id'
+    default:
+      return camelToSnake(menuOptionCategoryField)
+  }
+}
+
+export function menuOptionFieldColumnMapping(menuOptionField: keyof MenuOption) {
+  switch (menuOptionField) {
+    case 'category':
+      return 'category_id'
+    default:
+      return camelToSnake(menuOptionField)
   }
 }
 
@@ -145,5 +187,44 @@ export function menuORM(menu: Record<string, any>): Menu {
     category: '',
     favorite: false,
     store: store,
+  }
+}
+
+export function menuOptionCategoryORM(menuOptionCategory: Record<string, any>): MenuOptionCategory {
+  return {
+    id: menuOptionCategory.id,
+    creationDate: menuOptionCategory.creation_date,
+    modificationDate: menuOptionCategory.modification_date,
+    name: menuOptionCategory.name,
+    type: getMenuOptionCategoryType(menuOptionCategory.type),
+    menuId: menuOptionCategory.menu_id,
+    menu: menu,
+  }
+}
+
+function getMenuOptionCategoryType(type: string) {
+  switch (type) {
+    case '양자택일형':
+      return MenuOptionCategoryType.BinarySelection
+    case '단일선택형':
+      return MenuOptionCategoryType.SingleSelection
+    case '다중선택형':
+      return MenuOptionCategoryType.MultiSelection
+    case '서술형':
+      return MenuOptionCategoryType.Text
+    default:
+      return MenuOptionCategoryType.SingleSelection
+  }
+}
+
+export function menuOptionORM(menuOption: Record<string, any>): MenuOption {
+  return {
+    id: menuOption.id,
+    creationDate: menuOption.creation_date,
+    modificationDate: menuOption.modification_date,
+    name: menuOption.name,
+    price: menuOption.price,
+    categoryId: menuOption.category_id,
+    category: menuOptionCategory,
   }
 }

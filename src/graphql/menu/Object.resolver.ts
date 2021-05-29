@@ -1,16 +1,30 @@
-import { MenuResolvers } from 'src/graphql/generated/graphql'
+import format from 'pg-format'
+import {
+  MenuOptionCategoryResolvers,
+  MenuOptionResolvers,
+  MenuResolvers,
+} from 'src/graphql/generated/graphql'
+import {
+  menuFieldColumnMapping,
+  menuOptionCategoryFieldColumnMapping,
+  menuOptionCategoryORM,
+  menuOptionFieldColumnMapping,
+  menuOptionORM,
+  menuORM,
+} from './ORM'
 import { importSQL } from '../../utils/commons'
 import { poolQuery } from '../../database/postgres'
 import { storeFieldColumnMapping, storeORM } from '../store/ORM'
 import { selectColumnFromField } from '../../utils/ORM'
-import format from 'pg-format'
-import { menuOptionFieldColumnMapping, menuOptionORM } from '../menuOption/ORM'
 
 const menuCategory = importSQL(__dirname, 'sql/menuCategory.sql')
 const menuFavorite = importSQL(__dirname, 'sql/menuFavorite.sql')
-const menuOptions = importSQL(__dirname, 'sql/menuOptions.sql')
-const menuStore = importSQL(__dirname, 'sql/menuStore.sql')
 const menuHashtags = importSQL(__dirname, 'sql/menuHashtags.sql')
+const menuOptionCategories = importSQL(__dirname, 'sql/menuOptionCategories.sql')
+const menuStore = importSQL(__dirname, 'sql/menuStore.sql')
+const menu = importSQL(__dirname, 'sql/menu.sql')
+const menuOptions = importSQL(__dirname, 'sql/menuOptions.sql')
+const menuOptionCategory = importSQL(__dirname, 'sql/menuOptionCategory.sql')
 
 export const Menu: MenuResolvers = {
   category: async ({ categoryId }) => {
@@ -27,12 +41,18 @@ export const Menu: MenuResolvers = {
     return !!rowCount
   },
 
-  menuOptions: async ({ id }, _, __, info) => {
-    const columns = selectColumnFromField(info, menuOptionFieldColumnMapping)
+  hashtags: async ({ id }) => {
+    const { rows } = await poolQuery(await menuHashtags, [id])
 
-    const { rows } = await poolQuery(format(await menuOptions, columns), [id])
+    return rows.map((row) => row.name)
+  },
 
-    return rows.map((row) => menuOptionORM(row))
+  optionCategories: async ({ id }, _, __, info) => {
+    const columns = selectColumnFromField(info, menuOptionCategoryFieldColumnMapping)
+
+    const { rows } = await poolQuery(format(await menuOptionCategories, columns), [id])
+
+    return rows.map((row) => menuOptionCategoryORM(row))
   },
 
   store: async ({ storeId }, _, __, info) => {
@@ -42,10 +62,32 @@ export const Menu: MenuResolvers = {
 
     return storeORM(rows[0])
   },
+}
 
-  hashtags: async ({ id }) => {
-    const { rows } = await poolQuery(await menuHashtags, [id])
+export const MenuOptionCategory: MenuOptionCategoryResolvers = {
+  menu: async ({ menuId }, _, __, info) => {
+    const columns = selectColumnFromField(info, menuFieldColumnMapping)
 
-    return rows.map((row) => row.name)
+    const { rows } = await poolQuery(format(await menu, columns), [menuId])
+
+    return menuORM(rows[0])
+  },
+
+  menuOptions: async ({ id }, _, __, info) => {
+    const columns = selectColumnFromField(info, menuOptionFieldColumnMapping)
+
+    const { rows } = await poolQuery(format(await menuOptions, columns), [id])
+
+    return rows.map((row) => menuOptionORM(row))
+  },
+}
+
+export const MenuOption: MenuOptionResolvers = {
+  category: async ({ categoryId }, _, __, info) => {
+    const columns = selectColumnFromField(info, menuOptionCategoryFieldColumnMapping)
+
+    const { rows } = await poolQuery(format(await menuOptionCategory, columns), [categoryId])
+
+    return menuOptionCategoryORM(rows[0])
   },
 }

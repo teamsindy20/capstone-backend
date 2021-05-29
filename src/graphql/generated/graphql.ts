@@ -85,8 +85,8 @@ export type Menu = {
   store: Store
   /** 해당 메뉴가 가진 해시태그 목록을 반환한다. */
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
-  /** 메뉴에 달린 옵션을 반환한다. */
-  menuOptions?: Maybe<Array<MenuOption>>
+  /** 메뉴에 달린 옵션 카테고리을 반환한다. */
+  optionCategories?: Maybe<Array<MenuOptionCategory>>
   /** 해당 메뉴가 속한 테마를 반환한다. */
   theme?: Maybe<Scalars['String']>
 }
@@ -130,8 +130,8 @@ export type MenuOption = {
   modificationDate: Scalars['DateTime']
   name: Scalars['String']
   price: Scalars['Int']
-  menuId: Scalars['ID']
-  menu: Menu
+  categoryId: Scalars['ID']
+  category: MenuOptionCategory
 }
 
 export type MenuOptionCategory = {
@@ -140,7 +140,17 @@ export type MenuOptionCategory = {
   creationDate: Scalars['DateTime']
   modificationDate: Scalars['DateTime']
   name: Scalars['String']
-  type: MenuOptionType
+  type: MenuOptionCategoryType
+  menuId: Scalars['ID']
+  menu: Menu
+  menuOptions?: Maybe<Array<MenuOption>>
+}
+
+export enum MenuOptionCategoryType {
+  BinarySelection = 'BINARY_SELECTION',
+  SingleSelection = 'SINGLE_SELECTION',
+  MultiSelection = 'MULTI_SELECTION',
+  Text = 'TEXT',
 }
 
 export type MenuOptionInput = {
@@ -153,13 +163,6 @@ export type MenuOptionInput = {
 export type MenuOptionSelectionInput = {
   menuOptionId: Scalars['ID']
   text?: Maybe<Scalars['String']>
-}
-
-export enum MenuOptionType {
-  BinarySelection = 'BINARY_SELECTION',
-  SingleSelection = 'SINGLE_SELECTION',
-  MultiSelection = 'MULTI_SELECTION',
-  Text = 'TEXT',
 }
 
 export type MenuSelectionInput = {
@@ -352,6 +355,12 @@ export type PostCreationInput = {
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
 }
 
+export type PromotionInput = {
+  promotionId: Scalars['ID']
+  name: Scalars['String']
+  amount: Scalars['Int']
+}
+
 /** OAuth 공급자 */
 export enum Provider {
   DessertFit = 'DESSERT_FIT',
@@ -538,6 +547,7 @@ export type Store = {
   businessRegistrationNumber: Scalars['String']
   businessRegistrationAddress: Scalars['String']
   businessRepresentativeName: Scalars['String']
+  isFranchise: Scalars['Boolean']
   deliveryCharge: Scalars['Int']
   minimumDeliveryAmount: Scalars['Int']
   deliciousReviewCount: Scalars['Int']
@@ -615,11 +625,13 @@ export type User = {
 
 export type UserInfoInput = {
   deliveryAddress: Scalars['String']
+  deliveryPhoneNumber: Scalars['String']
+  storeRequest?: Maybe<Scalars['String']>
   reviewReward?: Maybe<Scalars['String']>
   regularReward?: Maybe<Scalars['String']>
   deliveryRequest?: Maybe<Scalars['String']>
-  storeRequest?: Maybe<Scalars['String']>
   point?: Maybe<Scalars['Int']>
+  promotion?: Maybe<Array<PromotionInput>>
   coupon?: Maybe<Scalars['ID']>
 }
 
@@ -729,9 +741,9 @@ export type ResolversTypes = {
   MenuModificationInput: MenuModificationInput
   MenuOption: ResolverTypeWrapper<MenuOption>
   MenuOptionCategory: ResolverTypeWrapper<MenuOptionCategory>
+  MenuOptionCategoryType: MenuOptionCategoryType
   MenuOptionInput: MenuOptionInput
   MenuOptionSelectionInput: MenuOptionSelectionInput
-  MenuOptionType: MenuOptionType
   MenuSelectionInput: MenuSelectionInput
   Mutation: ResolverTypeWrapper<{}>
   NonEmptyString: ResolverTypeWrapper<Scalars['NonEmptyString']>
@@ -742,6 +754,7 @@ export type ResolversTypes = {
   PaymentInput: PaymentInput
   Post: ResolverTypeWrapper<Post>
   PostCreationInput: PostCreationInput
+  PromotionInput: PromotionInput
   Provider: Provider
   Query: ResolverTypeWrapper<{}>
   Rating: Rating
@@ -781,6 +794,7 @@ export type ResolversParentTypes = {
   PaymentInput: PaymentInput
   Post: Post
   PostCreationInput: PostCreationInput
+  PromotionInput: PromotionInput
   Query: {}
   RegisterInput: RegisterInput
   Review: Review
@@ -872,7 +886,11 @@ export type MenuResolvers<
   favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
   hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
-  menuOptions?: Resolver<Maybe<Array<ResolversTypes['MenuOption']>>, ParentType, ContextType>
+  optionCategories?: Resolver<
+    Maybe<Array<ResolversTypes['MenuOptionCategory']>>,
+    ParentType,
+    ContextType
+  >
   theme?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
@@ -886,8 +904,8 @@ export type MenuOptionResolvers<
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   price?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  menuId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
-  menu?: Resolver<ResolversTypes['Menu'], ParentType, ContextType>
+  categoryId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  category?: Resolver<ResolversTypes['MenuOptionCategory'], ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -899,7 +917,10 @@ export type MenuOptionCategoryResolvers<
   creationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-  type?: Resolver<ResolversTypes['MenuOptionType'], ParentType, ContextType>
+  type?: Resolver<ResolversTypes['MenuOptionCategoryType'], ParentType, ContextType>
+  menuId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  menu?: Resolver<ResolversTypes['Menu'], ParentType, ContextType>
+  menuOptions?: Resolver<Maybe<Array<ResolversTypes['MenuOption']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -1219,6 +1240,7 @@ export type StoreResolvers<
   businessRegistrationNumber?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   businessRegistrationAddress?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   businessRepresentativeName?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+  isFranchise?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   deliveryCharge?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   minimumDeliveryAmount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   deliciousReviewCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
