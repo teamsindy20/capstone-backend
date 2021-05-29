@@ -1,5 +1,7 @@
 input MenuOptionSelectionInput {
   menuOptionId: ID!
+
+  # 서술형 옵션 선택 시 입력할 텍스트
   text: String
 }
 
@@ -14,13 +16,21 @@ input PaymentInput {
   paymentDate: DateTime!
 }
 
+input PromotionInput {
+  promotionId: ID!
+  name: String!
+  amount: Int!
+}
+
 input UserInfoInput {
   deliveryAddress: String!
+  deliveryPhoneNumber: String!
+  storeRequest: String
   reviewReward: String
   regularReward: String
   deliveryRequest: String
-  storeRequest: String
   point: Int
+  promotion: [PromotionInput!]
   coupon: ID
 }
 
