@@ -24,6 +24,7 @@ VALUES (
 SELECT create_store (
     '스노우플라워',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -36,6 +37,7 @@ SELECT create_store (
 SELECT create_store (
     '프랑세즈',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -48,6 +50,7 @@ SELECT create_store (
 SELECT create_store (
     '스타벅스',
     '동작구 흑석동',
+    TRUE,
     1,
     '',
     '',
@@ -60,6 +63,7 @@ SELECT create_store (
 SELECT create_store (
     '디저트정',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -72,6 +76,7 @@ SELECT create_store (
 SELECT create_store (
     '조이마카롱',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -84,6 +89,7 @@ SELECT create_store (
 SELECT create_store (
     '앳더블랑',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -96,6 +102,7 @@ SELECT create_store (
 SELECT create_store (
     '페이브베이커리',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -108,6 +115,7 @@ SELECT create_store (
 SELECT create_store (
     '샌드위드',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -120,6 +128,7 @@ SELECT create_store (
 SELECT create_store (
     '메이카페',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -132,6 +141,7 @@ SELECT create_store (
 SELECT create_store (
     '콜렉티보',
     '영등포구 영등포동 타임스퀘어',
+    FALSE,
     1,
     '',
     '',
@@ -144,6 +154,7 @@ SELECT create_store (
 SELECT create_store (
     '토크넌센스',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -156,6 +167,7 @@ SELECT create_store (
 SELECT create_store (
     '흑석커피',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -168,6 +180,7 @@ SELECT create_store (
 SELECT create_store (
     '오후홍콩',
     '동작구 흑석동',
+    TRUE,
     1,
     '',
     '',
@@ -180,6 +193,7 @@ SELECT create_store (
 SELECT create_store (
     '베러댄와플',
     '동작구 흑석동',
+    TRUE,
     1,
     '',
     '',
@@ -192,6 +206,7 @@ SELECT create_store (
 SELECT create_store (
     '띵똥와플',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -204,6 +219,7 @@ SELECT create_store (
 SELECT create_store (
     '그랩커피',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -216,6 +232,7 @@ SELECT create_store (
 SELECT create_store (
     '스마일꽈배기',
     '동작구 흑석동',
+    TRUE,
     1,
     '',
     '',
@@ -228,6 +245,7 @@ SELECT create_store (
 SELECT create_store (
     '리앤홍',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -240,6 +258,7 @@ SELECT create_store (
 SELECT create_store (
     '언니네식빵',
     '동작구 흑석동',
+    FALSE,
     1,
     '',
     '',
@@ -252,6 +271,7 @@ SELECT create_store (
 SELECT create_store (
     '뚜스뚜스',
     '동작구 흑석동',
+    TRUE,
     1,
     '',
     '',
@@ -264,6 +284,7 @@ SELECT create_store (
 SELECT create_store (
     '마얘',
     '영등포구 여의동 더현대',
+    FALSE,
     1,
     '',
     '',
@@ -276,6 +297,7 @@ SELECT create_store (
 SELECT create_store (
     '나미네양과점',
     '영등포구 문래동',
+    FALSE,
     1,
     '',
     '',
@@ -288,6 +310,7 @@ SELECT create_store (
 SELECT create_store (
     '브릿지엣지',
     '동작구 상도동',
+    FALSE,
     1,
     '',
     '',
@@ -300,6 +323,7 @@ SELECT create_store (
 SELECT create_store (
     '플디',
     '압구정동 압구정로',
+    FALSE,
     1,
     '',
     '',
@@ -312,6 +336,7 @@ SELECT create_store (
 SELECT create_store (
     '어글리베이커리',
     '마포구 망원동',
+    FALSE,
     1,
     '',
     '',
@@ -337,6 +362,18 @@ SELECT create_menu (
     ARRAY ['https://t1.daumcdn.net/cfile/tistory/9956113D5E3F830718'],
     ARRAY ['#녹차', '#말차','#초코','#맘모스빵']
   );
+
+INSERT INTO menu_option_category (name, "type", is_necessary, menu_id)
+VALUES ('생크림 양', '단일선택형', TRUE, 1);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('적게', 0, 1);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('보통', 0, 1);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('많이', 0, 1);
 
 SELECT create_menu (
     '딸기초코마카롱',
@@ -410,6 +447,51 @@ SELECT create_menu (
     ARRAY ['#달달', '#딸기', '#라떼']
   );
 
+INSERT INTO menu_option_category (name, "type", is_necessary, menu_id)
+VALUES ('사이즈', '단일선택형', TRUE, 9);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('S (375ml)', 0, 2);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('M (450ml)', 500, 2);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('L (525ml)', 1000, 2);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('XL (700ml)', 1500, 2);
+
+INSERT INTO menu_option_category (name, "type", menu_id)
+VALUES ('당도 (기본 100%)', '단일선택형', 9);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('0%', 0, 3);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('50%', 0, 3);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('100%', 0, 3);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('150%', 0, 3);
+
+INSERT INTO menu_option_category (name, "type", menu_id)
+VALUES ('얼음양 (기본 100%)', '단일선택형', 9);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('더 적게', 0, 4);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('적게', 0, 4);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('보통', 0, 4);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('많이', 0, 4);
+
 SELECT create_menu (
     '나이트로 콜드 브루 톨',
     5800,
@@ -418,6 +500,18 @@ SELECT create_menu (
     ARRAY ['https://globalassets.starbucks.com/assets/55525cd1303a4b18958b05f0705b4cbb.jpg?impolicy=1by1_wide_1242'],
     ARRAY ['#거품', '#콜드브루', '#부드러운']
   );
+
+INSERT INTO menu_option_category (name, "type", is_necessary, menu_id)
+VALUES ('사이즈', '단일선택형', TRUE, 10);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('Tall (355ml)', 500, 5);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('Grande (473ml)', 1000, 5);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('Venti (591ml)', 1000, 5);
 
 SELECT create_menu (
     '제주 한라봉 뺑오쇼콜라',

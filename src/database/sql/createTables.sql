@@ -70,6 +70,7 @@ CREATE TABLE store (
   business_registration_number varchar(64) NOT NULL,
   business_registration_address varchar(64) NOT NULL,
   business_representative_name varchar(64) NOT NULL,
+  is_franchise boolean NOT NULL,
   --
   delivery_charge int NOT NULL DEFAULT 0,
   minimum_delivery_amount int NOT NULL DEFAULT 0,
@@ -146,16 +147,19 @@ CREATE INDEX menu_category_id ON menu (category_id);
 CREATE INDEX menu_theme_id ON menu (theme_id);
 
 -- type은 '양자택일형', '단일선택형', '다중선택형', '서술형'
--- selection_count는 '다중선택형'일 때 사용
+-- xxx_selection_count는 '다중선택형'일 때만 사용
+-- default_option은 기본값이 있을 때 설정
 CREATE TABLE menu_option_category (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
   modification_date timestamptz NOT NULL DEFAULT NOW(),
-  --  
+  --
   name varchar(32) NOT NULL,
   "type" varchar(16) NOT NULL,
   --
   is_necessary boolean NOT NULL DEFAULT false,
+  --
+  menu_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE,
   --
   minimum_selection_count int,
   maximum_selection_count int
@@ -170,8 +174,7 @@ CREATE TABLE menu_option (
   name varchar(32) NOT NULL,
   price int NOT NULL DEFAULT 0,
   --
-  category_id bigint NOT NULL REFERENCES menu_option_category ON DELETE CASCADE,
-  menu_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE
+  category_id bigint NOT NULL REFERENCES menu_option_category ON DELETE CASCADE
 );
 
 CREATE TABLE payment (
@@ -360,6 +363,17 @@ CREATE TABLE user_x_favorite_store (
   user_id bigint REFERENCES "user" ON DELETE CASCADE,
   store_id bigint REFERENCES store ON DELETE CASCADE,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  PRIMARY KEY (user_id, store_id)
+);
+
+CREATE TABLE user_x_store_request (
+  user_id bigint REFERENCES "user" ON DELETE CASCADE,
+  store_id bigint REFERENCES store ON DELETE CASCADE,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  store_request text,
   --
   PRIMARY KEY (user_id, store_id)
 );

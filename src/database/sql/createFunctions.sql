@@ -3,6 +3,7 @@ DROP FUNCTION IF EXISTS create_store;
 CREATE OR REPLACE FUNCTION create_store (
     name text,
     address text,
+    is_franchise boolean,
     user_id bigint,
     review_event_content text DEFAULT NULL,
     regular_customer_event_content text DEFAULT NULL,
@@ -19,6 +20,7 @@ CREATE OR REPLACE FUNCTION create_store (
         business_registration_number,
         business_registration_address,
         business_representative_name,
+        is_franchise,
         user_id,
         review_event_content,
         regular_customer_event_content,
@@ -33,6 +35,7 @@ CREATE OR REPLACE FUNCTION create_store (
         '1502315983',
         '사업장소재지',
         '대표자',
+        is_franchise,
         user_id,
         review_event_content,
         regular_customer_event_content,
@@ -250,6 +253,7 @@ DROP FUNCTION IF EXISTS create_order;
 
 CREATE OR REPLACE FUNCTION create_order (
     delivery_address varchar(64),
+    delivery_phone_number varchar(32),
     payment_date timestamptz,
     user_id bigint,
     payment_id bigint,
