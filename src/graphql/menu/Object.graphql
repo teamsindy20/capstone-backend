@@ -79,6 +79,7 @@ type MenuOptionCategory {
   modificationDate: DateTime!
   name: String!
   type: MenuOptionCategoryType!
+  isNecessary: Boolean!
   menuId: ID!
 
   # from other table

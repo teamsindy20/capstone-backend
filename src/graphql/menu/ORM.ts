@@ -46,6 +46,7 @@ export const menuOptionCategory: MenuOptionCategory = {
   modificationDate: '',
   name: '',
   type: MenuOptionCategoryType.SingleSelection,
+  isNecessary: false,
   menuId: '',
   menu: menu,
 }
@@ -197,6 +198,7 @@ export function menuOptionCategoryORM(menuOptionCategory: Record<string, any>): 
     modificationDate: menuOptionCategory.modification_date,
     name: menuOptionCategory.name,
     type: getMenuOptionCategoryType(menuOptionCategory.type),
+    isNecessary: menuOptionCategory.is_necessary,
     menuId: menuOptionCategory.menu_id,
     menu: menu,
   }

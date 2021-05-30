@@ -141,6 +141,7 @@ export type MenuOptionCategory = {
   modificationDate: Scalars['DateTime']
   name: Scalars['String']
   type: MenuOptionCategoryType
+  isNecessary: Scalars['Boolean']
   menuId: Scalars['ID']
   menu: Menu
   menuOptions?: Maybe<Array<MenuOption>>
@@ -918,6 +919,7 @@ export type MenuOptionCategoryResolvers<
   modificationDate?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   type?: Resolver<ResolversTypes['MenuOptionCategoryType'], ParentType, ContextType>
+  isNecessary?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   menuId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   menu?: Resolver<ResolversTypes['Menu'], ParentType, ContextType>
   menuOptions?: Resolver<Maybe<Array<ResolversTypes['MenuOption']>>, ParentType, ContextType>
