@@ -13,7 +13,6 @@ export const Mutation: MutationResolvers = {
     // 메뉴 옵션은 최대 1개만 선택 가능
     // 메뉴 선택 개수는 배열에 선택 개수만큼 중복으로 넣어주기
 
-    dfasfsfsdfsaf
     const { rows } = await pool.query(await createOrderSQL, [
       // input.orderTotal,
       // user.id,
