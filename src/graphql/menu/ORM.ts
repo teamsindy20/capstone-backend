@@ -49,6 +49,7 @@ export const menuOptionCategory: MenuOptionCategory = {
   isNecessary: false,
   menuId: '',
   menu: menu,
+  menuOptions: [],
 }
 
 export const menuOption: MenuOption = {
@@ -201,6 +202,7 @@ export function menuOptionCategoryORM(menuOptionCategory: Record<string, any>): 
     isNecessary: menuOptionCategory.is_necessary,
     menuId: menuOptionCategory.menu_id,
     menu: menu,
+    menuOptions: [],
   }
 }
 

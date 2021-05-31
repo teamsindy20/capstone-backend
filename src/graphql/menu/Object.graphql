@@ -84,9 +84,7 @@ type MenuOptionCategory {
 
   # from other table
   menu: Menu!
-
-  # from other table - nullable
-  menuOptions: [MenuOption!]
+  menuOptions: [MenuOption!]!
 }
 
 type MenuOption {

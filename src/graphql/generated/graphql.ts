@@ -144,7 +144,7 @@ export type MenuOptionCategory = {
   isNecessary: Scalars['Boolean']
   menuId: Scalars['ID']
   menu: Menu
-  menuOptions?: Maybe<Array<MenuOption>>
+  menuOptions: Array<MenuOption>
 }
 
 export enum MenuOptionCategoryType {
@@ -922,7 +922,7 @@ export type MenuOptionCategoryResolvers<
   isNecessary?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   menuId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   menu?: Resolver<ResolversTypes['Menu'], ParentType, ContextType>
-  menuOptions?: Resolver<Maybe<Array<ResolversTypes['MenuOption']>>, ParentType, ContextType>
+  menuOptions?: Resolver<Array<ResolversTypes['MenuOption']>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 

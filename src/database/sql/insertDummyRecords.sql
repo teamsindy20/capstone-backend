@@ -375,6 +375,18 @@ VALUES ('보통', 0, 1);
 INSERT INTO menu_option (name, price, category_id)
 VALUES ('많이', 0, 1);
 
+INSERT INTO menu_option_category (name, "type", is_necessary, menu_id)
+VALUES ('추가 메뉴', '다중선택형', FALSE, 1);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('초코 마카롱', 2000, 2);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('딸기 마카롱', 2000, 2);
+
+INSERT INTO menu_option (name, price, category_id)
+VALUES ('아이스 아메리카노', 2500, 2);
+
 SELECT create_menu (
     '딸기초코마카롱',
     2500,
@@ -451,46 +463,46 @@ INSERT INTO menu_option_category (name, "type", is_necessary, menu_id)
 VALUES ('사이즈', '단일선택형', TRUE, 9);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('S (375ml)', 0, 2);
+VALUES ('S (375ml)', 0, 3);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('M (450ml)', 500, 2);
+VALUES ('M (450ml)', 500, 3);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('L (525ml)', 1000, 2);
+VALUES ('L (525ml)', 1000, 3);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('XL (700ml)', 1500, 2);
+VALUES ('XL (700ml)', 1500, 3);
 
 INSERT INTO menu_option_category (name, "type", menu_id)
 VALUES ('당도 (기본 100%)', '단일선택형', 9);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('0%', 0, 3);
+VALUES ('0%', 0, 4);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('50%', 0, 3);
+VALUES ('50%', 0, 4);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('100%', 0, 3);
+VALUES ('100%', 0, 4);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('150%', 0, 3);
+VALUES ('150%', 0, 4);
 
 INSERT INTO menu_option_category (name, "type", menu_id)
 VALUES ('얼음양 (기본 100%)', '단일선택형', 9);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('더 적게', 0, 4);
+VALUES ('더 적게', 0, 5);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('적게', 0, 4);
+VALUES ('적게', 0, 5);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('보통', 0, 4);
+VALUES ('보통', 0, 5);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('많이', 0, 4);
+VALUES ('많이', 0, 5);
 
 SELECT create_menu (
     '나이트로 콜드 브루 톨',
@@ -505,13 +517,13 @@ INSERT INTO menu_option_category (name, "type", is_necessary, menu_id)
 VALUES ('사이즈', '단일선택형', TRUE, 10);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('Tall (355ml)', 500, 5);
+VALUES ('Tall (355ml)', 500, 6);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('Grande (473ml)', 1000, 5);
+VALUES ('Grande (473ml)', 1000, 6);
 
 INSERT INTO menu_option (name, price, category_id)
-VALUES ('Venti (591ml)', 1000, 5);
+VALUES ('Venti (591ml)', 1000, 6);
 
 SELECT create_menu (
     '제주 한라봉 뺑오쇼콜라',
