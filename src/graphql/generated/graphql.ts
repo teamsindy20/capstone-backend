@@ -583,6 +583,8 @@ export type Store = {
   favorite: Scalars['Boolean']
   /** 해당 매장에서 판매 중인 메뉴 목록을 반환한다. */
   menus: Array<Menu>
+  /** 로그인 상태일 때 요청하면 사용자가 해당 매장의 단골인지를 반환한다. */
+  regular: Scalars['Boolean']
   /** 해당 매장을 소유한 사용자 정보를 반환한다. */
   user: User
   hashtags?: Maybe<Array<Scalars['NonEmptyString']>>
@@ -1275,6 +1277,7 @@ export type StoreResolvers<
   imageUrls?: Resolver<Maybe<Array<ResolversTypes['URL']>>, ParentType, ContextType>
   favorite?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
+  regular?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>
   hashtags?: Resolver<Maybe<Array<ResolversTypes['NonEmptyString']>>, ParentType, ContextType>
   posts?: Resolver<Maybe<Array<ResolversTypes['Post']>>, ParentType, ContextType>

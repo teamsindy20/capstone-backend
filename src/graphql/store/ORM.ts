@@ -40,6 +40,7 @@ export const store: Store = {
   postCount: 0,
   favorite: false,
   menus: [menu],
+  regular: false,
   userId: '',
   user: user,
 }
@@ -144,6 +145,7 @@ export function storeORM(store: Record<string, any>): Store {
     imageUrls: store.image_urls,
     favorite: false,
     menus: [menu],
+    regular: false,
     user: user,
   }
 }

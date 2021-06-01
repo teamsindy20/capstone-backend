@@ -10,6 +10,7 @@ import { ForbiddenError } from 'apollo-server-express'
 
 const storeFavorite = importSQL(__dirname, 'sql/storeFavorite.sql')
 const storeMenus = importSQL(__dirname, 'sql/storeMenus.sql')
+const storeRegular = importSQL(__dirname, 'sql/storeRegular.sql')
 const storeUser = importSQL(__dirname, 'sql/storeUser.sql')
 const storeHashtags = importSQL(__dirname, 'sql/storeHashtags.sql')
 const storePosts = importSQL(__dirname, 'sql/storePosts.sql')
@@ -37,6 +38,14 @@ export const Store: StoreResolvers = {
     const { rows } = await poolQuery(format(await storeMenus, columns), [id])
 
     return rows.map((row) => menuORM(row))
+  },
+
+  regular: async ({ id }, _, { user }) => {
+    if (!user) return false
+
+    const { rowCount } = await poolQuery(await storeRegular, [user.id, id])
+
+    return !!rowCount
   },
 
   user: async ({ userId }, _, { user }, info) => {
