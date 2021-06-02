@@ -5,6 +5,11 @@ type Query {
   menu(id: ID!): Menu
 
   """
+  특정 메뉴의 세부 정보를 반환한다.
+  """
+  menuByName(storeId: ID!, name: String!): Menu
+
+  """
   로그인 시 사용자 맞춤 메뉴 목록을 반환한다. 비로그인 시 일반 메뉴 목록을 반환한다.
   """
   menus: [Menu!]!
