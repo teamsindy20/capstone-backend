@@ -63,6 +63,8 @@ export function storeFieldColumnMapping(storeField: keyof Store) {
       return ['new_customer_count', 'regular_customer_count']
     case 'regularCustomerRatio':
       return ['new_customer_count', 'regular_customer_count']
+    case 'favorite':
+      return ''
     case 'menus':
       return ''
     case 'user':
