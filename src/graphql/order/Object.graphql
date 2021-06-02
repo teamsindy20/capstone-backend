@@ -16,8 +16,6 @@ type Order {
   deliveryAddress: String!
   orderStatus: OrderStatus!
   pointUsed: Int!
-  reviewReward: Boolean!
-  regularReward: Boolean!
   userId: ID!
   paymentId: ID!
   storeId: ID!
@@ -25,6 +23,8 @@ type Order {
   # nullable
   deliveryRequest: String
   storeRequest: String
+  reviewReward: String
+  regularReward: String
   couponId: ID
 
   # from other table

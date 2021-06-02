@@ -226,8 +226,6 @@ CREATE TABLE "order" (
   --
   order_status varchar(16) NOT NULL DEFAULT '접수 대기',
   point_used int NOT NULL DEFAULT 0 CHECK (point_used >= 0),
-  review_reward boolean NOT NULL DEFAULT false,
-  regular_reward boolean NOT NULL DEFAULT false,
   --
   user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
   payment_id bigint NOT NULL REFERENCES payment ON DELETE CASCADE,
@@ -235,6 +233,8 @@ CREATE TABLE "order" (
   --
   delivery_request varchar(256),
   store_request varchar(256),
+  review_reward varchar(256),
+  regular_reward varchar(256),
   --
   coupon_id bigint REFERENCES coupon ON DELETE CASCADE
 );

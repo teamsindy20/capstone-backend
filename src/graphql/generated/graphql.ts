@@ -291,13 +291,13 @@ export type Order = {
   deliveryAddress: Scalars['String']
   orderStatus: OrderStatus
   pointUsed: Scalars['Int']
-  reviewReward: Scalars['Boolean']
-  regularReward: Scalars['Boolean']
   userId: Scalars['ID']
   paymentId: Scalars['ID']
   storeId: Scalars['ID']
   deliveryRequest?: Maybe<Scalars['String']>
   storeRequest?: Maybe<Scalars['String']>
+  reviewReward?: Maybe<Scalars['String']>
+  regularReward?: Maybe<Scalars['String']>
   couponId?: Maybe<Scalars['ID']>
   user: User
   payment: Payment
@@ -376,6 +376,8 @@ export type Query = {
   me: User
   /** 특정 메뉴의 세부 정보를 반환한다. */
   menu?: Maybe<Menu>
+  /** 특정 메뉴의 세부 정보를 반환한다. */
+  menuByName?: Maybe<Menu>
   /** 메뉴 카테고리 목록을 반환한다. */
   menuCategories: Array<Scalars['String']>
   /** 메뉴 테마 목록을 반환한다. */
@@ -426,6 +428,11 @@ export type Query = {
 
 export type QueryMenuArgs = {
   id: Scalars['ID']
+}
+
+export type QueryMenuByNameArgs = {
+  storeId: Scalars['ID']
+  name: Scalars['String']
 }
 
 export type QueryMenusByCategoryArgs = {
@@ -1051,13 +1058,13 @@ export type OrderResolvers<
   deliveryAddress?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   orderStatus?: Resolver<ResolversTypes['OrderStatus'], ParentType, ContextType>
   pointUsed?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  reviewReward?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
-  regularReward?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   paymentId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   deliveryRequest?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   storeRequest?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  reviewReward?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  regularReward?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   couponId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>
   payment?: Resolver<ResolversTypes['Payment'], ParentType, ContextType>
@@ -1106,6 +1113,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryMenuArgs, 'id'>
+  >
+  menuByName?: Resolver<
+    Maybe<ResolversTypes['Menu']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMenuByNameArgs, 'storeId' | 'name'>
   >
   menuCategories?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>
   menuThemes?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>
