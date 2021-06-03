@@ -9,6 +9,9 @@ export const Mutation: MutationResolvers = {
   createOrder: async (_, { input }, { user }) => {
     if (!user) throw new AuthenticationError('로그인되어 있지 않습니다. 로그인 후 시도해주세요.')
 
+    const client = await pool.connect()
+    await client.query('BEGIN')
+
     const { menus, payment, user: deliveryUserInfo } = input
 
     // 주어진 메뉴 옵션 목록이 주어진 메뉴 목록에 속하는지 확인
@@ -21,6 +24,9 @@ export const Mutation: MutationResolvers = {
       // input.storeId,
       // input.menuIds,
     ])
+
+    await client.query('COMMIT')
+    client.release()
 
     return rows[0].create_order
   },
