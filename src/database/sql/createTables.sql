@@ -159,10 +159,17 @@ CREATE TABLE menu_option_category (
   --
   is_necessary boolean NOT NULL DEFAULT false,
   --
-  menu_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE,
-  --
   minimum_selection_count int,
   maximum_selection_count int
+);
+
+CREATE TABLE menu_x_menu_option_category (
+  menu_id bigint REFERENCES menu ON DELETE CASCADE,
+  menu_option_category_id bigint REFERENCES menu_option_category ON DELETE CASCADE,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  PRIMARY KEY (menu_id, menu_option_category_id)
 );
 
 -- category_id: 이 옵션이 어떤 형태에 속하는지
