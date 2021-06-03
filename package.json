@@ -14,6 +14,7 @@
     "dev": "NODE_ENV=development nodemon src/index.ts --trace-warnings",
     "build": "rm -rf dist && tsc && copyfiles --up 1 src/**/*.{graphql,sql} dist/",
     "start": "NODE_ENV=production node dist/index.js",
+    "test": "NODE_ENV=test nodemon test/index.ts --trace-warnings --watch test",
     "format": "prettier . --write --ignore-path .gitignore",
     "lint": "eslint . --fix --ignore-path .gitignore",
     "type": "tsc --pretty --noEmit",
