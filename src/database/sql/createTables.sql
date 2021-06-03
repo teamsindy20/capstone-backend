@@ -146,9 +146,9 @@ CREATE INDEX menu_category_id ON menu (category_id);
 
 CREATE INDEX menu_theme_id ON menu (theme_id);
 
--- type은 '양자택일형', '단일선택형', '다중선택형', '서술형'
--- xxx_selection_count는 '다중선택형'일 때만 사용
--- default_option은 기본값이 있을 때 설정
+-- type: '양자택일형', '단일선택형', '다중선택형', '서술형'
+-- xxx_selection_count: '다중선택형'일 때만 사용
+-- store_id: 해당 menu_option_category를 소유한 매장
 CREATE TABLE menu_option_category (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
@@ -158,6 +158,8 @@ CREATE TABLE menu_option_category (
   "type" varchar(16) NOT NULL,
   --
   is_necessary boolean NOT NULL DEFAULT false,
+  --
+  store_id bigint NOT NULL REFERENCES store ON DELETE CASCADE,
   --
   minimum_selection_count int,
   maximum_selection_count int
@@ -192,10 +194,6 @@ CREATE TABLE payment (
   name varchar(32) NOT NULL
 );
 
-CREATE TABLE "order" (
-  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY
-);
-
 -- type은 '정액형', '정률형'
 -- user_id: 쿠폰 소유 사용자 
 -- store_id: 쿠폰 발행 매장
@@ -214,12 +212,9 @@ CREATE TABLE coupon (
   --
   is_used boolean NOT NULL DEFAULT false,
   --
-  order_id bigint REFERENCES "order" ON DELETE CASCADE,
   store_id bigint REFERENCES store ON DELETE CASCADE,
   user_id bigint REFERENCES "user" ON DELETE CASCADE
 );
-
-DROP TABLE "order" CASCADE;
 
 CREATE TABLE "order" (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -247,7 +242,7 @@ CREATE TABLE "order" (
 );
 
 ALTER TABLE coupon
-ADD FOREIGN KEY (order_id) REFERENCES "order";
+ADD COLUMN order_id bigint REFERENCES "order" ON DELETE CASCADE;
 
 -- 쿠폰을 사용할 수 있는 매장 관계
 CREATE TABLE store_x_coupon (

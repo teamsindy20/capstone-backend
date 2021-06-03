@@ -363,8 +363,8 @@ SELECT create_menu (
     ARRAY ['#녹차', '#말차','#초코','#맘모스빵']
   );
 
-INSERT INTO menu_option_category (name, "type", is_necessary)
-VALUES ('생크림 양', '단일선택형', TRUE);
+INSERT INTO menu_option_category (name, "type", is_necessary, store_id)
+VALUES ('생크림 양', '단일선택형', TRUE, 25);
 
 INSERT INTO menu_x_menu_option_category (menu_id, menu_option_category_id)
 VALUES (1, 1);
@@ -378,8 +378,8 @@ VALUES ('보통', 0, 1);
 INSERT INTO menu_option (name, price, category_id)
 VALUES ('많이', 0, 1);
 
-INSERT INTO menu_option_category (name, "type", is_necessary)
-VALUES ('추가 메뉴', '다중선택형', FALSE);
+INSERT INTO menu_option_category (name, "type", is_necessary, store_id)
+VALUES ('추가 메뉴', '다중선택형', FALSE, 25);
 
 INSERT INTO menu_x_menu_option_category (menu_id, menu_option_category_id)
 VALUES (1, 2);
@@ -465,8 +465,8 @@ SELECT create_menu (
     ARRAY ['#달달', '#딸기', '#라떼']
   );
 
-INSERT INTO menu_option_category (name, "type", is_necessary)
-VALUES ('사이즈', '단일선택형', TRUE);
+INSERT INTO menu_option_category (name, "type", is_necessary, store_id)
+VALUES ('사이즈', '단일선택형', TRUE, 2);
 
 INSERT INTO menu_x_menu_option_category (menu_id, menu_option_category_id)
 VALUES (9, 3);
@@ -483,8 +483,8 @@ VALUES ('L (525ml)', 1000, 3);
 INSERT INTO menu_option (name, price, category_id)
 VALUES ('XL (700ml)', 1500, 3);
 
-INSERT INTO menu_option_category (name, "type")
-VALUES ('당도 (기본 100%)', '단일선택형');
+INSERT INTO menu_option_category (name, "type", store_id)
+VALUES ('당도 (기본 100%)', '단일선택형', 2);
 
 INSERT INTO menu_x_menu_option_category (menu_id, menu_option_category_id)
 VALUES (9, 4);
@@ -501,8 +501,8 @@ VALUES ('100%', 0, 4);
 INSERT INTO menu_option (name, price, category_id)
 VALUES ('150%', 0, 4);
 
-INSERT INTO menu_option_category (name, "type")
-VALUES ('얼음양 (기본 100%)', '단일선택형');
+INSERT INTO menu_option_category (name, "type", store_id)
+VALUES ('얼음양 (기본 100%)', '단일선택형', 2);
 
 INSERT INTO menu_x_menu_option_category (menu_id, menu_option_category_id)
 VALUES (9, 5);
@@ -528,8 +528,8 @@ SELECT create_menu (
     ARRAY ['#거품', '#콜드브루', '#부드러운']
   );
 
-INSERT INTO menu_option_category (name, "type", is_necessary)
-VALUES ('사이즈', '단일선택형', TRUE);
+INSERT INTO menu_option_category (name, "type", is_necessary, store_id)
+VALUES ('사이즈', '단일선택형', TRUE, 2);
 
 INSERT INTO menu_x_menu_option_category (menu_id, menu_option_category_id)
 VALUES (10, 6);
