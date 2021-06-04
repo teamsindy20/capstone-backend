@@ -167,6 +167,7 @@ export type MenuOptionSelectionInput = {
 }
 
 export type MenuSelectionInput = {
+  id: Scalars['ID']
   count: Scalars['Int']
   menuOptionIds?: Maybe<Array<MenuOptionSelectionInput>>
 }

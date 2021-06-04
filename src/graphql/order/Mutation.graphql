@@ -6,6 +6,7 @@ input MenuOptionSelectionInput {
 }
 
 input MenuSelectionInput {
+  id: ID!
   count: Int!
   menuOptionIds: [MenuOptionSelectionInput!]
 }
