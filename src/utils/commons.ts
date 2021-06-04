@@ -23,3 +23,7 @@ export function removeDoubleQuotesAround(words: string[], sentence: string) {
     sentence
   )
 }
+
+export function areAllElementsSame(arr: unknown[]) {
+  return arr.every((v) => v === arr[0])
+}

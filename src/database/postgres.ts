@@ -10,8 +10,8 @@ export const pool = new Pool({
 })
 
 export async function poolQuery(query: string, values?: unknown[]) {
-  return pool.query(query, values).catch((reason) => {
-    throw new DatabaseQueryError(reason)
+  return pool.query(query, values).catch((error) => {
+    throw new DatabaseQueryError(error)
   })
 }
 
