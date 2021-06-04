@@ -26,6 +26,17 @@ const menu = importSQL(__dirname, 'sql/menu.sql')
 const menuOptions = importSQL(__dirname, 'sql/menuOptions.sql')
 const menuOptionCategory = importSQL(__dirname, 'sql/menuOptionCategory.sql')
 
+function menuOptionCategoryFieldTableColumnMapping(field: any) {
+  const column = menuOptionCategoryFieldColumnMapping(field)
+  switch (column) {
+    case 'creation_date':
+    case 'modification_date':
+      return `menu_option_category.${column}`
+    default:
+      return column
+  }
+}
+
 export const Menu: MenuResolvers = {
   category: async ({ categoryId }) => {
     const { rows } = await poolQuery(await menuCategory, [categoryId])
@@ -48,7 +59,9 @@ export const Menu: MenuResolvers = {
   },
 
   optionCategories: async ({ id }, _, __, info) => {
-    const columns = selectColumnFromField(info, menuOptionCategoryFieldColumnMapping)
+    const columns = selectColumnFromField(info, menuOptionCategoryFieldTableColumnMapping)
+
+    console.log(format(await menuOptionCategories, columns))
 
     const { rowCount, rows } = await poolQuery(format(await menuOptionCategories, columns), [id])
 
