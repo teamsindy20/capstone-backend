@@ -8,7 +8,7 @@ input MenuOptionSelectionInput {
 input MenuSelectionInput {
   id: ID!
   count: Int!
-  menuOptionIds: [MenuOptionSelectionInput!]
+  menuOptions: [MenuOptionSelectionInput!]
 }
 
 # 결제는 어디서 어떻게 이뤄질까?
@@ -42,7 +42,7 @@ input OrderCreationInput {
 }
 
 type Mutation {
-  createOrder(input: OrderCreationInput!): ID!
+  createOrder(input: OrderCreationInput!): Order!
 
   """
   주문 상태 변경에 대한 적절한 권한이 있으면 주문 상태를 업데이트한다.

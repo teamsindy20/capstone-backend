@@ -169,14 +169,14 @@ export type MenuOptionSelectionInput = {
 export type MenuSelectionInput = {
   id: Scalars['ID']
   count: Scalars['Int']
-  menuOptionIds?: Maybe<Array<MenuOptionSelectionInput>>
+  menuOptions?: Maybe<Array<MenuOptionSelectionInput>>
 }
 
 export type Mutation = {
   __typename?: 'Mutation'
   /** 자신이 소유하고 있는 매장에 새로운 메뉴를 생성합니다. */
   createMenu: Scalars['ID']
-  createOrder: Scalars['ID']
+  createOrder: Order
   createPost: Scalars['ID']
   createReview: Scalars['ID']
   createStore: Scalars['ID']
@@ -947,7 +947,7 @@ export type MutationResolvers<
     RequireFields<MutationCreateMenuArgs, 'input'>
   >
   createOrder?: Resolver<
-    ResolversTypes['ID'],
+    ResolversTypes['Order'],
     ParentType,
     ContextType,
     RequireFields<MutationCreateOrderArgs, 'input'>

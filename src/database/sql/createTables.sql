@@ -241,6 +241,27 @@ CREATE TABLE "order" (
   coupon_id bigint REFERENCES coupon ON DELETE CASCADE
 );
 
+-- 주문할 때 선택한 메뉴 옵션
+-- menu_option_text는 메뉴 옵션이 '서술형'일 떄 사용
+CREATE TABLE order_x_menu (
+  order_id bigint REFERENCES "order" ON DELETE CASCADE,
+  menu_id bigint REFERENCES menu ON DELETE CASCADE,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  "count" int NOT NULL,
+  menu_option_selections jsonb,
+  --
+  PRIMARY KEY (order_id, menu_id)
+);
+
+CREATE TABLE order_x_menu_option (
+  order_id bigint REFERENCES "order",
+  menu_option_id bigint REFERENCES menu_option,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  PRIMARY KEY (order_id, menu_option_id)
+);
+
 ALTER TABLE coupon
 ADD COLUMN order_id bigint REFERENCES "order" ON DELETE CASCADE;
 
@@ -252,20 +273,6 @@ CREATE TABLE store_x_coupon (
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
   PRIMARY KEY (store_id, coupon_id)
-);
-
--- 주문할 때 선택한 메뉴 옵션
--- menu_option_text는 메뉴 옵션이 '서술형'일 떄 사용
-CREATE TABLE order_x_menu (
-  order_id bigint REFERENCES "order" ON DELETE CASCADE,
-  menu_id bigint REFERENCES menu ON DELETE CASCADE,
-  creation_date timestamptz NOT NULL DEFAULT NOW(),
-  modification_date timestamptz NOT NULL DEFAULT NOW(),
-  --
-  "count" int NOT NULL,
-  menu_option_selections jsonb,
-  --
-  PRIMARY KEY (order_id, menu_id)
 );
 
 -- CREATE TABLE promotion (
@@ -452,24 +459,6 @@ CREATE TABLE menu_x_hashtag (
   modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
   PRIMARY KEY (menu_id, hashtag_id)
-);
-
-CREATE TABLE menu_x_order (
-  menu_id bigint REFERENCES menu,
-  order_id bigint REFERENCES "order",
-  creation_date timestamptz NOT NULL DEFAULT NOW(),
-  modification_date timestamptz NOT NULL DEFAULT NOW(),
-  --
-  PRIMARY KEY (menu_id, order_id)
-);
-
-CREATE TABLE menu_option_x_order (
-  menu_option_id bigint REFERENCES menu_option,
-  order_id bigint REFERENCES "order",
-  creation_date timestamptz NOT NULL DEFAULT NOW(),
-  modification_date timestamptz NOT NULL DEFAULT NOW(),
-  --
-  PRIMARY KEY (menu_option_id, order_id)
 );
 
 CREATE TABLE review_x_hashtag (

@@ -27,3 +27,17 @@ export function removeDoubleQuotesAround(words: string[], sentence: string) {
 export function areAllElementsSame(arr: unknown[]) {
   return arr.every((v) => v === arr[0])
 }
+
+export function isUniqueArray(arr: string[]) {
+  const seenValues: Record<string, unknown> = {}
+
+  for (let i = 0; i < arr.length; i++) {
+    if (seenValues[arr[i]]) {
+      return false
+    } else {
+      seenValues[arr[i]] = true
+    }
+  }
+
+  return true
+}
