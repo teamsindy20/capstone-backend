@@ -5,15 +5,3 @@ export class DatabaseQueryError extends ApolloError {
     super(message, 'DATABASE_QUERY_ERROR')
   }
 }
-
-export class JWTGenerationError extends ApolloError {
-  constructor(message: string) {
-    super(message, 'JWT_GENERATION_ERROR')
-  }
-}
-
-export class BcryptError extends ApolloError {
-  constructor(message: string) {
-    super(message, 'BCRYPT_ERROR')
-  }
-}

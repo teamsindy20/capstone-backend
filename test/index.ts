@@ -11,7 +11,7 @@ const test = importSQL(__dirname, 'sql/test.sql')
 
 ;(async () => {
   await connectDatabase()
-  const { rows } = await poolQuery(await test, [[1, 2, 3, 4, 6, 7, 9]])
+  const a = await poolQuery(await test)
 
-  console.log(rows)
+  console.log(a)
 })()
