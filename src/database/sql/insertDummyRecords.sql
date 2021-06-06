@@ -21,6 +21,9 @@ VALUES (
     1
   );
 
+INSERT INTO payment (name)
+VALUES ('payment1');
+
 SELECT create_store (
     '스노우플라워',
     '동작구 흑석동',

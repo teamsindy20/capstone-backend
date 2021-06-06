@@ -117,6 +117,7 @@ CREATE TABLE menu (
   name varchar(64) NOT NULL,
   price int NOT NULL,
   --
+  is_signiture boolean NOT NULL DEFAULT FALSE,
   delicious_review_count int NOT NULL DEFAULT 0,
   fine_review_count int NOT NULL DEFAULT 0,
   bad_review_count int NOT NULL DEFAULT 0,
@@ -216,6 +217,16 @@ CREATE TABLE coupon (
   user_id bigint REFERENCES "user" ON DELETE CASCADE
 );
 
+-- 쿠폰을 사용할 수 있는 매장 관계
+CREATE TABLE store_x_coupon (
+  store_id bigint REFERENCES store ON DELETE CASCADE,
+  coupon_id bigint REFERENCES coupon ON DELETE CASCADE,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  modification_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  PRIMARY KEY (store_id, coupon_id)
+);
+
 CREATE TABLE "order" (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
@@ -241,38 +252,32 @@ CREATE TABLE "order" (
   coupon_id bigint REFERENCES coupon ON DELETE CASCADE
 );
 
--- 주문할 때 선택한 메뉴 옵션
--- menu_option_text는 메뉴 옵션이 '서술형'일 떄 사용
-CREATE TABLE order_x_menu (
-  order_id bigint REFERENCES "order" ON DELETE CASCADE,
-  menu_id bigint REFERENCES menu ON DELETE CASCADE,
-  creation_date timestamptz NOT NULL DEFAULT NOW(),
-  --
-  "count" int NOT NULL,
-  menu_option_selections jsonb,
-  --
-  PRIMARY KEY (order_id, menu_id)
-);
-
-CREATE TABLE order_x_menu_option (
-  order_id bigint REFERENCES "order",
-  menu_option_id bigint REFERENCES menu_option,
-  creation_date timestamptz NOT NULL DEFAULT NOW(),
-  --
-  PRIMARY KEY (order_id, menu_option_id)
-);
-
 ALTER TABLE coupon
 ADD COLUMN order_id bigint REFERENCES "order" ON DELETE CASCADE;
 
--- 쿠폰을 사용할 수 있는 매장 관계
-CREATE TABLE store_x_coupon (
-  store_id bigint REFERENCES store ON DELETE CASCADE,
-  coupon_id bigint REFERENCES coupon ON DELETE CASCADE,
+-- 주문할 때 선택한 메뉴
+CREATE TABLE order_x_selected_menu (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   creation_date timestamptz NOT NULL DEFAULT NOW(),
-  modification_date timestamptz NOT NULL DEFAULT NOW(),
   --
-  PRIMARY KEY (store_id, coupon_id)
+  "count" int NOT NULL,
+  --
+  order_id bigint NOT NULL REFERENCES "order" ON DELETE CASCADE,
+  menu_id bigint NOT NULL REFERENCES menu ON DELETE CASCADE,
+  --
+  UNIQUE(order_id, menu_id)
+);
+
+-- 주문할 때 선택한 메뉴 옵션
+-- text는 메뉴 옵션이 '서술형'일 떄 사용
+CREATE TABLE order_x_selected_menu_option (
+  order_x_selected_menu_id bigint REFERENCES order_x_selected_menu,
+  menu_option_id bigint REFERENCES menu_option,
+  creation_date timestamptz NOT NULL DEFAULT NOW(),
+  --
+  text text,
+  --
+  PRIMARY KEY (order_x_selected_menu_id, menu_option_id)
 );
 
 -- CREATE TABLE promotion (

@@ -252,56 +252,50 @@ $$;
 DROP FUNCTION IF EXISTS create_order;
 
 CREATE OR REPLACE FUNCTION create_order (
-    delivery_address varchar(64),
-    delivery_phone_number varchar(32),
+    store_id bigint,
+    menu_ids bigint [],
+    menu_option_ids bigint [],
+    payment_id bigint,
     payment_date timestamptz,
     user_id bigint,
-    payment_id bigint,
-    store_id bigint,
-    menu_ids bigint ARRAY,
-    menu_option_ids bigint ARRAY DEFAULT NULL,
-    point_used int DEFAULT NULL,
+    delivery_address varchar(64),
+    delivery_phone_number varchar(32),
+    delivery_request varchar(256) DEFAULT NULL,
+    store_request varchar(256) DEFAULT NULL,
     review_reward boolean DEFAULT NULL,
     regular_reward boolean DEFAULT NULL,
-    delivery_request varchar(256) DEFAULT NULL,
+    point_used int DEFAULT NULL,
     coupon_id bigint DEFAULT NULL,
-    store_request varchar(256) DEFAULT NULL,
     out inserted_order_id bigint
-  ) language SQL AS $$ WITH selected_menu (id) AS (
-    SELECT unnest(menu_ids)
-  ),
-  selected_menu_option (id) AS (
-    SELECT unnest(menu_option_ids)
-  ),
-  inserted_order AS (
+  ) language SQL AS $$ WITH inserted_order AS (
     INSERT INTO "order" (
-        delivery_address,
         menu_total,
         delivery_charge,
         payment_date,
+        delivery_address,
+        point_used,
         user_id,
         payment_id,
         store_id,
-        point_used,
-        review_reward,
-        regular_reward,
         delivery_request,
         store_request,
+        review_reward,
+        regular_reward,
         coupon_id
       )
     VALUES (
-        delivery_address,
         get_total_price_from(menu_ids, menu_option_ids),
         get_delivery_charge_from(store_id),
         payment_date,
+        delivery_address,
+        point_used,
         user_id,
         payment_id,
         store_id,
-        point_used,
-        review_reward,
-        regular_reward,
         delivery_request,
         store_request,
+        review_reward,
+        regular_reward,
         coupon_id
       )
     RETURNING id
@@ -310,20 +304,6 @@ CREATE OR REPLACE FUNCTION create_order (
     UPDATE "user"
     SET point = point - point_used
     WHERE id = user_id
-  ),
-  inserted_menu_x_order AS(
-    INSERT INTO menu_x_order (menu_id, order_id)
-    SELECT inserted_order.id,
-      selected_menu.id
-    FROM inserted_order,
-      selected_menu
-  ),
-  inserted_menu_option_x_order AS (
-    INSERT INTO menu_option_x_order (menu_option_id, order_id)
-    SELECT inserted_order.id,
-      selected_menu_option.id
-    FROM inserted_order,
-      selected_menu_option
   )
 SELECT id
 FROM inserted_order;

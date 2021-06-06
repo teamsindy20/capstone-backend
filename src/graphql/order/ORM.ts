@@ -17,6 +17,7 @@ export const order: Order = {
   deliveryAddress: '',
   orderStatus: OrderStatus.OrderWaiting,
   pointUsed: 0,
+  pointSaved: 0,
   userId: '',
   paymentId: '',
   storeId: '',
@@ -40,8 +41,6 @@ export function orderFieldColumnMapping(orderField: keyof Order) {
       return ''
     case 'coupon':
       return 'coupon_id'
-    case 'menuOptions':
-      return ''
     case 'review':
       return ''
     default:
@@ -61,6 +60,7 @@ export function orderORM(order: Record<string, any>): Order {
     deliveryAddress: order.delivery_address,
     orderStatus: order.order_status,
     pointUsed: order.point_used,
+    pointSaved: order.point_saved,
     userId: order.user_id,
     paymentId: order.payment_id,
     storeId: order.store_id,

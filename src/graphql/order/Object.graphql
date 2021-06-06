@@ -16,16 +16,18 @@ type Order {
   deliveryAddress: String!
   orderStatus: OrderStatus!
   pointUsed: Int!
+  pointSaved: Int!
   userId: ID!
   paymentId: ID!
   storeId: ID!
 
   # nullable
-  deliveryRequest: String
   storeRequest: String
   reviewReward: String
   regularReward: String
+  deliveryRequest: String
   couponId: ID
+  promotionId: ID
 
   # from other table
   user: User!
@@ -35,9 +37,11 @@ type Order {
 
   # from other table - nullable
   coupon: Coupon
-  menuOptions: [MenuOption!]
+  # promotions: [Promotion!]
   review: [Review!]
 
   # regularOrderDate: DateTime!
   # regularOrderCount: Int!
+  # PaymentDate
+  # selectedMenus, selectedOptions
 }

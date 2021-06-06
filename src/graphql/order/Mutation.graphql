@@ -1,5 +1,5 @@
 input MenuOptionSelectionInput {
-  menuOptionId: ID!
+  id: ID!
 
   # 서술형 옵션 선택 시 입력할 텍스트
   text: String
@@ -32,7 +32,7 @@ input UserInfoInput {
   deliveryRequest: String
   point: Int
   promotion: [PromotionInput!]
-  coupon: ID
+  couponId: ID
 }
 
 input OrderCreationInput {
@@ -42,7 +42,7 @@ input OrderCreationInput {
 }
 
 type Mutation {
-  createOrder(input: OrderCreationInput!): Order!
+  createOrder(input: OrderCreationInput!): ID!
 
   """
   주문 상태 변경에 대한 적절한 권한이 있으면 주문 상태를 업데이트한다.

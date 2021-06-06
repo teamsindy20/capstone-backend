@@ -1,23 +1,17 @@
 import { AuthenticationError, UserInputError } from 'apollo-server-express'
-import { PoolClient } from 'pg'
-import { DatabaseQueryError } from '../../apollo/errors'
-import { pool } from '../../database/postgres'
+import { pool, transactionQuery } from '../../database/postgres'
 import { areAllElementsSame, importSQL, isUniqueArray } from '../../utils/commons'
 import { MenuSelectionInput, MutationResolvers } from '../generated/graphql'
 import { orderORM } from './ORM'
 
-const createOrderSQL = importSQL(__dirname, 'sql/createOrder.sql')
+const createOrder = importSQL(__dirname, 'sql/createOrder.sql')
+const createOrderMenus = importSQL(__dirname, 'sql/createOrderMenus.sql')
+const createOrderMenuOptions = importSQL(__dirname, 'sql/createOrderMenuOptions.sql')
 const orderMenus = importSQL(__dirname, 'sql/orderMenus.sql')
 const orderMenuOptions = importSQL(__dirname, 'sql/orderMenuOptions.sql')
 
-async function transactionQuery(client: PoolClient, sql: string, values?: unknown[]) {
-  return client.query(sql, values).catch((error) => {
-    throw new DatabaseQueryError(error)
-  })
-}
-
 function getMenuIdsWithOption(menu: MenuSelectionInput) {
-  return `${menu.id}-${menu.menuOptions?.map((menuOption) => menuOption.menuOptionId)}`
+  return `${menu.id}-${menu.menuOptions?.map((menuOption) => menuOption.id)}`
 }
 
 type MenuFromTable = {
@@ -46,6 +40,8 @@ export const Mutation: MutationResolvers = {
     await transactionQuery(client, 'BEGIN')
 
     // 포인트 잔액 및 쿠폰 소유 여부 확인
+
+    // 최소주문금액 확인
 
     const selectedMenuIds = menus.map((menu) => menu.id)
     const selectedMenus = await transactionQuery(client, await orderMenus, [selectedMenuIds])
@@ -114,7 +110,7 @@ export const Mutation: MutationResolvers = {
       .filter((menu) => menu.menuOptions)
       .map((menu) => ({
         id: menu.id,
-        optionIds: menu.menuOptions!.map((option) => option.menuOptionId), // filter 해주기 때문에 non-null
+        optionIds: menu.menuOptions!.map((menuOption) => menuOption.id), // filter 해주기 때문에 non-null
       }))
 
     menusFromInput.forEach(async (menu) => {
@@ -137,20 +133,71 @@ export const Mutation: MutationResolvers = {
       }
     })
 
-    // 다중선택형 옵션 선택 개수 미달 or 초과
+    const selectedMenuOptionIds = menus
+      .map((menu) => menu.menuOptions?.map((menuOption) => menuOption.id))
+      .flat()
 
-    // 필수 옵션 미선택
-
-    const { rows } = await pool.query(await createOrderSQL, [
-      // input.orderTotal,
-      // user.id,
-      // input.storeId,
-      // input.menuIds,
+    console.log([
+      selectedMenus.rows[0].store_id,
+      selectedMenuIds,
+      selectedMenuOptionIds,
+      payment.paymentId,
+      payment.paymentDate,
+      user.id,
+      deliveryUserInfo.deliveryAddress,
+      deliveryUserInfo.deliveryPhoneNumber,
+      deliveryUserInfo.deliveryRequest,
+      deliveryUserInfo.storeRequest,
+      deliveryUserInfo.reviewReward,
+      deliveryUserInfo.regularReward,
+      deliveryUserInfo.point,
+      deliveryUserInfo.couponId,
     ])
+
+    const createOrderResult = await transactionQuery(client, await createOrder, [
+      selectedMenus.rows[0].store_id,
+      selectedMenuIds,
+      selectedMenuOptionIds,
+      payment.paymentId,
+      payment.paymentDate,
+      user.id,
+      deliveryUserInfo.deliveryAddress,
+      deliveryUserInfo.deliveryPhoneNumber,
+      deliveryUserInfo.deliveryRequest,
+      deliveryUserInfo.storeRequest,
+      deliveryUserInfo.reviewReward,
+      deliveryUserInfo.regularReward,
+      deliveryUserInfo.point ?? 0,
+      deliveryUserInfo.couponId,
+    ])
+
+    // 다중선택형 옵션 선택 개수 미달 or 초과 확인
+
+    // 필수 옵션 선택 여부 확인
+
+    const newOrderId = createOrderResult.rows[0].create_order
+
+    menus.forEach(async (menu) => {
+      const createOrderMenusResult = await transactionQuery(client, await createOrderMenus, [
+        newOrderId,
+        menu.id,
+        menu.count,
+      ])
+
+      const newOrderMenuId = createOrderMenusResult.rows[0].id
+
+      menu.menuOptions?.forEach(async (menuOption) => {
+        await transactionQuery(client, await createOrderMenuOptions, [
+          newOrderMenuId,
+          menuOption.id,
+          menuOption.text,
+        ])
+      })
+    })
 
     await transactionQuery(client, 'COMMIT')
     client.release()
 
-    return orderORM(rows[0].create_order)
+    return createOrderResult.rows[0].create_order
   },
 }

@@ -1,4 +1,4 @@
-import { Pool } from 'pg'
+import { Pool, PoolClient } from 'pg'
 import { DatabaseQueryError } from '../apollo/errors'
 import { sleep } from '../utils/commons'
 
@@ -15,6 +15,14 @@ export async function poolQuery(query: string, values?: unknown[]) {
   })
 }
 
+export async function transactionQuery(client: PoolClient, sql: string, values?: unknown[]) {
+  return client.query(sql, values).catch(async (error) => {
+    await client.query('ROLLBACK')
+    client.release()
+    throw new DatabaseQueryError(error)
+  })
+}
+
 export async function connectDatabase() {
   while (true) {
     try {
@@ -22,7 +30,7 @@ export async function connectDatabase() {
       console.log('Connected to the PostgreSQL server')
       break
     } catch (error) {
-      await sleep(3000)
+      await sleep(5000)
       console.warn(error)
     }
   }
