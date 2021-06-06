@@ -143,14 +143,14 @@ export const Mutation: MutationResolvers = {
         acc +
         menu.count *
           (selectedMenus.rows.find((selectedMenu) => selectedMenu.id === menu.id)!.price +
-            menu.menuOptions?.reduce(
+            (menu.menuOptions?.reduce(
               (acc, menuOption) =>
                 acc +
                 (menuOptionsFromTable.find(
                   (menuOptionFromTable) => menuOptionFromTable.id === menuOption.id
                 )?.price ?? 0),
               0
-            ) ?? 0),
+            ) ?? 0)),
 
       0
     )
