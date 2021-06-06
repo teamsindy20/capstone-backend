@@ -17,9 +17,9 @@ type Order {
   orderStatus: OrderStatus!
   pointUsed: Int!
   pointSaved: Int!
-  userId: ID!
   paymentId: ID!
   storeId: ID!
+  userId: ID!
 
   # nullable
   storeRequest: String
@@ -30,10 +30,10 @@ type Order {
   promotionId: ID
 
   # from other table
-  user: User!
+  selectedMenus: [Menu!]!
   payment: Payment!
   store: Store!
-  menus: [Menu!]!
+  user: User!
 
   # from other table - nullable
   coupon: Coupon

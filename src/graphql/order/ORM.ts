@@ -1,4 +1,4 @@
-import { Order, OrderStatus, User } from '../generated/graphql'
+import { Order, OrderStatus } from '../generated/graphql'
 import { camelToSnake } from '../../utils/commons'
 import { menu } from '../menu/ORM'
 import { store } from '../store/ORM'
@@ -24,7 +24,7 @@ export const order: Order = {
   user: user,
   payment: payment,
   store: store,
-  menus: [menu],
+  selectedMenus: [menu],
 }
 
 export function orderFieldColumnMapping(orderField: keyof Order) {
@@ -37,7 +37,7 @@ export function orderFieldColumnMapping(orderField: keyof Order) {
       return 'payment_id'
     case 'store':
       return 'store_id'
-    case 'menus':
+    case 'selectedMenus':
       return ''
     case 'coupon':
       return 'coupon_id'
@@ -72,6 +72,6 @@ export function orderORM(order: Record<string, any>): Order {
     user: user,
     payment: payment,
     store: store,
-    menus: [menu],
+    selectedMenus: [menu],
   }
 }

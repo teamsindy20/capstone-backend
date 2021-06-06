@@ -293,19 +293,19 @@ export type Order = {
   orderStatus: OrderStatus
   pointUsed: Scalars['Int']
   pointSaved: Scalars['Int']
-  userId: Scalars['ID']
   paymentId: Scalars['ID']
   storeId: Scalars['ID']
+  userId: Scalars['ID']
   storeRequest?: Maybe<Scalars['String']>
   reviewReward?: Maybe<Scalars['String']>
   regularReward?: Maybe<Scalars['String']>
   deliveryRequest?: Maybe<Scalars['String']>
   couponId?: Maybe<Scalars['ID']>
   promotionId?: Maybe<Scalars['ID']>
-  user: User
+  selectedMenus: Array<Menu>
   payment: Payment
   store: Store
-  menus: Array<Menu>
+  user: User
   coupon?: Maybe<Coupon>
   review?: Maybe<Array<Review>>
 }
@@ -1061,19 +1061,19 @@ export type OrderResolvers<
   orderStatus?: Resolver<ResolversTypes['OrderStatus'], ParentType, ContextType>
   pointUsed?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   pointSaved?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
-  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   paymentId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   storeRequest?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   reviewReward?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   regularReward?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   deliveryRequest?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   couponId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
   promotionId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
-  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>
+  selectedMenus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
   payment?: Resolver<ResolversTypes['Payment'], ParentType, ContextType>
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
-  menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>
   coupon?: Resolver<Maybe<ResolversTypes['Coupon']>, ParentType, ContextType>
   review?: Resolver<Maybe<Array<ResolversTypes['Review']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
