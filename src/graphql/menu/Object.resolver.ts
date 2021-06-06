@@ -3,6 +3,7 @@ import {
   MenuOptionCategoryResolvers,
   MenuOptionResolvers,
   MenuResolvers,
+  MenuOptionCategory as TMenuOptionCategory,
 } from 'src/graphql/generated/graphql'
 import {
   menuFieldColumnMapping,
@@ -26,7 +27,7 @@ const menu = importSQL(__dirname, 'sql/menu.sql')
 const menuOptions = importSQL(__dirname, 'sql/menuOptions.sql')
 const menuOptionCategory = importSQL(__dirname, 'sql/menuOptionCategory.sql')
 
-function menuOptionCategoryFieldTableColumnMapping(field: any) {
+function menuOptionCategoryFieldTableColumnMapping(field: keyof TMenuOptionCategory) {
   const column = menuOptionCategoryFieldColumnMapping(field)
   switch (column) {
     case 'creation_date':
