@@ -2,17 +2,27 @@ import { AuthenticationError, UserInputError } from 'apollo-server-express'
 import { pool, transactionQuery } from '../../database/postgres'
 import { areAllElementsSame, importSQL, isUniqueArray } from '../../utils/commons'
 import { MenuSelectionInput, MutationResolvers } from '../generated/graphql'
-import { orderORM } from './ORM'
 
 const createOrder = importSQL(__dirname, 'sql/createOrder.sql')
 const createOrderMenus = importSQL(__dirname, 'sql/createOrderMenus.sql')
 const createOrderMenuOptions = importSQL(__dirname, 'sql/createOrderMenuOptions.sql')
-const orderMenus = importSQL(__dirname, 'sql/orderMenus.sql')
-const orderMenuOptions = importSQL(__dirname, 'sql/orderMenuOptions.sql')
+const menusSQL = importSQL(__dirname, 'sql/menus.sql')
+const menuOptions = importSQL(__dirname, 'sql/menuOptions.sql')
 
 function getMenuIdsWithOption(menu: MenuSelectionInput) {
   return `${menu.id}-${menu.menuOptions?.map((menuOption) => menuOption.id)}`
 }
+
+// function getMenuOptionPrice(menuOptionId: string) {
+//   menusFromTable
+//     .find((menuFromTable) => menuFromTable.id === menu.id)
+//     ?.menuOptionCategories.find(
+//       (menuOptionCategoryFromTable) =>
+//         menuOptionCategoryFromTable.menuOptions.find(
+//           (menuOptionFromTable) => menuOptionFromTable.id === menuOption.id
+//         )?.price
+//     )
+// }
 
 type MenuFromTable = {
   id: string
@@ -44,9 +54,9 @@ export const Mutation: MutationResolvers = {
     // 최소주문금액 확인
 
     const selectedMenuIds = menus.map((menu) => menu.id)
-    const selectedMenus = await transactionQuery(client, await orderMenus, [selectedMenuIds])
+    const selectedMenus = await transactionQuery(client, await menusSQL, [selectedMenuIds])
 
-    if (selectedMenus.rowCount === 0) {
+    if (selectedMenus.rowCount !== selectedMenuIds.length) {
       await transactionQuery(client, 'ROLLBACK')
       client.release()
       throw new UserInputError('해당 메뉴가 존재하지 않습니다.')
@@ -61,9 +71,7 @@ export const Mutation: MutationResolvers = {
     const menusFromTable: MenuFromTable[] = []
 
     // 데이터베이스로부터 옵션이 있는 메뉴만 반환된다.
-    const rawMenusFromTable = await transactionQuery(client, await orderMenuOptions, [
-      selectedMenuIds,
-    ])
+    const rawMenusFromTable = await transactionQuery(client, await menuOptions, [selectedMenuIds])
 
     // Menu, MenuOptionCategory, MenuOption 변환 (Table -> JSON)
     rawMenusFromTable.rows.forEach((rawMenuFromTable) => {
@@ -133,31 +141,28 @@ export const Mutation: MutationResolvers = {
       }
     })
 
-    const selectedMenuOptionIds = menus
-      .map((menu) => menu.menuOptions?.map((menuOption) => menuOption.id))
+    const menuOptionsFromTable = menusFromTable
+      .map((menuFromTable) =>
+        menuFromTable.menuOptionCategories
+          .map((menuOptionCategory) => menuOptionCategory.menuOptions)
+          .flat()
+      )
       .flat()
 
-    console.log([
-      selectedMenus.rows[0].store_id,
-      selectedMenuIds,
-      selectedMenuOptionIds,
-      payment.paymentId,
-      payment.paymentDate,
-      user.id,
-      deliveryUserInfo.deliveryAddress,
-      deliveryUserInfo.deliveryPhoneNumber,
-      deliveryUserInfo.deliveryRequest,
-      deliveryUserInfo.storeRequest,
-      deliveryUserInfo.reviewReward,
-      deliveryUserInfo.regularReward,
-      deliveryUserInfo.point,
-      deliveryUserInfo.couponId,
-    ])
+    const menuTotal = menus.reduce(
+      (acc, menu) =>
+        acc +
+        menu.count *
+          (selectedMenus.rows.find((selectedMenu) => selectedMenu.id === menu.id)!.price + 0),
+
+      0
+    )
+
+    console.log(selectedMenus, menuOptionsFromTable, menus, menuTotal)
 
     const createOrderResult = await transactionQuery(client, await createOrder, [
       selectedMenus.rows[0].store_id,
-      selectedMenuIds,
-      selectedMenuOptionIds,
+      menuTotal,
       payment.paymentId,
       payment.paymentDate,
       user.id,
