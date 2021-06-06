@@ -61,8 +61,6 @@ export const Menu: MenuResolvers = {
   optionCategories: async ({ id }, _, __, info) => {
     const columns = selectColumnFromField(info, menuOptionCategoryFieldTableColumnMapping)
 
-    console.log(format(await menuOptionCategories, columns))
-
     const { rowCount, rows } = await poolQuery(format(await menuOptionCategories, columns), [id])
 
     return rowCount ? rows.map((row) => menuOptionCategoryORM(row)) : null

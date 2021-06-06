@@ -162,7 +162,7 @@ export type MenuOptionInput = {
 }
 
 export type MenuOptionSelectionInput = {
-  menuOptionId: Scalars['ID']
+  id: Scalars['ID']
   text?: Maybe<Scalars['String']>
 }
 
@@ -176,7 +176,7 @@ export type Mutation = {
   __typename?: 'Mutation'
   /** 자신이 소유하고 있는 매장에 새로운 메뉴를 생성합니다. */
   createMenu: Scalars['ID']
-  createOrder: Order
+  createOrder: Scalars['ID']
   createPost: Scalars['ID']
   createReview: Scalars['ID']
   createStore: Scalars['ID']
@@ -292,20 +292,21 @@ export type Order = {
   deliveryAddress: Scalars['String']
   orderStatus: OrderStatus
   pointUsed: Scalars['Int']
+  pointSaved: Scalars['Int']
   userId: Scalars['ID']
   paymentId: Scalars['ID']
   storeId: Scalars['ID']
-  deliveryRequest?: Maybe<Scalars['String']>
   storeRequest?: Maybe<Scalars['String']>
   reviewReward?: Maybe<Scalars['String']>
   regularReward?: Maybe<Scalars['String']>
+  deliveryRequest?: Maybe<Scalars['String']>
   couponId?: Maybe<Scalars['ID']>
+  promotionId?: Maybe<Scalars['ID']>
   user: User
   payment: Payment
   store: Store
   menus: Array<Menu>
   coupon?: Maybe<Coupon>
-  menuOptions?: Maybe<Array<MenuOption>>
   review?: Maybe<Array<Review>>
 }
 
@@ -643,7 +644,7 @@ export type UserInfoInput = {
   deliveryRequest?: Maybe<Scalars['String']>
   point?: Maybe<Scalars['Int']>
   promotion?: Maybe<Array<PromotionInput>>
-  coupon?: Maybe<Scalars['ID']>
+  couponId?: Maybe<Scalars['ID']>
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -947,7 +948,7 @@ export type MutationResolvers<
     RequireFields<MutationCreateMenuArgs, 'input'>
   >
   createOrder?: Resolver<
-    ResolversTypes['Order'],
+    ResolversTypes['ID'],
     ParentType,
     ContextType,
     RequireFields<MutationCreateOrderArgs, 'input'>
@@ -1059,20 +1060,21 @@ export type OrderResolvers<
   deliveryAddress?: Resolver<ResolversTypes['String'], ParentType, ContextType>
   orderStatus?: Resolver<ResolversTypes['OrderStatus'], ParentType, ContextType>
   pointUsed?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+  pointSaved?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
   userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   paymentId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
   storeId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>
-  deliveryRequest?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   storeRequest?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   reviewReward?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   regularReward?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+  deliveryRequest?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
   couponId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
+  promotionId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>
   payment?: Resolver<ResolversTypes['Payment'], ParentType, ContextType>
   store?: Resolver<ResolversTypes['Store'], ParentType, ContextType>
   menus?: Resolver<Array<ResolversTypes['Menu']>, ParentType, ContextType>
   coupon?: Resolver<Maybe<ResolversTypes['Coupon']>, ParentType, ContextType>
-  menuOptions?: Resolver<Maybe<Array<ResolversTypes['MenuOption']>>, ParentType, ContextType>
   review?: Resolver<Maybe<Array<ResolversTypes['Review']>>, ParentType, ContextType>
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
