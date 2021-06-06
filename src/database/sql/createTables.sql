@@ -239,6 +239,7 @@ CREATE TABLE "order" (
   --
   order_status varchar(16) NOT NULL DEFAULT '접수 대기',
   point_used int NOT NULL DEFAULT 0 CHECK (point_used >= 0),
+  point_saved int NOT NULL DEFAULT 0 CHECK (point_saved >= 0),
   --
   user_id bigint NOT NULL REFERENCES "user" ON DELETE CASCADE,
   payment_id bigint NOT NULL REFERENCES payment ON DELETE CASCADE,

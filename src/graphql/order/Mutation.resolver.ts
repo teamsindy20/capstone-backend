@@ -13,17 +13,6 @@ function getMenuIdsWithOption(menu: MenuSelectionInput) {
   return `${menu.id}-${menu.menuOptions?.map((menuOption) => menuOption.id)}`
 }
 
-// function getMenuOptionPrice(menuOptionId: string) {
-//   menusFromTable
-//     .find((menuFromTable) => menuFromTable.id === menu.id)
-//     ?.menuOptionCategories.find(
-//       (menuOptionCategoryFromTable) =>
-//         menuOptionCategoryFromTable.menuOptions.find(
-//           (menuOptionFromTable) => menuOptionFromTable.id === menuOption.id
-//         )?.price
-//     )
-// }
-
 type MenuFromTable = {
   id: string
   menuOptionCategories: {
@@ -153,12 +142,18 @@ export const Mutation: MutationResolvers = {
       (acc, menu) =>
         acc +
         menu.count *
-          (selectedMenus.rows.find((selectedMenu) => selectedMenu.id === menu.id)!.price + 0),
+          (selectedMenus.rows.find((selectedMenu) => selectedMenu.id === menu.id)!.price +
+            menu.menuOptions?.reduce(
+              (acc, menuOption) =>
+                acc +
+                (menuOptionsFromTable.find(
+                  (menuOptionFromTable) => menuOptionFromTable.id === menuOption.id
+                )?.price ?? 0),
+              0
+            ) ?? 0),
 
       0
     )
-
-    console.log(selectedMenus, menuOptionsFromTable, menus, menuTotal)
 
     const createOrderResult = await transactionQuery(client, await createOrder, [
       selectedMenus.rows[0].store_id,

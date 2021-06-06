@@ -253,8 +253,7 @@ DROP FUNCTION IF EXISTS create_order;
 
 CREATE OR REPLACE FUNCTION create_order (
     store_id bigint,
-    menu_ids bigint [],
-    menu_option_ids bigint [],
+    menu_total int,
     payment_id bigint,
     payment_date timestamptz,
     user_id bigint,
@@ -284,7 +283,7 @@ CREATE OR REPLACE FUNCTION create_order (
         coupon_id
       )
     VALUES (
-        get_total_price_from(menu_ids, menu_option_ids),
+        menu_total,
         get_delivery_charge_from(store_id),
         payment_date,
         delivery_address,
