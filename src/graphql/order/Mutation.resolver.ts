@@ -43,7 +43,9 @@ export const Mutation: MutationResolvers = {
     // 최소주문금액 확인
 
     const selectedMenuIds = menus.map((menu) => menu.id)
+    console.log('Resolver 1')
     const selectedMenus = await transactionQuery(client, await menusSQL, [selectedMenuIds])
+    console.log('Resolver 2')
 
     if (selectedMenus.rowCount !== selectedMenuIds.length) {
       await transactionQuery(client, 'ROLLBACK')
@@ -63,7 +65,7 @@ export const Mutation: MutationResolvers = {
     const rawMenusFromTable = await transactionQuery(client, await menuOptions, [selectedMenuIds])
 
     // Menu, MenuOptionCategory, MenuOption 변환 (Table -> JSON)
-    rawMenusFromTable.rows.forEach((rawMenuFromTable) => {
+    for (const rawMenuFromTable of rawMenusFromTable.rows) {
       const menuFromTable = menusFromTable.find(
         (menuFromTable) => menuFromTable.id === rawMenuFromTable.menu_id
       )
@@ -95,13 +97,16 @@ export const Mutation: MutationResolvers = {
             {
               id: rawMenuFromTable.menu_option_category_id,
               menuOptions: [
-                { id: rawMenuFromTable.menu_option_id, price: rawMenuFromTable.menu_option_price },
+                {
+                  id: rawMenuFromTable.menu_option_id,
+                  price: rawMenuFromTable.menu_option_price,
+                },
               ],
             },
           ],
         })
       }
-    })
+    }
 
     const menusFromInput = menus
       .filter((menu) => menu.menuOptions)
@@ -110,7 +115,7 @@ export const Mutation: MutationResolvers = {
         optionIds: menu.menuOptions!.map((menuOption) => menuOption.id), // filter 해주기 때문에 non-null
       }))
 
-    menusFromInput.forEach(async (menu) => {
+    for (const menu of menusFromInput) {
       const menuFromTable = menusFromTable.find((menuFromTable) => menuFromTable.id === menu.id)
 
       if (menuFromTable) {
@@ -128,7 +133,7 @@ export const Mutation: MutationResolvers = {
         client.release()
         throw new UserInputError(`id=${menu.id} 메뉴는 옵션이 존재하지 않습니다.`)
       }
-    })
+    }
 
     const menuOptionsFromTable = menusFromTable
       .map((menuFromTable) =>

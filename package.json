@@ -1,9 +1,9 @@
 {
-  "name": "capstone-backend",
+  "name": "dessert-fit-backend",
   "version": "1.0.0",
-  "description": "capstone-backend",
+  "description": "dessert-fit-backend",
   "main": "dist/index.js",
-  "repository": "https://github.com/teamsindy20/capstone-backend.git",
+  "repository": "https://github.com/teamsindy20/dessert-fit-backend.git",
   "author": "sindy",
   "license": "GPL-3.0-only",
   "private": false,
