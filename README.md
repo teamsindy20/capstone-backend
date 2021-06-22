@@ -97,7 +97,7 @@ GCP Cloud Run이 GitHub 저장소 변경 사항을 자동으로 감지하기 때
 
 ## 데이터베이스 ERD
 
-[src/database/erd.html](src/database/erd.html)
+[database/erd.html](database/erd.html)
 
 ## 프로젝트 구조
 
