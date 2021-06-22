@@ -1,4 +1,4 @@
-# 2021-1 Capstone Back-end (Node.js)
+# 2021-1 Capstone Backend (Node.js)
 
 ## 실행 방법
 
@@ -94,6 +94,10 @@ http://localhost:4000
 ## GCP Cloud Run 배포
 
 GCP Cloud Run이 GitHub 저장소 변경 사항을 자동으로 감지하기 때문에 GitHub로 commit을 push할 때마다 Cloud Run에 자동으로 배포됩니다.
+
+## 데이터베이스 ERD
+
+[src/database/erd.html](src/database/erd.html)
 
 ## 프로젝트 구조
 
