@@ -1,3 +1,7 @@
-SELECT id
-FROM "user"
-WHERE email = $1;
+SELECT
+  id
+FROM
+  "user"
+WHERE
+  email = $1;
+

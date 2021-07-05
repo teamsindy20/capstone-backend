@@ -1,2 +1,5 @@
-SELECT %I
-FROM post;
+SELECT
+  % I
+FROM
+  post;
+

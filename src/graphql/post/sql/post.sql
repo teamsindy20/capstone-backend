@@ -1,3 +1,7 @@
-SELECT %I
-FROM post
-WHERE id = $1;
+SELECT
+  % I
+FROM
+  post
+WHERE
+  id = $1;
+

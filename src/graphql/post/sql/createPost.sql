@@ -1,1 +1,3 @@
-SELECT create_post($1, $2, $3, $4);
+SELECT
+  create_post ($1, $2, $3, $4);
+

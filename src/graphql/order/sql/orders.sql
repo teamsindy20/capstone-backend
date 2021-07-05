@@ -1,3 +1,7 @@
-SELECT %I
-FROM "order"
-WHERE user_id = $1;
+SELECT
+  % I
+FROM
+  "order"
+WHERE
+  user_id = $1;
+

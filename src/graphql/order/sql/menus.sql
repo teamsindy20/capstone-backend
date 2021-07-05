@@ -1,5 +1,9 @@
-SELECT id,
+SELECT
+  id,
   price,
   store_id
-FROM menu
-WHERE id = ANY($1);
+FROM
+  menu
+WHERE
+  id = ANY ($1);
+
