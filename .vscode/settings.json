@@ -17,11 +17,7 @@
   "eslint.packageManager": "yarn",
 
   "[sql]": {
-    "editor.defaultFormatter": "mtxr.sqltools"
+    "editor.defaultFormatter": "bradymholt.pgformatter"
   },
-  "sqltools.highlightQuery": false,
-  "sqltools.format": {
-    "reservedWordCase": "upper",
-    "linesBetweenQueries": 2
-  }
+  "pgFormatter.commaBreak": true
 }

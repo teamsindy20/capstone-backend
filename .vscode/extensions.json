@@ -6,8 +6,6 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "ms-azuretools.vscode-docker",
-    "adpyke.vscode-sql-formatter",
-    "mtxr.sqltools",
-    "mtxr.sqltools-driver-pg"
+    "bradymholt.pgformatter"
   ]
 }
