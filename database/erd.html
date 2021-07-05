@@ -50,7 +50,7 @@
 
       // create an array with nodes
       const nodes = new vis.DataSet([
-        { id: 'user', label: 'user' },
+        { id: 'user', label: 'user', fixed: true },
         { id: 'store', label: 'store' },
         { id: 'menu_category', label: 'menu_category' },
         { id: 'menu_theme', label: 'menu_theme' },
@@ -75,7 +75,6 @@
             to: zeroMany,
           },
           label: 'favorite',
-          // length: 200,
         },
         {
           from: 'user',
@@ -85,7 +84,6 @@
             to: zeroMany,
           },
           label: 'favorite',
-          // length: 200,
         },
         {
           from: 'user',
@@ -95,7 +93,6 @@
             to: zeroMany,
           },
           label: 'regular',
-          // length: 200,
         },
         {
           from: 'user',
@@ -105,7 +102,6 @@
             to: zeroMany,
           },
           label: 'owner',
-          // length: 200,
         },
         {
           from: 'store',
@@ -163,7 +159,6 @@
             to: zeroMany,
           },
           label: 'selected',
-          // length: 200,
         },
         {
           from: 'order',
@@ -173,7 +168,6 @@
             to: zeroMany,
           },
           label: 'selected',
-          // length: 200,
         },
         {
           from: 'user',
@@ -183,7 +177,6 @@
             to: zeroMany,
           },
           label: 'liked',
-          // length: 200,
         },
         {
           from: 'user',
@@ -193,7 +186,6 @@
             to: zeroMany,
           },
           label: 'requests',
-          // length: 200,
         },
         {
           from: 'user',
