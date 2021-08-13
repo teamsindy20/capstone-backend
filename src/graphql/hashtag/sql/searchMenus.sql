@@ -1,5 +1,5 @@
 SELECT
-  % I
+  %I
 FROM
   menu
   JOIN menu_x_hashtag ON menu.id = menu_x_hashtag.menu_id

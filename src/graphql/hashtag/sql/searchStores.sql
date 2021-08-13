@@ -1,5 +1,5 @@
 SELECT
-  % I
+  %I
 FROM
   store
   JOIN store_x_hashtag ON store.id = store_x_hashtag.store_id

@@ -1,5 +1,5 @@
 SELECT
-  % I
+  %I
 FROM
   store
   JOIN user_x_favorite_store ON user_x_favorite_store.store_id = store.id

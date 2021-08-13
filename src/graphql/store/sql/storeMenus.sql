@@ -1,5 +1,5 @@
 SELECT
-  % I
+  %I
 FROM
   menu
 WHERE

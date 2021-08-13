@@ -1,5 +1,5 @@
 SELECT
-  % I
+  %I
 FROM
   post
   JOIN post_x_hashtag ON post.id = post_x_hashtag.post_id
