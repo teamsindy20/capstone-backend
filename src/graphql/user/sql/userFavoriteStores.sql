@@ -1,3 +1,4 @@
+-- pgFormatter-ignore
 SELECT
   %I
 FROM
