@@ -483,8 +483,6 @@ CREATE TABLE post_x_hashtag (
   PRIMARY KEY (post_id, hashtag_id)
 );
 
-DROP FUNCTION IF EXISTS create_store;
-
 CREATE OR REPLACE FUNCTION create_store (name text, address text, is_franchise boolean, user_id bigint, review_event_content text[] DEFAULT NULL, regular_customer_event_content text[] DEFAULT NULL, minimum_delivery_time int DEFAULT NULL, maximum_delivery_time int DEFAULT NULL, image_urls text ARRAY DEFAULT NULL, hashtags text ARRAY DEFAULT NULL, out inserted_store_id bigint)
 LANGUAGE SQL
 AS $$
@@ -572,8 +570,6 @@ FROM
 
 $$;
 
-DROP FUNCTION IF EXISTS select_insert_menu_category;
-
 CREATE OR REPLACE FUNCTION select_insert_menu_category (_name text, OUT menu_category_id int)
 AS $$
 BEGIN
@@ -601,8 +597,6 @@ BEGIN
 END
 $$
 LANGUAGE plpgsql;
-
-DROP FUNCTION IF EXISTS create_menu;
 
 CREATE OR REPLACE FUNCTION create_menu (name text, price int, category_name text, store_id bigint, image_urls text ARRAY DEFAULT NULL, hashtags text ARRAY DEFAULT NULL, out inserted_menu_id bigint)
 LANGUAGE SQL
@@ -672,8 +666,6 @@ FROM
 
 $$;
 
-DROP FUNCTION IF EXISTS toggle_user_favorite_menu;
-
 CREATE OR REPLACE FUNCTION toggle_user_favorite_menu (_user_id bigint, _menu_id bigint)
   RETURNS boolean
   LANGUAGE plpgsql
@@ -714,8 +706,6 @@ BEGIN
   END IF;
 END;
 $$;
-
-DROP FUNCTION IF EXISTS toggle_user_favorite_store;
 
 CREATE OR REPLACE FUNCTION toggle_user_favorite_store (_user_id bigint, _store_id bigint)
   RETURNS boolean
@@ -758,8 +748,6 @@ BEGIN
 END;
 $$;
 
-DROP FUNCTION IF EXISTS get_total_price_from;
-
 CREATE OR REPLACE FUNCTION get_total_price_from (menu_ids bigint ARRAY, menu_option_ids bigint ARRAY DEFAULT NULL, out total_price int)
 LANGUAGE SQL
 IMMUTABLE
@@ -785,8 +773,6 @@ AS $$
 
 $$;
 
-DROP FUNCTION IF EXISTS get_delivery_charge_from;
-
 CREATE OR REPLACE FUNCTION get_delivery_charge_from (store_id bigint, out delivery_charge int)
 LANGUAGE SQL
 IMMUTABLE
@@ -799,8 +785,6 @@ AS $$
     id = store_id;
 
 $$;
-
-DROP FUNCTION IF EXISTS create_order;
 
 CREATE OR REPLACE FUNCTION create_order (store_id bigint, menu_total int, payment_id bigint, payment_date timestamptz, user_id bigint, delivery_address varchar(64), delivery_phone_number varchar(32), delivery_request varchar(256) DEFAULT NULL, store_request varchar(256) DEFAULT NULL, review_reward boolean DEFAULT NULL, regular_reward boolean DEFAULT NULL, point_used int DEFAULT NULL, coupon_id bigint DEFAULT NULL, out inserted_order_id bigint)
 LANGUAGE SQL
@@ -852,8 +836,6 @@ FROM
   inserted_order;
 
 $$;
-
-DROP FUNCTION IF EXISTS create_post;
 
 CREATE OR REPLACE FUNCTION create_post (content text, store_id bigint, image_urls text[] DEFAULT NULL, hashtags text[] DEFAULT NULL, out inserted_post_id bigint)
 LANGUAGE SQL
@@ -917,8 +899,6 @@ FROM
   inserted_post;
 
 $$;
-
-DROP FUNCTION IF EXISTS social_login;
 
 CREATE OR REPLACE FUNCTION social_login (_email text, _name text DEFAULT NULL, _phone_number text DEFAULT NULL, _gender text DEFAULT NULL, _birth_date timestamptz DEFAULT NULL, _image_urls text[] DEFAULT NULL, _delivery_addresses text[] DEFAULT NULL, _representative_delivery_address int DEFAULT NULL, _google_oauth text DEFAULT NULL, _naver_oauth text DEFAULT NULL, _kakao_oauth text DEFAULT NULL, out user_id bigint)
 LANGUAGE SQL
