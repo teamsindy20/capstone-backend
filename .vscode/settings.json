@@ -14,10 +14,10 @@
     "yarn.lock": true
   },
   "typescript.tsdk": "node_modules/typescript/lib",
-  "eslint.packageManager": "yarn",
+  "eslint.packageManager": "yarn"
 
-  "[sql]": {
-    "editor.defaultFormatter": "bradymholt.pgformatter"
-  },
-  "pgFormatter.commaBreak": true
+  // "[sql]": {
+  //   "editor.defaultFormatter": "bradymholt.pgformatter"
+  // },
+  // "pgFormatter.commaBreak": true
 }
